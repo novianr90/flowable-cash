@@ -14,4 +14,25 @@
             android:id="@+id/action_homeFragment_to_recordTransaction"
             app:destination="@id/recordTransaction" />
     </fragment>
+    <fragment
+        android:id="@+id/recordTransaction"
+        android:name="id.novian.flowablecash.view.journaling.RecordTransaction"
+        android:label="fragment_record_transaction"
+        tools:layout="@layout/fragment_record_transaction" >
+        <action
+            android:id="@+id/action_recordTransaction_to_transactionDetails"
+            app:destination="@id/transactionDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionDetails"
+        android:name="id.novian.flowablecash.view.journaling.TransactionDetails"
+        android:label="fragment_transaction_details"
+        tools:layout="@layout/fragment_transaction_details" >
+        <action
+            android:id="@+id/action_transactionDetails_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="transactionType"
+            app:argType="string" />
+    </fragment>
 </navigation>
