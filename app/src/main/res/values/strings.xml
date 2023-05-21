@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Flowable Cash</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_buying">Record your buying activities</string>
+    <string name="txt_selling">Record your selling activities</string>
+</resources>
