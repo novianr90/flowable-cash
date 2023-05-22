@@ -4,4 +4,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_buying">Record your buying activities</string>
     <string name="txt_selling">Record your selling activities</string>
+    <string name="txt_transaction_name">Transaction Name</string>
+    <string name="txt_save">Save</string>
+    <string name="txt_transaction_name_hint">Masukkan nama transaksi anda</string>
+    <string name="txt_transaction_date">Transaction Date</string>
+    <string name="txt_transaction_date_hint">dd/mm/yyyy</string>
+    <string name="txt_transaction_description">Transaction Description</string>
+    <string name="txt_transaction_desc_hint">Masukkan deskripsi transaksi anda</string>
+    <string name="txt_balance">Price</string>
+    <string name="txt_balance_hint">Masukkan harga transaksi anda</string>
+    <string name="txt_transaction_type">Transaction Type</string>
+    <string name="txt_transaction_type_hint">Masukkan tipe transaksi</string>
+    <string-array name="transaction_type">
+        <item>Purchase</item>
+        <item>Sale</item>
+    </string-array>
 </resources>
