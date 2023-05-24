@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import id.novian.flowablecash.R
 import id.novian.flowablecash.databinding.FragmentRecordTransactionBinding
 
@@ -31,21 +32,27 @@ class RecordTransaction : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         moveToTransactionDetails()
+        buttonBack()
     }
 
     private fun moveToTransactionDetails() {
 
-        val moveToTransaction: (View, String) -> Unit = { view, value ->
-            view.findNavController().navigate(RecordTransactionDirections.actionRecordTransactionToTransactionDetails(value))
+        val moveToTransaction: (String) -> Unit = { value ->
+           findNavController().navigate(RecordTransactionDirections.actionRecordTransactionToTransactionDetails(value))
         }
 
         binding.cvSelling.setOnClickListener {
-            moveToTransaction(it, "Selling")
+            moveToTransaction("Selling")
         }
 
         binding.cvBuying.setOnClickListener {
-            moveToTransaction(it, "Buying")
+            moveToTransaction("Buying")
         }
     }
 
+    private fun buttonBack() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
 }
