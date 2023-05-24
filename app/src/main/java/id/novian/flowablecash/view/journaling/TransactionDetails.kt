@@ -57,7 +57,6 @@ class TransactionDetails : Fragment() {
 
         getUserInput()
 
-        buttonSave()
     }
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -116,45 +115,43 @@ class TransactionDetails : Fragment() {
     }
 
     private fun getUserInput() {
-
-        val transactionName = binding.etTransactionName.text.toString()
-
-        val transactionDate = try {
-            val date = dateFormat.parse(binding.etTransactionDate.text.toString()) as Date
-            val formattedDate = dateFormat.format(date)
-            formattedDate
-        } catch (e: Exception) {
-            e.printStackTrace()
-            "01/01/1970"
-        }
-
-        val transactionType = if (binding.spinnerTransactionType.text.toString() == "Purchase") {
-            TransactionType.PURCHASE
-        } else {
-            TransactionType.SALE
-        }
-
-        val transactionBalance = if (binding.etTransactionBalance.text.toString().isNotEmpty()) {
-            binding.etTransactionBalance.text.toString().toLong()
-        } else {
-            0L
-        }
-
-        val transactionDescription = binding.etTransactionDesc.text.toString()
-
-        daily = Daily(
-            transactionName = transactionName,
-            transactionDate = transactionDate,
-            transactionType = transactionType,
-            total = transactionBalance,
-            transactionDescription = transactionDescription
-        )
-
-    }
-
-    private fun buttonSave() {
         binding.btnSave.setOnClickListener {
-            viewModel.createToast(daily.transactionDate)
+            val transactionName = binding.etTransactionName.text.toString()
+
+            val transactionDate = try {
+                val date = dateFormat.parse(binding.etTransactionDate.text.toString()) as Date
+                val formattedDate = dateFormat.format(date)
+                formattedDate
+            } catch (e: Exception) {
+                e.printStackTrace()
+                "01/01/1970"
+            }
+
+            val transactionType =
+                if (binding.spinnerTransactionType.text.toString() == "Purchase") {
+                    TransactionType.PURCHASE
+                } else {
+                    TransactionType.SALE
+                }
+
+            val transactionBalance =
+                if (binding.etTransactionBalance.text.toString().isNotEmpty()) {
+                    binding.etTransactionBalance.text.toString().toLong()
+                } else {
+                    0L
+                }
+
+            val transactionDescription = binding.etTransactionDesc.text.toString()
+
+            daily = Daily(
+                transactionName = transactionName,
+                transactionDate = transactionDate,
+                transactionType = transactionType,
+                total = transactionBalance,
+                transactionDescription = transactionDescription
+            )
+
+            viewModel.createToast(daily.toString())
         }
     }
 }
