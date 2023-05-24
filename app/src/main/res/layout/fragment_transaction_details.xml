@@ -112,6 +112,7 @@
                     android:id="@+id/et_transaction_balance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="number"
                     android:hint="@string/txt_balance_hint"/>
 
             </com.google.android.material.textfield.TextInputLayout>

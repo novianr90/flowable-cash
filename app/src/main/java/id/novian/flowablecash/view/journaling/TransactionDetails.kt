@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
+import id.novian.flowablecash.data.TransactionType
 import id.novian.flowablecash.databinding.FragmentTransactionDetailsBinding
+import id.novian.flowablecash.domain.models.Daily
+import id.novian.flowablecash.viewmodel.TransactionDetails
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -25,6 +29,9 @@ class TransactionDetails : Fragment() {
 
     private val args: TransactionDetailsArgs by navArgs()
     private lateinit var spinner: AutoCompleteTextView
+    private lateinit var daily: Daily
+
+    private val viewModel: TransactionDetails by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,10 +54,20 @@ class TransactionDetails : Fragment() {
 
         transactionDateListener()
         setTransactionType()
+
+        getUserInput()
+
+        buttonSave()
     }
 
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
     private fun setSpinner() {
-        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.transaction_type, android.R.layout.simple_dropdown_item_1line)
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.transaction_type,
+            android.R.layout.simple_dropdown_item_1line
+        )
         spinner = binding.spinnerTransactionType
         spinner.setAdapter(adapter)
     }
@@ -72,7 +89,6 @@ class TransactionDetails : Fragment() {
     }
 
     private fun transactionDateListener() {
-
         binding.etTransactionDate.setOnClickListener {
             showDatePicker()
         }
@@ -93,10 +109,52 @@ class TransactionDetails : Fragment() {
             val selectedDateInMillis = selection as Long
             val selectedDate = Date(selectedDateInMillis)
 
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val formattedDate = dateFormat.format(selectedDate)
 
             binding.etTransactionDate.setText(formattedDate)
+        }
+    }
+
+    private fun getUserInput() {
+
+        val transactionName = binding.etTransactionName.text.toString()
+
+        val transactionDate = try {
+            val date = dateFormat.parse(binding.etTransactionDate.text.toString()) as Date
+            val formattedDate = dateFormat.format(date)
+            formattedDate
+        } catch (e: Exception) {
+            e.printStackTrace()
+            "01/01/1970"
+        }
+
+        val transactionType = if (binding.spinnerTransactionType.text.toString() == "Purchase") {
+            TransactionType.PURCHASE
+        } else {
+            TransactionType.SALE
+        }
+
+        val transactionBalance = if (binding.etTransactionBalance.text.toString().isNotEmpty()) {
+            binding.etTransactionBalance.text.toString().toLong()
+        } else {
+            0L
+        }
+
+        val transactionDescription = binding.etTransactionDesc.text.toString()
+
+        daily = Daily(
+            transactionName = transactionName,
+            transactionDate = transactionDate,
+            transactionType = transactionType,
+            total = transactionBalance,
+            transactionDescription = transactionDescription
+        )
+
+    }
+
+    private fun buttonSave() {
+        binding.btnSave.setOnClickListener {
+            viewModel.createToast(daily.transactionDate)
         }
     }
 }
