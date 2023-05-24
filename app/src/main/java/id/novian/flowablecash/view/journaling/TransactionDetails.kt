@@ -10,14 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
 import id.novian.flowablecash.databinding.FragmentTransactionDetailsBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@AndroidEntryPoint
 class TransactionDetails : Fragment() {
-   private var _binding: FragmentTransactionDetailsBinding? = null
+    private var _binding: FragmentTransactionDetailsBinding? = null
 
     private val binding get() = _binding!!
 
@@ -44,6 +46,7 @@ class TransactionDetails : Fragment() {
         buttonBack()
 
         transactionDateListener()
+        setTransactionType()
     }
 
     private fun setSpinner() {
@@ -58,9 +61,14 @@ class TransactionDetails : Fragment() {
         }
     }
 
-    private fun getTransactionDetails() {
-        val argsValue = args.transactionType
+    private fun setTransactionType() {
+        val type = when (args.transactionType) {
+            "Selling" -> "Sale"
+            "Buying" -> "Purchase"
+            else -> ""
+        }
 
+        binding.spinnerTransactionType.setText(type, false)
     }
 
     private fun transactionDateListener() {
