@@ -8,7 +8,7 @@
     <string name="txt_save">Save</string>
     <string name="txt_transaction_name_hint">Masukkan nama transaksi anda</string>
     <string name="txt_transaction_date">Transaction Date</string>
-    <string name="txt_transaction_date_hint">dd/mm/yyyy</string>
+    <string name="txt_transaction_date_hint">Masukkan tanggal transaksi anda</string>
     <string name="txt_transaction_description">Transaction Description</string>
     <string name="txt_transaction_desc_hint">Masukkan deskripsi transaksi anda</string>
     <string name="txt_balance">Price</string>

@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="14dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_name"
@@ -38,7 +38,7 @@
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_transaction_date"
+                    android:id="@+id/et_transaction_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_transaction_name_hint" />
@@ -54,12 +54,15 @@
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_transaction_name"
+                    android:id="@+id/et_transaction_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_date"
                     android:hint="@string/txt_transaction_date_hint"
-                    android:inputType="date" />
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:textSize="14sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

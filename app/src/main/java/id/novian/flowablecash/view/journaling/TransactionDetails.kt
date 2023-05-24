@@ -1,24 +1,19 @@
 package id.novian.flowablecash.view.journaling
 
-import android.app.DatePickerDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.DatePicker
-import android.widget.EditText
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.datepicker.MaterialDatePicker
 import id.novian.flowablecash.R
 import id.novian.flowablecash.databinding.FragmentTransactionDetailsBinding
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class TransactionDetails : Fragment() {
@@ -32,7 +27,7 @@ class TransactionDetails : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTransactionDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -69,52 +64,31 @@ class TransactionDetails : Fragment() {
     }
 
     private fun transactionDateListener() {
-        binding.etTransactionDate.apply {
-            setOnClickListener {
-                showDatePicker()
-            }
 
-            addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-                override fun afterTextChanged(p0: Editable?) {
-                    if (!p0.isNullOrEmpty() && p0.length == 8) {
-                        val formattedDate = formatDate(p0.toString())
-                        binding.etTransactionDate.setText(formattedDate)
-                        binding.etTransactionDate.setSelection(formattedDate.length)
-                    }
-                }
-            })
+        binding.etTransactionDate.setOnClickListener {
+            showDatePicker()
         }
     }
 
-    private fun formatDate(date: String): String {
-        val sb = StringBuilder(date)
-        sb.insert(2, "/")
-        sb.insert(5, "/")
-        return sb.toString()
-    }
-
     private fun showDatePicker() {
-        val calendar = Calendar.getInstance()
 
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-                val selectedDate = Calendar.getInstance()
-                selectedDate.set(year, month, dayOfMonth)
+        val builder = MaterialDatePicker.Builder.datePicker()
 
-                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                val formattedDate = dateFormat.format(selectedDate.time)
-                binding.etTransactionDate.setText(formattedDate)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
+        builder.setTitleText("Select your date")
+        builder.setSelection(MaterialDatePicker.todayInUtcMilliseconds())
 
-        datePickerDialog.show()
+        val materialDatePicker = builder.build()
+
+        materialDatePicker.show(parentFragmentManager, "DATE_PICKER")
+
+        materialDatePicker.addOnPositiveButtonClickListener { selection ->
+            val selectedDateInMillis = selection as Long
+            val selectedDate = Date(selectedDateInMillis)
+
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val formattedDate = dateFormat.format(selectedDate)
+
+            binding.etTransactionDate.setText(formattedDate)
+        }
     }
 }
