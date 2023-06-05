@@ -15,6 +15,10 @@
     <string name="txt_balance_hint">Masukkan harga transaksi anda</string>
     <string name="txt_transaction_type">Transaction Type</string>
     <string name="txt_transaction_type_hint">Masukkan tipe transaksi</string>
+    <string name="txt_default">Lorem ipsum</string>
+    <string name="txt_all_transactions">All Transactions</string>
+    <string name="txt_all_sale">All Sales</string>
+    <string name="txt_all_purchases">All Purchases</string>
     <string-array name="transaction_type">
         <item>Purchase</item>
         <item>Sale</item>
