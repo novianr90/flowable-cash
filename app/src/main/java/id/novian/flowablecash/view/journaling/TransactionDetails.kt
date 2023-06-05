@@ -13,9 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
-import id.novian.flowablecash.data.TransactionType
 import id.novian.flowablecash.databinding.FragmentTransactionDetailsBinding
-import id.novian.flowablecash.domain.models.Daily
 import id.novian.flowablecash.viewmodel.TransactionDetails
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -29,7 +27,6 @@ class TransactionDetails : Fragment() {
 
     private val args: TransactionDetailsArgs by navArgs()
     private lateinit var spinner: AutoCompleteTextView
-    private lateinit var daily: Daily
 
     private val viewModel: TransactionDetails by viewModels()
 
@@ -56,10 +53,10 @@ class TransactionDetails : Fragment() {
         setTransactionType()
 
         getUserInput()
-
+        observe()
     }
 
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
     private fun setSpinner() {
         val adapter = ArrayAdapter.createFromResource(
@@ -127,31 +124,27 @@ class TransactionDetails : Fragment() {
                 "01/01/1970"
             }
 
-            val transactionType =
-                if (binding.spinnerTransactionType.text.toString() == "Purchase") {
-                    TransactionType.PURCHASE
-                } else {
-                    TransactionType.SALE
-                }
-
-            val transactionBalance =
-                if (binding.etTransactionBalance.text.toString().isNotEmpty()) {
-                    binding.etTransactionBalance.text.toString().toLong()
-                } else {
-                    0L
-                }
-
+            val transactionType = binding.spinnerTransactionType.text.toString()
+            val transactionTotal = binding.etTransactionBalance.text.toString().toInt()
             val transactionDescription = binding.etTransactionDesc.text.toString()
 
-            daily = Daily(
-                transactionName = transactionName,
-                transactionDate = transactionDate,
-                transactionType = transactionType,
-                total = transactionBalance,
-                transactionDescription = transactionDescription
+            viewModel.buttonSavedClicked(
+                name = transactionName,
+                date = transactionDate,
+                desc = transactionDescription,
+                total = transactionTotal,
+                type = transactionType
             )
+        }
+    }
 
-            viewModel.createToast(daily.toString())
+    private fun observe() {
+        viewModel.onSuccess.observe(viewLifecycleOwner) {
+
+            if (it == "Success") {
+                viewModel.createToast(it)
+            }
+
         }
     }
 }
