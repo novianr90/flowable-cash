@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.journaling.RecordTransaction">
+    tools:context=".view.journaling.record.RecordTransaction">
 
     <ImageView
         android:id="@+id/btn_back"
@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="6dp"
-        android:layout_marginStart="10dp"/>
+        android:layout_marginStart="10dp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_buying"

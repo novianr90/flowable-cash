@@ -6,24 +6,19 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import id.novian.flowablecash.data.remote.models.purchase.Purchase
-import id.novian.flowablecash.data.remote.models.sale.Sale
+import id.novian.flowablecash.data.local.models.TransactionLocal
+import id.novian.flowablecash.data.local.repository.TransactionLocalRepository
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
-import id.novian.flowablecash.data.remote.repository.PurchaseRemoteRepository
-import id.novian.flowablecash.data.remote.repository.PurchaseRemoteRepositoryImpl
-import id.novian.flowablecash.data.remote.repository.SaleRemoteRepository
-import id.novian.flowablecash.data.remote.repository.SaleRemoteRepositoryImpl
-import id.novian.flowablecash.data.remote.repository.TransactionRemoteRepository
-import id.novian.flowablecash.data.remote.repository.TransactionRemoteRepositoryImpl
+import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
+import id.novian.flowablecash.data.remote.repository.MainRemoteRepositoryImpl
 import id.novian.flowablecash.data.remote.service.PurchaseService
 import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
-import id.novian.flowablecash.domain.mapper.PurchaseMapper
-import id.novian.flowablecash.domain.mapper.SaleMapper
+import id.novian.flowablecash.domain.mapper.LocalMapper
 import id.novian.flowablecash.domain.mapper.TransactionMapper
-import id.novian.flowablecash.domain.models.PurchaseDomain
-import id.novian.flowablecash.domain.models.SaleDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
+import id.novian.flowablecash.domain.repository.TransactionRepository
+import id.novian.flowablecash.domain.repository.TransactionRepositoryImpl
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.CreateToastImpl
 import id.novian.flowablecash.helpers.Mapper
@@ -64,29 +59,26 @@ object AppModule {
     }
 
     @Provides
-    fun provideTransactionRepository(api: TransactionService): TransactionRemoteRepository {
-        return TransactionRemoteRepositoryImpl(api)
-    }
+    @Singleton
+    fun provideMainRemoteRepository(
+        trx: TransactionService,
+        sale: SaleService,
+        purchase: PurchaseService
+    ): MainRemoteRepository = MainRemoteRepositoryImpl(purchase, sale, trx)
 
     @Provides
-    fun provideSaleRepository(api: SaleService): SaleRemoteRepository {
-        return SaleRemoteRepositoryImpl(api)
-    }
-
-    @Provides
-    fun providePurchaseRepository(api: PurchaseService): PurchaseRemoteRepository {
-        return PurchaseRemoteRepositoryImpl(api)
-    }
-
-    @Provides
-    @Named("TRANSACTION_MAPPER")
     fun provideTransactionMapper(): Mapper<Transaction, TransactionDomain> = TransactionMapper()
 
     @Provides
-    @Named("SALE_MAPPER")
-    fun provideSaleMapper(): Mapper<Sale, SaleDomain> = SaleMapper()
+    fun provideLocalMapper(): Mapper<TransactionLocal, TransactionDomain> = LocalMapper()
 
+    @Singleton
     @Provides
-    @Named("PURCHASE_MAPPER")
-    fun providePurchaseMapper(): Mapper<Purchase, PurchaseDomain> = PurchaseMapper()
+    fun provideTransactionRepository(
+        remoteRepository: MainRemoteRepository,
+        localRepository: TransactionLocalRepository,
+        remoteMapper: Mapper<Transaction, TransactionDomain>,
+        localMapper: Mapper<TransactionLocal, TransactionDomain>
+    ): TransactionRepository =
+        TransactionRepositoryImpl(remoteRepository, localRepository, remoteMapper, localMapper)
 }

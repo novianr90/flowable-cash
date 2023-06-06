@@ -1,4 +1,4 @@
-package id.novian.flowablecash.view.journaling
+package id.novian.flowablecash.view.journaling.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
 import id.novian.flowablecash.databinding.FragmentTransactionDetailsBinding
-import id.novian.flowablecash.viewmodel.TransactionDetails
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -28,7 +27,7 @@ class TransactionDetails : Fragment() {
     private val args: TransactionDetailsArgs by navArgs()
     private lateinit var spinner: AutoCompleteTextView
 
-    private val viewModel: TransactionDetails by viewModels()
+    private val viewModel: TransactionDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -121,7 +120,7 @@ class TransactionDetails : Fragment() {
                 formattedDate
             } catch (e: Exception) {
                 e.printStackTrace()
-                "01/01/1970"
+                "01-01-1970"
             }
 
             val transactionType = binding.spinnerTransactionType.text.toString()
@@ -131,7 +130,7 @@ class TransactionDetails : Fragment() {
             viewModel.buttonSavedClicked(
                 name = transactionName,
                 date = transactionDate,
-                desc = transactionDescription,
+                description = transactionDescription,
                 total = transactionTotal,
                 type = transactionType
             )

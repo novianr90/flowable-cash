@@ -19,6 +19,7 @@
     <string name="txt_all_transactions">All Transactions</string>
     <string name="txt_all_sale">All Sales</string>
     <string name="txt_all_purchases">All Purchases</string>
+    <string name="txt_transaction_name_item">Transaction Name :</string>
     <string-array name="transaction_type">
         <item>Purchase</item>
         <item>Sale</item>

@@ -1,52 +1,66 @@
 package id.novian.flowablecash.domain.mapper
 
-import id.novian.flowablecash.data.TransactionType
-import id.novian.flowablecash.data.remote.models.purchase.Purchase
-import id.novian.flowablecash.data.remote.models.sale.Sale
+
+import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
-import id.novian.flowablecash.domain.models.PurchaseDomain
-import id.novian.flowablecash.domain.models.SaleDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
+import id.novian.flowablecash.helpers.Helpers.transactionTypeChanger
+import id.novian.flowablecash.helpers.Helpers.transactionTypeDecider
 import id.novian.flowablecash.helpers.Mapper
 
 class TransactionMapper : Mapper<Transaction, TransactionDomain> {
     override fun mapToDomain(model: Transaction): TransactionDomain {
         return TransactionDomain(
+            id = model.id,
             transactionName = model.name,
             transactionDate = model.date,
-            transactionType = mapTransactionType(model.type),
+            transactionType = transactionTypeDecider(model.type),
+            total = model.total,
             transactionDescription = model.description,
-            total = model.total.toLong()
+            createdAt = model.createdAt,
+            updatedAt = model.updatedAt
         )
     }
 
-    private fun mapTransactionType(type: String): TransactionType {
-        return when (type) {
-            "Purchase" -> TransactionType.PURCHASE
-            "Sale" -> TransactionType.SALE
-            else -> TransactionType.UNKNOWN
-        }
-    }
-}
-
-class SaleMapper : Mapper<Sale, SaleDomain> {
-    override fun mapToDomain(model: Sale): SaleDomain {
-        return SaleDomain(
-            transactionName = model.name,
-            transactionDate = model.date,
-            transactionDescription = model.description,
-            transactionTotal = model.total
+    override fun mapToModel(domain: TransactionDomain): Transaction {
+        return Transaction(
+            id = domain.id,
+            name = domain.transactionName,
+            date = domain.transactionDate,
+            type = transactionTypeChanger(domain.transactionType),
+            total = domain.total,
+            description = domain.transactionDescription,
+            createdAt = domain.createdAt,
+            updatedAt = domain.updatedAt
         )
     }
 }
 
-class PurchaseMapper : Mapper<Purchase, PurchaseDomain> {
-    override fun mapToDomain(model: Purchase): PurchaseDomain {
-        return PurchaseDomain(
-            transactionName = model.name,
-            transactionDate = model.date,
-            transactionDescription = model.description,
-            transactionTotal = model.total
+class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
+    override fun mapToDomain(model: TransactionLocal): TransactionDomain {
+        return TransactionDomain(
+            id = model.id,
+            transactionName = model.transactionName,
+            transactionDate = model.transactionDate,
+            transactionType = transactionTypeDecider(model.transactionType),
+            total = model.transactionTotal,
+            transactionDescription = model.transactionDescription,
+            createdAt = model.createdAt,
+            updatedAt = model.updatedAt
         )
     }
+
+    override fun mapToModel(domain: TransactionDomain): TransactionLocal {
+        return TransactionLocal(
+            id = domain.id,
+            transactionName = domain.transactionName,
+            transactionDate = domain.transactionDate,
+            transactionType = transactionTypeChanger(domain.transactionType),
+            transactionTotal = domain.total,
+            transactionDescription = domain.transactionDescription,
+            createdAt = domain.createdAt,
+            updatedAt = domain.updatedAt
+        )
+    }
+
 }

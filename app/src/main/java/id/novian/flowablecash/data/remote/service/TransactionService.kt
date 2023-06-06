@@ -2,7 +2,9 @@ package id.novian.flowablecash.data.remote.service
 
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.data.remote.models.transaction.Transactions
+import id.novian.flowablecash.helpers.Endpoints
 import io.reactivex.rxjava3.core.Observable
+import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -10,15 +12,15 @@ import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface TransactionService {
-    @GET("transactions")
+    @GET(Endpoints.BASE_TRANSACTIONS)
     fun getTransactions(): Observable<Transactions>
 
-    @GET("transactions/id")
+    @GET(Endpoints.BASE_TRANSACTIONS + "/")
     fun getTransactionById(
         @Query("id") id: Int,
     ): Observable<Transaction>
 
-    @POST("transactions")
+    @POST(Endpoints.BASE_TRANSACTIONS)
     fun postTransaction(
         @Query("transaction_name") name: String,
         @Query("transaction_date") date: String,
@@ -27,7 +29,7 @@ interface TransactionService {
         @Query("description") desc: String
     ): Observable<Transaction>
 
-    @PUT("transactions")
+    @PUT(Endpoints.BASE_TRANSACTIONS)
     fun updateTransaction(
         @Query("id") id: Int,
         @Query("transaction_name") name: String,
@@ -37,8 +39,8 @@ interface TransactionService {
         @Query("description") desc: String
     ): Observable<Transaction>
 
-    @DELETE("transactions")
+    @DELETE(Endpoints.BASE_TRANSACTIONS)
     fun deleteTransaction(
         @Query("id") id: Int
-    ): Observable<String>
+    ): Observable<Response<Unit>>
 }

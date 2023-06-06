@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".view.journaling.TransactionDetails">
+    tools:context=".view.journaling.details.TransactionDetails">
 
     <ImageView
         android:id="@+id/btn_back"
@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:src="@drawable/ic_back"
         android:layout_marginTop="6dp"
-        android:layout_marginStart="10dp"/>
+        android:layout_marginStart="10dp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"

@@ -10,11 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.databinding.FragmentHomeBinding
-import id.novian.flowablecash.domain.models.DomainData
-import id.novian.flowablecash.domain.models.PurchaseDomain
-import id.novian.flowablecash.domain.models.SaleDomain
-import id.novian.flowablecash.domain.models.TransactionDomain
-import id.novian.flowablecash.viewmodel.HomeViewModel
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -55,69 +50,24 @@ class HomeFragment : Fragment() {
 
     private fun dataToNavigate() {
 
-        viewModel.onLoading.observe(viewLifecycleOwner) { loading ->
-            if (loading) {
-                viewModel.createToast(message = "Currently loading")
-            }
-        }
-
         binding.cvTransactions.setOnClickListener {
-            viewModel.buttonTransactionsClicked()
-
-            viewModel.dataTransactions.observe(viewLifecycleOwner) { transactions ->
-                transactions?.let { transactionDomainList ->
-                    navigateToTransactionList(
-                        type = "Transactions",
-                        transactions = transactionDomainList,
-                    )
-                }
-            }
+            navigateToTransactionList("Transactions")
         }
 
         binding.cvPurchase.setOnClickListener {
-            viewModel.buttonPurchaseClicked()
-
-            viewModel.dataPurchase.observe(viewLifecycleOwner) { purchases ->
-                purchases?.let { list ->
-                    navigateToTransactionList(
-                        type = "Purchases",
-                        purchases = list,
-                    )
-                }
-            }
+            navigateToTransactionList("Purchases")
         }
 
         binding.cvSale.setOnClickListener {
-            viewModel.buttonSaleClicked()
-
-            viewModel.dataSales.observe(viewLifecycleOwner) { sales ->
-                sales?.let { list ->
-                    navigateToTransactionList(
-                        type = "Sales",
-                        sales = list,
-                    )
-                }
-            }
+            navigateToTransactionList("Sales")
         }
     }
 
     private fun navigateToTransactionList(
-        type: String,
-        transactions: List<TransactionDomain>? = null,
-        sales: List<SaleDomain>? = null,
-        purchases: List<PurchaseDomain>? = null,
+        type: String
     ) {
 
-        val params = DomainData(
-            listOfTransactions = transactions,
-            listOfSales = sales,
-            listOfPurchases = purchases
-        )
-
-        val action = HomeFragmentDirections.actionHomeFragmentToTransactionsList(
-            type = type,
-            dataToSend = params
-        )
+        val action = HomeFragmentDirections.actionHomeFragmentToTransactionsList(type = type)
 
         findNavController().navigate(action)
     }

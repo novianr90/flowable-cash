@@ -1,10 +1,10 @@
-package id.novian.flowablecash.viewmodel
+package id.novian.flowablecash.view.journaling.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.novian.flowablecash.data.remote.repository.TransactionRemoteRepository
+import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CreateToast
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -12,9 +12,9 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
-class TransactionDetails @Inject constructor(
+class TransactionDetailsViewModel @Inject constructor(
     private val toast: CreateToast,
-    private val remoteRepo: TransactionRemoteRepository,
+    private val repo: TransactionRepository,
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler
 ) : ViewModel() {
@@ -28,26 +28,27 @@ class TransactionDetails @Inject constructor(
         toast.createToast(message, 0)
     }
 
-    fun buttonSavedClicked(name: String, date: String, desc: String, total: Int, type: String) {
-        val disposable = remoteRepo.postTransaction(
+    fun buttonSavedClicked(
+        name: String,
+        date: String,
+        total: Int,
+        type: String,
+        description: String
+    ) {
+        val disposable = repo.createTransaction(
             name = name,
             date = date,
-            description = desc,
             total = total,
-            type = type
+            type = type,
+            description = description
         )
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
-            .doOnSubscribe {
-                _onSuccess.value = "Start to upload"
-            }
-            .doOnComplete {
-                _onSuccess.value = "Success"
-            }
-            .doOnError {
-                _onSuccess.value = "Error sent to server"
-            }
-            .subscribe()
+            .subscribe({
+                _onSuccess.postValue("Success!")
+            }, {
+                _onSuccess.postValue("Error occurred!")
+            })
 
         compositeDisposable.add(disposable)
     }

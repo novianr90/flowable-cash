@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/recordTransaction"
-        android:name="id.novian.flowablecash.view.journaling.RecordTransaction"
+        android:name="id.novian.flowablecash.view.journaling.record.RecordTransaction"
         android:label="fragment_record_transaction"
         tools:layout="@layout/fragment_record_transaction" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/transactionDetails"
-        android:name="id.novian.flowablecash.view.journaling.TransactionDetails"
+        android:name="id.novian.flowablecash.view.journaling.details.TransactionDetails"
         android:label="fragment_transaction_details"
         tools:layout="@layout/fragment_transaction_details">
         <action
@@ -40,17 +40,12 @@
     </fragment>
     <fragment
         android:id="@+id/transactionsList"
-        android:name="id.novian.flowablecash.view.journaling.TransactionsList"
+        android:name="id.novian.flowablecash.view.journaling.list.TransactionsList"
         android:label="fragment_transactions_list"
         tools:layout="@layout/fragment_transactions_list">
         <argument
             android:name="type"
             app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="dataToSend"
-            android:defaultValue="@null"
-            app:argType="id.novian.flowablecash.domain.models.DomainData"
             app:nullable="true" />
     </fragment>
 </navigation>

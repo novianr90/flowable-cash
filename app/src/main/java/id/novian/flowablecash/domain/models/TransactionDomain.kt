@@ -6,9 +6,12 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TransactionDomain(
+    val id: Int,
     val transactionName: String,
     val transactionDate: String,
     val transactionType: TransactionType,
     val transactionDescription: String,
-    val total: Long
+    val total: Int,
+    val createdAt: String,
+    val updatedAt: String
 ) : Parcelable
