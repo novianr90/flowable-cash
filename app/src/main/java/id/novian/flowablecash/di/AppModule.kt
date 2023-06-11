@@ -8,14 +8,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepository
+import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepositoryImpl
+import id.novian.flowablecash.data.remote.service.BalanceSheetService
 import id.novian.flowablecash.data.remote.service.PurchaseService
 import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
+import id.novian.flowablecash.domain.mapper.BalanceSheetMapper
 import id.novian.flowablecash.domain.mapper.LocalMapper
 import id.novian.flowablecash.domain.mapper.TransactionMapper
+import id.novian.flowablecash.domain.models.BalanceSheetDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.domain.repository.TransactionRepositoryImpl
@@ -63,14 +67,18 @@ object AppModule {
     fun provideMainRemoteRepository(
         trx: TransactionService,
         sale: SaleService,
-        purchase: PurchaseService
-    ): MainRemoteRepository = MainRemoteRepositoryImpl(purchase, sale, trx)
+        purchase: PurchaseService,
+        balanceSheet: BalanceSheetService
+    ): MainRemoteRepository = MainRemoteRepositoryImpl(purchase, sale, trx, balanceSheet)
 
     @Provides
     fun provideTransactionMapper(): Mapper<Transaction, TransactionDomain> = TransactionMapper()
 
     @Provides
     fun provideLocalMapper(): Mapper<TransactionLocal, TransactionDomain> = LocalMapper()
+
+    @Provides
+    fun provideBalanceSheetMapper(): Mapper<BalanceSheet, BalanceSheetDomain> = BalanceSheetMapper()
 
     @Singleton
     @Provides

@@ -11,7 +11,7 @@ import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.sameAndEqual
 
 class TransactionListAdapter(
-    private val onClick: () -> Unit
+    private val onClick: (item: TransactionDomain) -> Unit
 ) : RecyclerView.Adapter<TransactionListAdapter.TransactionListViewHolder>() {
 
     private val diffCallBack = object : DiffUtil.ItemCallback<TransactionDomain>() {
@@ -58,11 +58,12 @@ class TransactionListAdapter(
                 tvItemTypeDetails.text = Helpers.transactionTypeChanger(item.transactionType)
                 tvItemTotalDetails.text = Helpers.numberFormatter(item.total)
                 tvItemDescDetails.text = item.transactionDescription
+                tvItemFeeTypeDetails.text = Helpers.feeTypeChanger(item.feeType)
+                tvItemFeeDetails.text = Helpers.numberFormatter(item.fee)
 
                 cvItemData.setOnClickListener {
-                    onClick()
+                    onClick(item)
                 }
-
             }
 
         }

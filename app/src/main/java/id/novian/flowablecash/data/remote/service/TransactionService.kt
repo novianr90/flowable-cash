@@ -26,6 +26,8 @@ interface TransactionService {
         @Query("transaction_date") date: String,
         @Query("transaction_type") type: String,
         @Query("transaction_total") total: Int,
+        @Query("fee_type") feeType: String,
+        @Query("transaction_fee") fee: Int,
         @Query("description") desc: String
     ): Observable<Transaction>
 
@@ -36,6 +38,8 @@ interface TransactionService {
         @Query("transaction_date") date: String,
         @Query("transaction_type") type: String,
         @Query("transaction_total") total: Int,
+        @Query("fee_type") feeType: String,
+        @Query("transaction_fee") fee: Int,
         @Query("description") desc: String
     ): Observable<Transaction>
 

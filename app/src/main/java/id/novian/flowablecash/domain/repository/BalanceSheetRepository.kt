@@ -1,0 +1,3 @@
+package id.novian.flowablecash.domain.repository
+
+interface BalanceSheetRepository

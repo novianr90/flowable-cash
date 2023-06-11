@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.novian.flowablecash.BuildConfig
+import id.novian.flowablecash.data.remote.service.BalanceSheetService
 import id.novian.flowablecash.data.remote.service.PurchaseService
 import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
@@ -72,5 +73,10 @@ object NetworkModule {
         retrofit: Retrofit
     ): PurchaseService {
         return retrofit.create(PurchaseService::class.java)
+    }
+
+    @Provides
+    fun provideBalanceSheetService(retrofit: Retrofit): BalanceSheetService {
+        return retrofit.create(BalanceSheetService::class.java)
     }
 }

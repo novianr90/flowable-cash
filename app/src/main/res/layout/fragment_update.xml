@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".view.journaling.details.TransactionDetails">
+    tools:context=".view.journaling.update.UpdateFragment">
 
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_back"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="6dp"
-        android:layout_marginStart="10dp" />
+        android:src="@drawable/ic_back" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
@@ -58,9 +58,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_date"
-                    android:hint="@string/txt_transaction_date_hint"
                     android:ems="10"
                     android:focusable="false"
+                    android:hint="@string/txt_transaction_date_hint"
                     android:inputType="none"
                     android:textSize="14sp" />
 
@@ -78,13 +78,13 @@
                     android:id="@+id/et_transaction_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/txt_transaction_desc_hint"/>
+                    android:hint="@string/txt_transaction_desc_hint" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:id="@+id/txt_input_type"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_transaction_type_hint"
-                    android:inputType="none"/>
+                    android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,8 +112,8 @@
                     android:id="@+id/et_transaction_balance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="@string/txt_balance_hint" />
+                    android:hint="@string/txt_balance_hint"
+                    android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,17 +152,18 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/btn_save"
+        android:id="@+id/btn_update"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
         android:layout_gravity="end"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/txt_save"/>
+        android:text="@string/txt_update" />
 
 </LinearLayout>
