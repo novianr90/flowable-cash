@@ -13,8 +13,8 @@ import retrofit2.http.Query
 interface BalanceSheetService {
     @POST(Endpoints.BASE_BALANCE_SHEET)
     fun postNewBalanceSheet(
-        @Query("account_name") accountName: AccountName,
-        @Query("balance") balance: Int
+        @Query("account_name") accountName: String,
+        @Query("account_balance") balance: Int
     ): Observable<BalanceSheet>
 
     @GET(Endpoints.BASE_BALANCE_SHEET)
@@ -23,7 +23,7 @@ interface BalanceSheetService {
     @PUT(Endpoints.BASE_BALANCE_SHEET)
     fun updateBalanceSheet(
         @Query("balance_sheet_id") id: Int,
-        @Query("account_name") accountName: AccountName,
-        @Query("balance") balance: Int
+        @Query("account_name") accountName: String,
+        @Query("account_balance") balance: Int
     ): Observable<BalanceSheet>
 }

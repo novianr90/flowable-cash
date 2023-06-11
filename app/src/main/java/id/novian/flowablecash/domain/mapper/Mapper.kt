@@ -1,6 +1,9 @@
 package id.novian.flowablecash.domain.mapper
 
 
+import com.google.gson.Gson
+import id.novian.flowablecash.data.Balance
+import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
@@ -95,6 +98,36 @@ class BalanceSheetMapper : Mapper<BalanceSheet, BalanceSheetDomain> {
             balance = domain.balance,
             created = domain.createdAt,
             updated = domain.updatedAt
+        )
+    }
+}
+
+class BalanceSheetLocalMapper(
+    private val gson: Gson
+): Mapper<BalanceSheetLocal, BalanceSheetDomain> {
+    override fun mapToDomain(model: BalanceSheetLocal): BalanceSheetDomain {
+        val balance = gson.fromJson(model.balance, Balance::class.java)
+
+        return BalanceSheetDomain(
+            id = model.id,
+            accountNo = model.accountNo,
+            accountName = Helpers.stringToAccountName(model.accountName),
+            balance = balance,
+            createdAt = model.createdAt,
+            updatedAt = model.updatedAt
+        )
+    }
+
+    override fun mapToModel(domain: BalanceSheetDomain): BalanceSheetLocal {
+        val balanceJson = gson.toJson(domain.balance)
+
+        return BalanceSheetLocal(
+            id = domain.id,
+            accountNo = domain.accountNo,
+            accountName = Helpers.accountNameToString(domain.accountName),
+            balance = balanceJson,
+            createdAt = domain.createdAt,
+            updatedAt = domain.updatedAt
         )
     }
 

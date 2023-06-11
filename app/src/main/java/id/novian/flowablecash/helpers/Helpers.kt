@@ -47,7 +47,7 @@ object Helpers {
         return when (value) {
             "Kas" -> AccountName.KAS
             "Persediaan Barang Dagang" -> AccountName.PERSEDIAANBARANGDAGANG
-            "Device" -> AccountName.DEVICE
+            "Perlengkapan" -> AccountName.PERLENGKAPAN
             "Hutang Dagang" -> AccountName.HUTANGDAGANG
             "Modal Owner" -> AccountName.MODALOWNER
             "Laba Disimpan" -> AccountName.LABADISIMPAN
@@ -64,7 +64,7 @@ object Helpers {
         return when (accountName) {
             AccountName.KAS -> "Kas"
             AccountName.PERSEDIAANBARANGDAGANG -> "Persediaan Barang Dagang"
-            AccountName.DEVICE -> "Device"
+            AccountName.PERLENGKAPAN -> "Perlengkapan"
             AccountName.HUTANGDAGANG -> "Hutang Dagang"
             AccountName.MODALOWNER -> "Modal Owner"
             AccountName.LABADISIMPAN -> "Laba Disimpan"

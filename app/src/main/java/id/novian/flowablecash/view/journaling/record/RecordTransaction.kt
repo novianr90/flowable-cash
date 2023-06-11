@@ -43,6 +43,10 @@ class RecordTransaction : Fragment() {
             )
         }
 
+        binding.cvAsset.setOnClickListener {
+            findNavController().navigate(RecordTransactionDirections.actionRecordTransactionToInsertAssetFragment())
+        }
+
         binding.cvSelling.setOnClickListener {
             moveToTransaction("Selling")
         }

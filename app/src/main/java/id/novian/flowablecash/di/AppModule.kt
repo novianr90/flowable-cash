@@ -2,11 +2,14 @@ package id.novian.flowablecash.di
 
 import android.app.Application
 import android.content.Context
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
+import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepository
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepository
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
@@ -16,11 +19,14 @@ import id.novian.flowablecash.data.remote.service.BalanceSheetService
 import id.novian.flowablecash.data.remote.service.PurchaseService
 import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
+import id.novian.flowablecash.domain.mapper.BalanceSheetLocalMapper
 import id.novian.flowablecash.domain.mapper.BalanceSheetMapper
 import id.novian.flowablecash.domain.mapper.LocalMapper
 import id.novian.flowablecash.domain.mapper.TransactionMapper
 import id.novian.flowablecash.domain.models.BalanceSheetDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
+import id.novian.flowablecash.domain.repository.BalanceSheetRepository
+import id.novian.flowablecash.domain.repository.BalanceSheetRepositoryImpl
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.domain.repository.TransactionRepositoryImpl
 import id.novian.flowablecash.helpers.CreateToast
@@ -63,6 +69,9 @@ object AppModule {
     }
 
     @Provides
+    fun provideGson() = Gson()
+
+    @Provides
     @Singleton
     fun provideMainRemoteRepository(
         trx: TransactionService,
@@ -80,6 +89,11 @@ object AppModule {
     @Provides
     fun provideBalanceSheetMapper(): Mapper<BalanceSheet, BalanceSheetDomain> = BalanceSheetMapper()
 
+    @Provides
+    fun provideBalanceSheetLocalMapper(
+        gson: Gson
+    ): Mapper<BalanceSheetLocal, BalanceSheetDomain> = BalanceSheetLocalMapper(gson)
+
     @Singleton
     @Provides
     fun provideTransactionRepository(
@@ -89,4 +103,20 @@ object AppModule {
         localMapper: Mapper<TransactionLocal, TransactionDomain>
     ): TransactionRepository =
         TransactionRepositoryImpl(remoteRepository, localRepository, remoteMapper, localMapper)
+
+    @Singleton
+    @Provides
+    fun provideBalanceSheetRepository(
+        remote: MainRemoteRepository,
+        local: BalanceSheetLocalRepository,
+        remoteMapper: Mapper<BalanceSheet, BalanceSheetDomain>,
+        localMapper: Mapper<BalanceSheetLocal, BalanceSheetDomain>
+    ): BalanceSheetRepository {
+        return BalanceSheetRepositoryImpl(
+            local = local,
+            remote = remote,
+            localMapper = localMapper,
+            remoteMapper = remoteMapper
+        )
+    }
 }

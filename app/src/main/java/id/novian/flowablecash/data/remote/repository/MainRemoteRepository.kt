@@ -49,7 +49,7 @@ interface MainRemoteRepository {
     fun deleteTransaction(id: Int): Observable<Response<Unit>>
 
     fun createBalanceSheet(
-        accountName: AccountName,
+        accountName: String,
         balance: Int
     ): Observable<BalanceSheet>
 
@@ -57,7 +57,7 @@ interface MainRemoteRepository {
 
     fun updateBalanceSheet(
         id: Int,
-        accountName: AccountName,
+        accountName: String,
         balance: Int
     ): Observable<BalanceSheet>
 }
@@ -139,7 +139,7 @@ class MainRemoteRepositoryImpl(
     }
 
     override fun createBalanceSheet(
-        accountName: AccountName,
+        accountName: String,
         balance: Int
     ): Observable<BalanceSheet> {
         return balanceSheet.postNewBalanceSheet(accountName, balance)
@@ -151,7 +151,7 @@ class MainRemoteRepositoryImpl(
 
     override fun updateBalanceSheet(
         id: Int,
-        accountName: AccountName,
+        accountName: String,
         balance: Int
     ): Observable<BalanceSheet> {
         return balanceSheet.updateBalanceSheet(id, accountName, balance)

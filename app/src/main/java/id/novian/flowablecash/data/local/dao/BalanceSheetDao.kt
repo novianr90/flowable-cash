@@ -11,14 +11,14 @@ import io.reactivex.rxjava3.core.Observable
 interface BalanceSheetDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertBalanceSheetToLocal(query: BalanceSheetLocal): Observable<Unit>
+    fun insertBalanceSheetToLocal(query: BalanceSheetLocal)
 
     @Query("DELETE FROM BalanceSheetLocal WHERE balance_sheet_id = :id")
-    fun deleteBalanceSheetSpecificAccount(id: Int): Observable<Unit>
+    fun deleteBalanceSheetSpecificAccount(id: Int)
 
     @Query("DELETE FROM BalanceSheetLocal")
-    fun deleteAllAccountsOnBalanceSheet(): Observable<Unit>
+    fun deleteAllAccountsOnBalanceSheet()
 
     @Query("SELECT * FROM BalanceSheetLocal")
-    fun getBalanceSheet(): Observable<BalanceSheetLocal>
+    fun getBalanceSheet(): Observable<List<BalanceSheetLocal>>
 }

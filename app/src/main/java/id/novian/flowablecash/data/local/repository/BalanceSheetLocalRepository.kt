@@ -5,31 +5,31 @@ import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import io.reactivex.rxjava3.core.Observable
 
 interface BalanceSheetLocalRepository {
-    fun insertBalanceSheetToLocal(query: BalanceSheetLocal): Observable<Unit>
+    fun insertBalanceSheetToLocal(query: BalanceSheetLocal)
 
-    fun deleteBalanceSheetSpecificAccount(id: Int): Observable<Unit>
+    fun deleteBalanceSheetSpecificAccount(id: Int)
 
-    fun deleteAllAccountsOnBalanceSheet(): Observable<Unit>
+    fun deleteAllAccountsOnBalanceSheet()
 
-    fun getBalanceSheet(): Observable<BalanceSheetLocal>
+    fun getBalanceSheet(): Observable<List<BalanceSheetLocal>>
 }
 
 class BalanceSheetLocalRepositoryImpl(
     private val dao: BalanceSheetDao
 ) : BalanceSheetLocalRepository {
-    override fun insertBalanceSheetToLocal(query: BalanceSheetLocal): Observable<Unit> {
+    override fun insertBalanceSheetToLocal(query: BalanceSheetLocal) {
         return dao.insertBalanceSheetToLocal(query)
     }
 
-    override fun deleteBalanceSheetSpecificAccount(id: Int): Observable<Unit> {
+    override fun deleteBalanceSheetSpecificAccount(id: Int) {
         return dao.deleteBalanceSheetSpecificAccount(id)
     }
 
-    override fun deleteAllAccountsOnBalanceSheet(): Observable<Unit> {
+    override fun deleteAllAccountsOnBalanceSheet() {
         return dao.deleteAllAccountsOnBalanceSheet()
     }
 
-    override fun getBalanceSheet(): Observable<BalanceSheetLocal> {
+    override fun getBalanceSheet(): Observable<List<BalanceSheetLocal>> {
         return dao.getBalanceSheet()
     }
 

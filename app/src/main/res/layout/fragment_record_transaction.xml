@@ -17,6 +17,7 @@
         android:layout_marginStart="10dp" />
 
     <androidx.cardview.widget.CardView
+        style="?selectableItemBackground"
         android:id="@+id/cv_asset"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -60,6 +61,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        style="?selectableItemBackground"
         android:id="@+id/cv_buying"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -103,6 +105,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        style="?selectableItemBackground"
         android:id="@+id/cv_selling"
         android:layout_width="200dp"
         android:layout_height="200dp"
