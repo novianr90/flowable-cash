@@ -9,4 +9,7 @@ object Endpoints {
 
     // Purchases
     const val BASE_PURCHASES = "purchases"
+
+    // Balance Sheet
+    const val BASE_BALANCE_SHEET = "balance-sheets"
 }

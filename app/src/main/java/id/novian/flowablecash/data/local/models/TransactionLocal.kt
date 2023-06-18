@@ -11,6 +11,8 @@ data class TransactionLocal(
     @ColumnInfo(name = "date") val transactionDate: String,
     @ColumnInfo(name = "type") val transactionType: String,
     @ColumnInfo(name = "total") val transactionTotal: Int,
+    @ColumnInfo(name = "fee_type") val feeType: String,
+    @ColumnInfo(name = "transaction_fee") val fee: Int,
     @ColumnInfo(name = "description") val transactionDescription: String,
     @ColumnInfo(name = "created_at") val createdAt: String,
     @ColumnInfo(name = "updated_at") val updatedAt: String

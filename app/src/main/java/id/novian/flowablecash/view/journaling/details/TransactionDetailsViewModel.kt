@@ -33,14 +33,18 @@ class TransactionDetailsViewModel @Inject constructor(
         date: String,
         total: Int,
         type: String,
-        description: String
+        description: String,
+        feeType: String,
+        fee: Int
     ) {
         val disposable = repo.createTransaction(
             name = name,
             date = date,
             total = total,
             type = type,
-            description = description
+            description = description,
+            feeType = feeType,
+            fee = fee
         )
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)

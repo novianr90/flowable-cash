@@ -8,6 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import id.novian.flowablecash.data.local.database.AppDatabase
+import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepository
+import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepositoryImpl
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepository
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepositoryImpl
 import javax.inject.Singleton
@@ -23,11 +25,18 @@ object DatabaseModule {
             context,
             AppDatabase::class.java,
             "transaction-database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
     fun provideLocalRepo(database: AppDatabase): TransactionLocalRepository {
         return TransactionLocalRepositoryImpl(database.dao())
+    }
+
+    @Provides
+    fun provideBalanceLocalRepository(database: AppDatabase): BalanceSheetLocalRepository {
+        return BalanceSheetLocalRepositoryImpl(database.balanceSheetDao())
     }
 }

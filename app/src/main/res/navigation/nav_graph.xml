@@ -21,10 +21,13 @@
         android:id="@+id/recordTransaction"
         android:name="id.novian.flowablecash.view.journaling.record.RecordTransaction"
         android:label="fragment_record_transaction"
-        tools:layout="@layout/fragment_record_transaction" >
+        tools:layout="@layout/fragment_record_transaction">
         <action
             android:id="@+id/action_recordTransaction_to_transactionDetails"
             app:destination="@id/transactionDetails" />
+        <action
+            android:id="@+id/action_recordTransaction_to_insertAssetFragment"
+            app:destination="@id/insertAssetFragment" />
     </fragment>
     <fragment
         android:id="@+id/transactionDetails"
@@ -47,5 +50,23 @@
             android:name="type"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_transactionsList_to_updateFragment"
+            app:destination="@id/updateFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="id.novian.flowablecash.view.journaling.update.UpdateFragment"
+        android:label="fragment_update"
+        tools:layout="@layout/fragment_update">
+        <argument
+            android:name="id"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/insertAssetFragment"
+        android:name="id.novian.flowablecash.view.journaling.assets.InsertAssetFragment"
+        android:label="fragment_insert_asset"
+        tools:layout="@layout/fragment_insert_asset" />
 </navigation>

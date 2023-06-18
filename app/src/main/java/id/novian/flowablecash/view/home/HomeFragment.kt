@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.databinding.FragmentHomeBinding
+import id.novian.flowablecash.helpers.Result
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -19,6 +21,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels()
+    private lateinit var balanceSheetAdapter: BalanceSheetAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +36,18 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         addRecordTransaction()
 
+        viewModel.getBalanceSheet()
+        balanceSheetAdapter = BalanceSheetAdapter()
+
         dataToNavigate()
+
+        observe()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeBalanceSheetData()
+        setBalanceSheetTable()
     }
 
     override fun onDestroyView() {
@@ -70,5 +84,30 @@ class HomeFragment : Fragment() {
         val action = HomeFragmentDirections.actionHomeFragmentToTransactionsList(type = type)
 
         findNavController().navigate(action)
+    }
+
+    private fun setBalanceSheetTable() {
+        with(binding) {
+            rvItemBalanceSheet.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = balanceSheetAdapter
+            }
+        }
+    }
+
+    private fun observeBalanceSheetData() {
+        viewModel.dataBalanceSheet.observe(viewLifecycleOwner) {
+            balanceSheetAdapter.submitList(it)
+        }
+    }
+
+    private fun observe() {
+        viewModel.onResult.observe(viewLifecycleOwner) {
+            when (it) {
+                Result.FAILED -> viewModel.createToast("Failed!")
+                Result.SUCCESS -> viewModel.createToast("Success")
+                else -> {}
+            }
+        }
     }
 }

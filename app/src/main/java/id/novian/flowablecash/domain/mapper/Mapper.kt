@@ -1,9 +1,15 @@
 package id.novian.flowablecash.domain.mapper
 
 
+import com.google.gson.Gson
+import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
+import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
+import id.novian.flowablecash.domain.models.BalanceSheetDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
+import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.Helpers.transactionTypeChanger
 import id.novian.flowablecash.helpers.Helpers.transactionTypeDecider
 import id.novian.flowablecash.helpers.Mapper
@@ -18,7 +24,9 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             total = model.total,
             transactionDescription = model.description,
             createdAt = model.createdAt,
-            updatedAt = model.updatedAt
+            updatedAt = model.updatedAt,
+            fee = model.fee,
+            feeType = Helpers.feeTypeDecider(model.feeType)
         )
     }
 
@@ -31,7 +39,9 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             total = domain.total,
             description = domain.transactionDescription,
             createdAt = domain.createdAt,
-            updatedAt = domain.updatedAt
+            updatedAt = domain.updatedAt,
+            fee = domain.fee,
+            feeType = Helpers.feeTypeChanger(domain.feeType)
         )
     }
 }
@@ -46,7 +56,9 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             total = model.transactionTotal,
             transactionDescription = model.transactionDescription,
             createdAt = model.createdAt,
-            updatedAt = model.updatedAt
+            updatedAt = model.updatedAt,
+            feeType = Helpers.feeTypeDecider(model.feeType),
+            fee = model.fee
         )
     }
 
@@ -58,6 +70,62 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             transactionType = transactionTypeChanger(domain.transactionType),
             transactionTotal = domain.total,
             transactionDescription = domain.transactionDescription,
+            createdAt = domain.createdAt,
+            updatedAt = domain.updatedAt,
+            fee = domain.fee,
+            feeType = Helpers.feeTypeChanger(domain.feeType)
+        )
+    }
+}
+
+class BalanceSheetMapper : Mapper<BalanceSheet, BalanceSheetDomain> {
+    override fun mapToDomain(model: BalanceSheet): BalanceSheetDomain {
+        return BalanceSheetDomain(
+            id = model.balanceSheetId,
+            accountNo = model.accountNo,
+            accountName = Helpers.stringToAccountName(model.accountName),
+            balance = model.accountBalance,
+            createdAt = model.createdAt,
+            updatedAt = model.updatedAt
+        )
+    }
+
+    override fun mapToModel(domain: BalanceSheetDomain): BalanceSheet {
+        return BalanceSheet(
+            balanceSheetId = domain.id,
+            accountNo = domain.accountNo,
+            accountName = Helpers.accountNameToString(domain.accountName),
+            accountBalance = domain.balance,
+            createdAt = domain.createdAt,
+            updatedAt = domain.updatedAt
+        )
+    }
+}
+
+class BalanceSheetLocalMapper(
+    private val gson: Gson
+): Mapper<BalanceSheetLocal, BalanceSheetDomain> {
+    override fun mapToDomain(model: BalanceSheetLocal): BalanceSheetDomain {
+        val balance = gson.fromJson(model.balance, AccountBalance::class.java)
+
+        return BalanceSheetDomain(
+            id = model.id,
+            accountNo = model.accountNo,
+            accountName = Helpers.stringToAccountName(model.accountName),
+            balance = balance,
+            createdAt = model.createdAt,
+            updatedAt = model.updatedAt
+        )
+    }
+
+    override fun mapToModel(domain: BalanceSheetDomain): BalanceSheetLocal {
+        val balanceJson = gson.toJson(domain.balance)
+
+        return BalanceSheetLocal(
+            id = domain.id,
+            accountNo = domain.accountNo,
+            accountName = Helpers.accountNameToString(domain.accountName),
+            balance = balanceJson,
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt
         )

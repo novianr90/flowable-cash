@@ -21,6 +21,8 @@ interface TransactionRepository {
         date: String,
         total: Int,
         type: String,
+        feeType: String,
+        fee: Int,
         description: String
     ): Observable<TransactionDomain>
 
@@ -29,6 +31,8 @@ interface TransactionRepository {
         name: String,
         date: String,
         total: Int,
+        fee: Int,
+        feeType: String,
         type: String,
         description: String
     ): Observable<TransactionDomain>
@@ -92,6 +96,8 @@ class TransactionRepositoryImpl(
         date: String,
         total: Int,
         type: String,
+        feeType: String,
+        fee: Int,
         description: String
     ): Observable<TransactionDomain> {
         return remote.postTransaction(
@@ -99,7 +105,9 @@ class TransactionRepositoryImpl(
             date = date,
             total = total,
             type = type,
-            description = description
+            description = description,
+            feeType = feeType,
+            fee = fee,
         )
             .map { data -> remoteMapper.mapToDomain(data) }
     }
@@ -109,6 +117,8 @@ class TransactionRepositoryImpl(
         name: String,
         date: String,
         total: Int,
+        fee: Int,
+        feeType: String,
         type: String,
         description: String
     ): Observable<TransactionDomain> {
@@ -118,12 +128,17 @@ class TransactionRepositoryImpl(
             total = total,
             type = type,
             description = description,
-            id = id
+            id = id,
+            feeType = feeType,
+            fee = fee,
         )
             .map { data -> remoteMapper.mapToDomain(data) }
     }
 
     override fun deleteTransaction(id: Int): Observable<Response<Unit>> {
         return remote.deleteTransaction(id)
+            .doOnNext {
+                local.deleteTransaction(id)
+            }
     }
 }

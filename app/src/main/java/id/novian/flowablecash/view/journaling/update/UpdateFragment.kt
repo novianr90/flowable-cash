@@ -1,4 +1,4 @@
-package id.novian.flowablecash.view.journaling.details
+package id.novian.flowablecash.view.journaling.update
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,51 +13,50 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
-import id.novian.flowablecash.databinding.FragmentTransactionDetailsBinding
+import id.novian.flowablecash.databinding.FragmentUpdateBinding
+import id.novian.flowablecash.helpers.Helpers
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-class TransactionDetails : Fragment() {
-    private var _binding: FragmentTransactionDetailsBinding? = null
-
+class UpdateFragment : Fragment() {
+    private var _binding: FragmentUpdateBinding? = null
     private val binding get() = _binding!!
 
-    private val args: TransactionDetailsArgs by navArgs()
-    private lateinit var feeSpinner: AutoCompleteTextView
+    private val viewModel: UpdateViewModel by viewModels()
     private lateinit var spinner: AutoCompleteTextView
+    private lateinit var feeSpinner: AutoCompleteTextView
 
-    private val viewModel: TransactionDetailsViewModel by viewModels()
+    private val args: UpdateFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentTransactionDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentUpdateBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setSpinner()
-        setSpinnerForFeeType()
+        setDatePickerListener()
         buttonBack()
 
-        transactionDateListener()
-        setTransactionType()
+        if (args.id != 0) {
+            setDataTransaction(args.id)
 
-        getUserInput()
-        observe()
+            getUserInput(args.id)
+        }
     }
-
-    private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
     private fun setSpinner() {
         val adapter = ArrayAdapter.createFromResource(
@@ -66,42 +65,20 @@ class TransactionDetails : Fragment() {
             android.R.layout.simple_dropdown_item_1line
         )
         spinner = binding.spinnerTransactionType
+
+        feeSpinner = binding.spinnerFeeType
+
+        feeSpinner.setAdapter(adapter)
         spinner.setAdapter(adapter)
     }
 
-    private fun setSpinnerForFeeType() {
-        val adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.transaction_type,
-            android.R.layout.simple_dropdown_item_1line
-        )
-
-        feeSpinner = binding.spinnerFeeType
-        feeSpinner.setAdapter(adapter)
-    }
-
-    private fun buttonBack() {
-        binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
-    }
-
-    private fun setTransactionType() {
-        val type = when (args.transactionType) {
-            "Selling" -> "Sale"
-            "Buying" -> "Purchase"
-            else -> ""
-        }
-
-        binding.spinnerTransactionType.setText(type, false)
-        binding.spinnerFeeType.setText(type, false)
-    }
-
-    private fun transactionDateListener() {
+    private fun setDatePickerListener() {
         binding.etTransactionDate.setOnClickListener {
             showDatePicker()
         }
     }
+
+    private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
     private fun showDatePicker() {
 
@@ -124,8 +101,27 @@ class TransactionDetails : Fragment() {
         }
     }
 
-    private fun getUserInput() {
-        binding.btnSave.setOnClickListener {
+    private fun setDataTransaction(id: Int) {
+        viewModel.getTransactionById(id)
+
+        viewModel.data.observe(viewLifecycleOwner) { data ->
+            binding.etTransactionName.setText(data.transactionName)
+            binding.etTransactionDate.setText(data.transactionDate)
+
+            binding.spinnerTransactionType.setText(
+                Helpers.transactionTypeChanger(data.transactionType),
+                false
+            )
+            binding.etTransactionBalance.setText(Helpers.numberFormatter(data.total))
+            binding.etTransactionDesc.setText(data.transactionDescription)
+            binding.spinnerFeeType.setText(Helpers.feeTypeChanger(data.feeType), false)
+            binding.etFeeBalance.setText(Helpers.numberFormatter(data.fee))
+        }
+    }
+
+    private fun getUserInput(id: Int) {
+        binding.btnUpdate.setOnClickListener { _ ->
+
             val transactionName = binding.etTransactionName.text.toString()
 
             val transactionDate = try {
@@ -139,29 +135,27 @@ class TransactionDetails : Fragment() {
 
             val transactionType = binding.spinnerTransactionType.text.toString()
             val feeType = binding.spinnerFeeType.text.toString()
-            val fee = binding.etFeeBalance.text.toString().toInt()
+            val transactionFee = binding.etFeeBalance.text.toString().toInt()
             val transactionTotal = binding.etTransactionBalance.text.toString().toInt()
             val transactionDescription = binding.etTransactionDesc.text.toString()
 
-            viewModel.buttonSavedClicked(
+            viewModel.buttonUpdateClicked(
+                id = id,
                 name = transactionName,
                 date = transactionDate,
                 description = transactionDescription,
                 total = transactionTotal,
                 type = transactionType,
-                feeType = feeType,
-                fee = fee
+                fee = transactionFee,
+                feeType = feeType
             )
         }
     }
 
-    private fun observe() {
-        viewModel.onSuccess.observe(viewLifecycleOwner) {
-
-            if (it == "Success") {
-                viewModel.createToast(it)
-            }
-
+    private fun buttonBack() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
+
 }

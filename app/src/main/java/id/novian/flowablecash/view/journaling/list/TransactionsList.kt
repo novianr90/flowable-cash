@@ -1,5 +1,6 @@
 package id.novian.flowablecash.view.journaling.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import id.novian.flowablecash.databinding.CustomDialogForItemClickedBinding
 import id.novian.flowablecash.databinding.FragmentTransactionsListBinding
 import id.novian.flowablecash.domain.models.TransactionDomain
+import id.novian.flowablecash.helpers.Helpers
 
 @AndroidEntryPoint
 class TransactionsList : Fragment() {
@@ -55,7 +58,7 @@ class TransactionsList : Fragment() {
 
     private fun initRecyclerView() {
         binding.rvItem.apply {
-            listAdapter = TransactionListAdapter { /* Not Implemented Yet*/ }
+            listAdapter = TransactionListAdapter(::showDialog)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listAdapter
         }
@@ -99,7 +102,38 @@ class TransactionsList : Fragment() {
     }
 
     private fun showDialog(details: TransactionDomain) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val inflater = LayoutInflater.from(requireContext())
 
+        val dialogBinding: CustomDialogForItemClickedBinding =
+            CustomDialogForItemClickedBinding.inflate(inflater)
+
+        dialogBinding.tvItemNameDetails.text = details.transactionName
+        dialogBinding.tvItemDateDetails.text = details.transactionDate
+        dialogBinding.tvItemTypeDetails.text =
+            Helpers.transactionTypeChanger(details.transactionType)
+        dialogBinding.tvItemTotalDetails.text = Helpers.numberFormatter(details.total)
+        dialogBinding.tvItemCreatedAtDetails.text = details.createdAt
+        dialogBinding.tvItemUpdatedAtDetails.text = details.updatedAt
+
+        dialogBuilder.setView(dialogBinding.root)
+
+        val dialog = dialogBuilder.create()
+
+        dialogBinding.btnUpdated.setOnClickListener {
+            val action =
+                TransactionsListDirections.actionTransactionsListToUpdateFragment(details.id)
+
+            findNavController().navigate(action)
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnDeleted.setOnClickListener {
+            viewModel.deleteTransaction(details)
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 }

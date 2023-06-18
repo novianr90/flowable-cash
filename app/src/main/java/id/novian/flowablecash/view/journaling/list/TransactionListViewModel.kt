@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CreateToast
+import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -27,6 +28,9 @@ class TransactionListViewModel @Inject constructor(
 
     private val _onError: MutableLiveData<Boolean> = MutableLiveData(false)
     val onError: LiveData<Boolean> get() = _onError
+
+    private val _updateCondition: MutableLiveData<Result> = MutableLiveData()
+    val updateCondition: LiveData<Result> get() = _updateCondition
 
     fun buttonTransactionClicked() {
         val disposable = repo.getAllTransactions()
@@ -70,6 +74,22 @@ class TransactionListViewModel @Inject constructor(
 
     fun createToast(message: String) {
         toast.createToast(message, 0)
+    }
+
+    fun deleteTransaction(query: TransactionDomain) {
+        val disposable = repo.deleteTransaction(query.id)
+            .subscribeOn(schedulerIo)
+            .observeOn(schedulerMain)
+            .doOnComplete {
+                _updateCondition.postValue(Result.SUCCESS)
+            }
+            .subscribe({
+                // Nothing Implemented
+            }, {
+                _updateCondition.postValue(Result.FAILED)
+            })
+
+        compositeDisposable.add(disposable)
     }
 
     override fun onCleared() {
