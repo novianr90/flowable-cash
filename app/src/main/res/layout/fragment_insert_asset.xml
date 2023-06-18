@@ -20,7 +20,7 @@
         android:id="@+id/tv_insert_asset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Insert your balance sheet"
+        android:text="Update your balance sheet"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -74,6 +74,7 @@
                     android:id="@+id/et_balance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="number"
                     android:hint="Masukkan Total Saldo pada Akun Ini" />
 
             </com.google.android.material.textfield.TextInputLayout>

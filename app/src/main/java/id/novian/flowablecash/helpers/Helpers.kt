@@ -50,13 +50,14 @@ object Helpers {
             "Persediaan Barang Dagang" -> AccountName.PERSEDIAANBARANGDAGANG
             "Perlengkapan" -> AccountName.PERLENGKAPAN
             "Hutang Dagang" -> AccountName.HUTANGDAGANG
-            "Modal Owner" -> AccountName.MODALOWNER
+            "Modal" -> AccountName.MODALOWNER
             "Laba Disimpan" -> AccountName.LABADISIMPAN
             "Mengambil Laba" -> AccountName.PRIVE
             "Penjualan" -> AccountName.PENJUALAN
             "Pembelian" -> AccountName.PEMBELIAN
             "Beban Penjualan" -> AccountName.BEBANPENJUALAN
             "Beban Pembelian" -> AccountName.BEBANPEMBELIAN
+            "Akumulasi Penyusutan Perlengkapan" -> AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN
             else -> AccountName.UNKNOWN
         }
     }
@@ -65,9 +66,10 @@ object Helpers {
         return when (accountName) {
             AccountName.KAS -> "Kas"
             AccountName.PERSEDIAANBARANGDAGANG -> "Persediaan Barang Dagang"
+            AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN -> "Akumulasi Penyusutan Perlengkapan"
             AccountName.PERLENGKAPAN -> "Perlengkapan"
             AccountName.HUTANGDAGANG -> "Hutang Dagang"
-            AccountName.MODALOWNER -> "Modal Owner"
+            AccountName.MODALOWNER -> "Modal"
             AccountName.LABADISIMPAN -> "Laba Disimpan"
             AccountName.PRIVE -> "Mengambil Laba"
             AccountName.PENJUALAN -> "Penjualan"

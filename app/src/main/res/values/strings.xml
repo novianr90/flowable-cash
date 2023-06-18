@@ -34,10 +34,11 @@
         <item>Kas</item>
         <item>Persediaan Barang Dagang</item>
         <item>Perlengkapan</item>
+        <item>Akumulasi Penyusutan Perlengkapan</item>
         <item>Hutang Dagang</item>
-        <item>Modal Owner</item>
+        <item>Modal</item>
         <item>Laba Disimpan</item>
-        <item>Prive</item>
+        <item>Mengambil Laba</item>
         <item>Penjualan</item>
         <item>Pembelian</item>
         <item>Beban Pembelian</item>

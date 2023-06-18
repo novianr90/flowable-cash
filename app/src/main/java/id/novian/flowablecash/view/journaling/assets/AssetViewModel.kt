@@ -42,6 +42,9 @@ class AssetViewModel @Inject constructor(
             }
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
+            .doOnSubscribe {
+                _onSuccess.postValue(Result.LOADING)
+            }
             .subscribe({
                 _onSuccess.postValue(Result.SUCCESS)
             }, {

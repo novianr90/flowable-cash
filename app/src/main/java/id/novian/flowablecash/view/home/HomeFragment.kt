@@ -41,9 +41,13 @@ class HomeFragment : Fragment() {
 
         dataToNavigate()
 
+        observe()
+    }
+
+    override fun onResume() {
+        super.onResume()
         observeBalanceSheetData()
         setBalanceSheetTable()
-        observe()
     }
 
     override fun onDestroyView() {
@@ -94,8 +98,6 @@ class HomeFragment : Fragment() {
     private fun observeBalanceSheetData() {
         viewModel.dataBalanceSheet.observe(viewLifecycleOwner) {
             balanceSheetAdapter.submitList(it)
-
-            binding.tvOwner.text = it[0].accountNo
         }
     }
 

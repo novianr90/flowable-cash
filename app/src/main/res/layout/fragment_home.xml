@@ -133,27 +133,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cv_transactions" />
 
-    <HorizontalScrollView
-        android:id="@+id/balance_sheet_table"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_item_balance_sheet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/balance_sheet_summary">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_item_balance_sheet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/balance_sheet_table_item" />
-
-    </HorizontalScrollView>
+        android:layout_height="250dp"
+        android:layout_margin="12dp"
+        app:layout_constraintTop_toBottomOf="@id/balance_sheet_summary"
+        tools:listitem="@layout/balance_sheet_table_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_record"

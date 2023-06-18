@@ -9,6 +9,8 @@ import id.novian.flowablecash.data.remote.service.PurchaseService
 import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
 import io.reactivex.rxjava3.core.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 
 interface MainRemoteRepository {
@@ -51,8 +53,8 @@ interface MainRemoteRepository {
     fun getBalanceSheet(): Observable<BalanceSheets>
     fun getBalanceSheet(accountName: String): Observable<BalanceSheet>
     fun updateBalanceSheet(
-        accountName: String,
-        balance: String
+        newAccountName: String,
+        newBalance: String
     ): Observable<BalanceSheet>
 }
 
@@ -141,9 +143,12 @@ class MainRemoteRepositoryImpl(
     }
 
     override fun updateBalanceSheet(
-        accountName: String,
-        balance: String
+        newAccountName: String,
+        newBalance: String
     ): Observable<BalanceSheet> {
+        val accountName = newAccountName.toRequestBody(MultipartBody.FORM)
+        val balance = newBalance.toRequestBody(MultipartBody.FORM)
+
         return balanceSheet.updateBalanceSheet(accountName, balance)
     }
 }

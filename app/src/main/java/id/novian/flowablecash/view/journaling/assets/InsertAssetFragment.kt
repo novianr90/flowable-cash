@@ -57,19 +57,24 @@ class InsertAssetFragment : Fragment() {
 
         spinner = binding.spinnerAccountName
         spinner.setAdapter(adapter)
+
+        spinner.setText("Kas", false)
     }
 
     private fun getUserInput() {
         with(binding) {
+
             btnSave.setOnClickListener {
 
-                val assetString = binding.spinnerAccountName.text.toString()
+                val assetString = spinnerAccountName.text?.toString() ?: "Modal"
                 val asset = Helpers.stringToAccountName(assetString)
-                val balance = binding.etBalance.text.toString().toInt()
+                val balance = etBalance.text.toString().toInt()
                 val balanceInModel = Helpers.debitCreditDeciderForBalanceSheet(asset, balance)
+
 
                 viewModel.updateBalance(assetString, balanceInModel)
 
+                viewModel.createToast(assetString)
             }
 
         }
@@ -86,6 +91,7 @@ class InsertAssetFragment : Fragment() {
             when(it) {
                 Result.SUCCESS -> viewModel.createToast("Success!")
                 Result.FAILED -> viewModel.createToast("Failed!")
+                Result.LOADING -> viewModel.createToast("Invoked!")
 
                 else -> { /* Not Implemented */ }
             }

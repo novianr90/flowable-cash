@@ -43,7 +43,10 @@ class HomeViewModel @Inject constructor(
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .subscribe({
-                _dataBalanceSheet.postValue(it)
+                val sorted = it
+                    .sortedBy { data -> data.accountNo }
+
+                _dataBalanceSheet.postValue(sorted)
                 _onResult.postValue(Result.SUCCESS)
             }, {
                 it.printStackTrace()
