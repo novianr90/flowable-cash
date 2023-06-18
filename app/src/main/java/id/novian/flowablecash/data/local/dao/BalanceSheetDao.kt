@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.core.Observable
 @Dao
 interface BalanceSheetDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBalanceSheetToLocal(query: BalanceSheetLocal)
 
     @Query("DELETE FROM BalanceSheetLocal WHERE balance_sheet_id = :id")
@@ -21,4 +21,16 @@ interface BalanceSheetDao {
 
     @Query("SELECT * FROM BalanceSheetLocal")
     fun getBalanceSheet(): Observable<List<BalanceSheetLocal>>
+
+    @Query("SELECT * FROM BalanceSheetLocal WHERE account_name = :accountName")
+    fun getBalanceSheet(accountName: String): Observable<BalanceSheetLocal>
+
+    @Query(
+        """
+        UPDATE BalanceSheetLocal
+        SET account_balance = :value
+        WHERE account_name = :accountName
+    """
+    )
+    fun updateBalanceSheetByAccountName(accountName: String, value: String)
 }

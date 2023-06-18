@@ -1,6 +1,5 @@
 package id.novian.flowablecash.data.remote.repository
 
-import id.novian.flowablecash.data.AccountName
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheets
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
@@ -48,17 +47,12 @@ interface MainRemoteRepository {
 
     fun deleteTransaction(id: Int): Observable<Response<Unit>>
 
-    fun createBalanceSheet(
-        accountName: String,
-        balance: Int
-    ): Observable<BalanceSheet>
-
+    // Balance Sheet
     fun getBalanceSheet(): Observable<BalanceSheets>
-
+    fun getBalanceSheet(accountName: String): Observable<BalanceSheet>
     fun updateBalanceSheet(
-        id: Int,
         accountName: String,
-        balance: Int
+        balance: String
     ): Observable<BalanceSheet>
 }
 
@@ -138,22 +132,18 @@ class MainRemoteRepositoryImpl(
         return transactions.deleteTransaction(id)
     }
 
-    override fun createBalanceSheet(
-        accountName: String,
-        balance: Int
-    ): Observable<BalanceSheet> {
-        return balanceSheet.postNewBalanceSheet(accountName, balance)
-    }
-
     override fun getBalanceSheet(): Observable<BalanceSheets> {
         return balanceSheet.getBalanceSheets()
     }
 
+    override fun getBalanceSheet(accountName: String): Observable<BalanceSheet> {
+        return balanceSheet.getBalanceSheetByAccountName(accountName)
+    }
+
     override fun updateBalanceSheet(
-        id: Int,
         accountName: String,
-        balance: Int
+        balance: String
     ): Observable<BalanceSheet> {
-        return balanceSheet.updateBalanceSheet(id, accountName, balance)
+        return balanceSheet.updateBalanceSheet(accountName, balance)
     }
 }

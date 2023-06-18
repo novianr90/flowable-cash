@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.domain.repository.BalanceSheetRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
@@ -24,14 +25,21 @@ class AssetViewModel @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun createBalanceSheet(
+    fun updateBalance(
         accountName: String,
-        balance: Int,
+        newBalance: AccountBalance,
     ) {
-        val disposable = repo.createBalanceSheet(
-            accountName = accountName,
-            balance = balance
-        )
+        val disposable = repo.getBalanceSheetByAccountName(accountName)
+            .flatMap {
+                val balance = AccountBalance(
+                    debit = it.balance.debit + newBalance.debit,
+                    credit = it.balance.credit + newBalance.credit
+                )
+                repo.updateBalanceSheet(
+                    accountName = accountName,
+                    balance = balance
+                )
+            }
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .subscribe({

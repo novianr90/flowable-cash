@@ -110,13 +110,15 @@ object AppModule {
         remote: MainRemoteRepository,
         local: BalanceSheetLocalRepository,
         remoteMapper: Mapper<BalanceSheet, BalanceSheetDomain>,
-        localMapper: Mapper<BalanceSheetLocal, BalanceSheetDomain>
+        localMapper: Mapper<BalanceSheetLocal, BalanceSheetDomain>,
+        gson: Gson
     ): BalanceSheetRepository {
         return BalanceSheetRepositoryImpl(
             local = local,
             remote = remote,
             localMapper = localMapper,
-            remoteMapper = remoteMapper
+            remoteMapper = remoteMapper,
+            gson = gson
         )
     }
 }

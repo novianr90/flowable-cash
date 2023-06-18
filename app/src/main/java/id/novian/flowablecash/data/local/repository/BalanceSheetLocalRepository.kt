@@ -12,6 +12,10 @@ interface BalanceSheetLocalRepository {
     fun deleteAllAccountsOnBalanceSheet()
 
     fun getBalanceSheet(): Observable<List<BalanceSheetLocal>>
+
+    fun getBalanceSheet(accountName: String): Observable<BalanceSheetLocal>
+
+    fun updateBalanceSheetByAccountName(accountName: String, value: String)
 }
 
 class BalanceSheetLocalRepositoryImpl(
@@ -31,6 +35,14 @@ class BalanceSheetLocalRepositoryImpl(
 
     override fun getBalanceSheet(): Observable<List<BalanceSheetLocal>> {
         return dao.getBalanceSheet()
+    }
+
+    override fun getBalanceSheet(accountName: String): Observable<BalanceSheetLocal> {
+        return dao.getBalanceSheet(accountName)
+    }
+
+    override fun updateBalanceSheetByAccountName(accountName: String, value: String) {
+        return dao.updateBalanceSheetByAccountName(accountName, value)
     }
 
 }

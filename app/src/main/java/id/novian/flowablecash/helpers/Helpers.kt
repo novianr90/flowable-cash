@@ -3,6 +3,7 @@ package id.novian.flowablecash.helpers
 import id.novian.flowablecash.data.AccountName
 import id.novian.flowablecash.data.FeeType
 import id.novian.flowablecash.data.TransactionType
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import java.text.DecimalFormat
 
 object Helpers {
@@ -74,6 +75,22 @@ object Helpers {
             AccountName.BEBANPENJUALAN -> "Beban Penjualan"
             AccountName.BEBANPEMBELIAN -> "Beban Pembelian"
             else -> "Unknown"
+        }
+    }
+
+    fun debitCreditDeciderForBalanceSheet(accountName: AccountName, value: Int): AccountBalance {
+        return when (accountName) {
+            AccountName.KAS -> AccountBalance(debit = value, credit = 0)
+            AccountName.PERSEDIAANBARANGDAGANG -> AccountBalance(debit = value, credit = 0)
+            AccountName.PERLENGKAPAN -> AccountBalance(debit = value, credit = 0)
+            AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN -> AccountBalance(debit = 0, credit = value)
+            AccountName.HUTANGDAGANG -> AccountBalance(debit = 0, credit = value)
+            AccountName.MODALOWNER -> AccountBalance(debit = 0, credit = value)
+            AccountName.LABADISIMPAN -> AccountBalance(debit = 0, credit = value)
+            AccountName.PRIVE -> AccountBalance(debit = 0, credit = value)
+            AccountName.BEBANPENJUALAN -> AccountBalance(debit = value, credit = 0)
+            AccountName.PEMBELIAN -> AccountBalance(debit = value, credit = 0)
+            else -> AccountBalance(0, 0)
         }
     }
 }

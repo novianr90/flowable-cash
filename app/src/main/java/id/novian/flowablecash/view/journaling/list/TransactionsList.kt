@@ -125,10 +125,12 @@ class TransactionsList : Fragment() {
                 TransactionsListDirections.actionTransactionsListToUpdateFragment(details.id)
 
             findNavController().navigate(action)
+            dialog.dismiss()
         }
 
         dialogBinding.btnDeleted.setOnClickListener {
             viewModel.deleteTransaction(details)
+            dialog.dismiss()
         }
 
         dialog.show()

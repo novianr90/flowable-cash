@@ -2,9 +2,9 @@ package id.novian.flowablecash.domain.mapper
 
 
 import com.google.gson.Gson
-import id.novian.flowablecash.data.Balance
 import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.domain.models.BalanceSheetDomain
@@ -81,23 +81,23 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
 class BalanceSheetMapper : Mapper<BalanceSheet, BalanceSheetDomain> {
     override fun mapToDomain(model: BalanceSheet): BalanceSheetDomain {
         return BalanceSheetDomain(
-            id = model.id,
+            id = model.balanceSheetId,
             accountNo = model.accountNo,
             accountName = Helpers.stringToAccountName(model.accountName),
-            balance = model.balance,
-            createdAt = model.created,
-            updatedAt = model.updated
+            balance = model.accountBalance,
+            createdAt = model.createdAt,
+            updatedAt = model.updatedAt
         )
     }
 
     override fun mapToModel(domain: BalanceSheetDomain): BalanceSheet {
         return BalanceSheet(
-            id = domain.id,
+            balanceSheetId = domain.id,
             accountNo = domain.accountNo,
             accountName = Helpers.accountNameToString(domain.accountName),
-            balance = domain.balance,
-            created = domain.createdAt,
-            updated = domain.updatedAt
+            accountBalance = domain.balance,
+            createdAt = domain.createdAt,
+            updatedAt = domain.updatedAt
         )
     }
 }
@@ -106,7 +106,7 @@ class BalanceSheetLocalMapper(
     private val gson: Gson
 ): Mapper<BalanceSheetLocal, BalanceSheetDomain> {
     override fun mapToDomain(model: BalanceSheetLocal): BalanceSheetDomain {
-        val balance = gson.fromJson(model.balance, Balance::class.java)
+        val balance = gson.fromJson(model.balance, AccountBalance::class.java)
 
         return BalanceSheetDomain(
             id = model.id,

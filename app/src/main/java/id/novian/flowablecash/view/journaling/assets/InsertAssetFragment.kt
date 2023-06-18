@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
 import id.novian.flowablecash.databinding.FragmentInsertAssetBinding
+import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.Result
 
 @AndroidEntryPoint
@@ -62,10 +63,13 @@ class InsertAssetFragment : Fragment() {
         with(binding) {
             btnSave.setOnClickListener {
 
-                val accountName = binding.spinnerAccountName.text.toString()
+                val assetString = binding.spinnerAccountName.text.toString()
+                val asset = Helpers.stringToAccountName(assetString)
                 val balance = binding.etBalance.text.toString().toInt()
+                val balanceInModel = Helpers.debitCreditDeciderForBalanceSheet(asset, balance)
 
-                viewModel.createBalanceSheet(accountName, balance)
+                viewModel.updateBalance(assetString, balanceInModel)
+
             }
 
         }

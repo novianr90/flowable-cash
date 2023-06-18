@@ -94,6 +94,7 @@ class TransactionDetails : Fragment() {
         }
 
         binding.spinnerTransactionType.setText(type, false)
+        binding.spinnerFeeType.setText(type, false)
     }
 
     private fun transactionDateListener() {
