@@ -34,11 +34,13 @@ import javax.inject.Singleton
 object RepositoryModule {
 
     @Provides
+    @Singleton
     fun provideLocalRepo(database: AppDatabase): TransactionLocalRepository {
         return TransactionLocalRepositoryImpl(database.dao())
     }
 
     @Provides
+    @Singleton
     fun provideBalanceLocalRepository(database: AppDatabase): BalanceSheetLocalRepository {
         return BalanceSheetLocalRepositoryImpl(database.balanceSheetDao())
     }
