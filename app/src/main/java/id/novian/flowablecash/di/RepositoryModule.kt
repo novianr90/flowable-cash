@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.novian.flowablecash.data.local.database.AppDatabase
 import id.novian.flowablecash.data.local.models.BalanceSheetLocal
+import id.novian.flowablecash.data.local.models.CashReceiptJournalLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepository
 import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepositoryImpl
@@ -23,9 +24,12 @@ import id.novian.flowablecash.data.remote.service.PurchaseService
 import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
 import id.novian.flowablecash.domain.models.BalanceSheetDomain
+import id.novian.flowablecash.domain.models.CashReceiptJournal
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.BalanceSheetRepository
 import id.novian.flowablecash.domain.repository.BalanceSheetRepositoryImpl
+import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
+import id.novian.flowablecash.domain.repository.CashReceiptJournalRepositoryImpl
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.domain.repository.TransactionRepositoryImpl
 import id.novian.flowablecash.helpers.Mapper
@@ -86,6 +90,22 @@ object RepositoryModule {
             remote = remote,
             localMapper = localMapper,
             remoteMapper = remoteMapper,
+            gson = gson
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideCashReceiptJournalRepo(
+        localRepo: CashReceiptJournalLocalRepository,
+        sale: TransactionRepository,
+        mapper: Mapper<CashReceiptJournalLocal, CashReceiptJournal>,
+        gson: Gson
+    ): CashReceiptJournalRepository {
+        return CashReceiptJournalRepositoryImpl(
+            localRepo = localRepo,
+            sale = sale,
+            mapper = mapper,
             gson = gson
         )
     }
