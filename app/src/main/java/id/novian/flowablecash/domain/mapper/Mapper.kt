@@ -141,7 +141,7 @@ class CashReceiptJournalMapper(
         val balance = gson.fromJson(model.balance, AccountBalance::class.java)
 
         return CashReceiptJournal(
-            id = model.id,
+            id = model.id ?: 0,
             date = model.date,
             description = model.description,
             balance = balance

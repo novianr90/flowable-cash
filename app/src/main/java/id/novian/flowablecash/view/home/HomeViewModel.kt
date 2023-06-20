@@ -2,15 +2,14 @@ package id.novian.flowablecash.view.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.novian.flowablecash.base.BaseViewModel
 import id.novian.flowablecash.domain.models.BalanceSheetDomain
 import id.novian.flowablecash.domain.repository.BalanceSheetRepository
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -21,9 +20,7 @@ class HomeViewModel @Inject constructor(
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
     private val toast: CreateToast
-) : ViewModel() {
-
-    private val compositeDisposable = CompositeDisposable()
+) : BaseViewModel() {
 
     private val _onLoading: MutableLiveData<Boolean> = MutableLiveData()
     val onLoading: LiveData<Boolean> get() = _onLoading
@@ -57,8 +54,4 @@ class HomeViewModel @Inject constructor(
         compositeDisposable.add(disposable)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-    }
 }

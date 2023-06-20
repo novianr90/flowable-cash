@@ -12,6 +12,7 @@ import id.novian.flowablecash.helpers.CreateToastImpl
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.Calendar
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -48,4 +49,6 @@ object AppModule {
     @Provides
     fun provideGson() = Gson()
 
+    @Provides
+    fun provideCalendar(): Calendar = Calendar.getInstance()
 }

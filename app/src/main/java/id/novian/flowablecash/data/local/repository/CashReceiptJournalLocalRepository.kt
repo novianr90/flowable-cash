@@ -16,7 +16,13 @@ class CashReceiptJournalLocalRepositoryImpl(
     private val dao: CashReceiptJournalDao
 ) : CashReceiptJournalLocalRepository {
     override fun insertNewData(query: CashReceiptJournalLocal) {
-        return dao.insertNewAccountForCashReceiptJournal(query)
+        val newQuery = CashReceiptJournalLocal(
+            id = if (query.id == 0) null else null,
+            date = query.date,
+            description = query.description,
+            balance = query.balance
+        )
+        return dao.insertNewAccountForCashReceiptJournal(newQuery)
     }
 
     override fun getJournal(): Observable<List<CashReceiptJournalLocal>> {

@@ -29,7 +29,7 @@ class CashReceiptJournalRepositoryImpl(
                 val query = arrayListOf<CashReceiptJournal>()
                 data.map {
                     val aQuery = CashReceiptJournal(
-                        id = null,
+                        id = 0,
                         date = it.transactionDate,
                         description = it.transactionDescription,
                         balance = AccountBalance(it.total, it.total)
