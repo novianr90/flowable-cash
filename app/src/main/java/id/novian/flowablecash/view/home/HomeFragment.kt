@@ -51,11 +51,16 @@ class HomeFragment :
     private fun dataToNavigate() {
 
         binding.cvTransactions.setOnClickListener {
-            navigateToTransactionList("Transactions")
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToTransactionsList(type = "Transactions")
+
+            findNavController().navigate(action)
         }
 
         binding.cvPurchase.setOnClickListener {
-            navigateToTransactionList("Purchases")
+            val action = HomeFragmentDirections.actionHomeFragmentToPurchasesJournal()
+
+            findNavController().navigate(action)
         }
 
         binding.cvSale.setOnClickListener {
@@ -63,15 +68,6 @@ class HomeFragment :
 
             findNavController().navigate(action)
         }
-    }
-
-    private fun navigateToTransactionList(
-        type: String
-    ) {
-
-        val action = HomeFragmentDirections.actionHomeFragmentToTransactionsList(type = type)
-
-        findNavController().navigate(action)
     }
 
     private fun setBalanceSheetTable() {

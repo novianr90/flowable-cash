@@ -111,7 +111,7 @@
                 android:id="@+id/tv_purchase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_all_purchases"
+                android:text="Purchases Journal"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"

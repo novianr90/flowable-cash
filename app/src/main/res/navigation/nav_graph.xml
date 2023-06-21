@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_cashReceiptJournal"
             app:destination="@id/cashReceiptJournal" />
+        <action
+            android:id="@+id/action_homeFragment_to_purchasesJournal"
+            app:destination="@id/purchasesJournal" />
     </fragment>
     <fragment
         android:id="@+id/recordTransaction"
@@ -77,4 +80,9 @@
         android:name="id.novian.flowablecash.view.journaling.cash_receipt.CashReceiptJournal"
         android:label="fragment_cash_receipt_journal"
         tools:layout="@layout/fragment_cash_receipt_journal" />
+    <fragment
+        android:id="@+id/purchasesJournal"
+        android:name="id.novian.flowablecash.view.journaling.purchases_journal.PurchasesJournal"
+        android:label="fragment_purchases_journal"
+        tools:layout="@layout/fragment_purchases_journal" />
 </navigation>

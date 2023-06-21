@@ -48,7 +48,7 @@
                 android:id="@+id/tv_asset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_asset"
+                android:text="@string/txt_edit_your_balance_sheet"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
