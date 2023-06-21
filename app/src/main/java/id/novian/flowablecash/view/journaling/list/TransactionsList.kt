@@ -6,41 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import id.novian.flowablecash.base.BaseFragment
 import id.novian.flowablecash.databinding.CustomDialogForItemClickedBinding
 import id.novian.flowablecash.databinding.FragmentTransactionsListBinding
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.helpers.Helpers
 
 @AndroidEntryPoint
-class TransactionsList : Fragment() {
-    private var _binding: FragmentTransactionsListBinding? = null
-    private val binding get() = _binding!!
+class TransactionsList :
+    BaseFragment<FragmentTransactionsListBinding>() {
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTransactionsListBinding
+        get() = FragmentTransactionsListBinding::inflate
 
     private val args: TransactionsListArgs by navArgs()
 
     private val viewModel: TransactionListViewModel by viewModels()
 
     private lateinit var listAdapter: TransactionListAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentTransactionsListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,9 +70,9 @@ class TransactionsList : Fragment() {
             }
         }
 
-        viewModel.onError.observe(viewLifecycleOwner) { err ->
-            if (err) {
-                viewModel.createToast("Error Occurred!")
+        viewModel.errMessage.observe(viewLifecycleOwner) { err ->
+            if (err.isNotEmpty()) {
+                viewModel.createToast(err)
             }
         }
     }

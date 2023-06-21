@@ -7,7 +7,13 @@ import id.novian.flowablecash.data.local.dao.TransactionDao
 import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
 
-@Database(entities = [TransactionLocal::class, BalanceSheetLocal::class], version = 2)
+@Database(
+    entities =
+    [
+        TransactionLocal::class,
+        BalanceSheetLocal::class
+    ], version = 3
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dao(): TransactionDao
     abstract fun balanceSheetDao(): BalanceSheetDao

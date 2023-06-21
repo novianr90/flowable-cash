@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
+import id.novian.flowablecash.base.BaseFragment
 import id.novian.flowablecash.databinding.FragmentUpdateBinding
 import id.novian.flowablecash.helpers.Helpers
 import java.text.SimpleDateFormat
@@ -20,9 +20,11 @@ import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-class UpdateFragment : Fragment() {
-    private var _binding: FragmentUpdateBinding? = null
-    private val binding get() = _binding!!
+class UpdateFragment :
+    BaseFragment<FragmentUpdateBinding>() {
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentUpdateBinding
+        get() = FragmentUpdateBinding::inflate
 
     private val viewModel: UpdateViewModel by viewModels()
     private lateinit var spinner: AutoCompleteTextView
@@ -30,26 +32,16 @@ class UpdateFragment : Fragment() {
 
     private val args: UpdateFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentUpdateBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setSpinner()
         setDatePickerListener()
         buttonBack()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observe()
 
         if (args.id != 0) {
             setDataTransaction(args.id)
@@ -158,4 +150,15 @@ class UpdateFragment : Fragment() {
         }
     }
 
+    private fun observe() {
+        with(viewModel) {
+
+            errMessage.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    viewModel.createToast(it)
+                }
+            }
+
+        }
+    }
 }

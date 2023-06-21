@@ -130,5 +130,4 @@ class BalanceSheetLocalMapper(
             updatedAt = domain.updatedAt
         )
     }
-
 }

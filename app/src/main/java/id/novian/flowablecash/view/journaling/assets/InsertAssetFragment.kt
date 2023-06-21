@@ -6,37 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
+import id.novian.flowablecash.base.BaseFragment
 import id.novian.flowablecash.databinding.FragmentInsertAssetBinding
 import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.Result
 
 @AndroidEntryPoint
-class InsertAssetFragment : Fragment() {
-
-    private var _binding: FragmentInsertAssetBinding? = null
-    private val binding get() = _binding!!
+class InsertAssetFragment :
+    BaseFragment<FragmentInsertAssetBinding>() {
 
     private lateinit var spinner: AutoCompleteTextView
 
     private val viewModel: AssetViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentInsertAssetBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentInsertAssetBinding
+        get() = FragmentInsertAssetBinding::inflate
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,14 +75,26 @@ class InsertAssetFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.onSuccess.observe(viewLifecycleOwner) {
-            when(it) {
-                Result.SUCCESS -> viewModel.createToast("Success!")
-                Result.FAILED -> viewModel.createToast("Failed!")
-                Result.LOADING -> viewModel.createToast("Invoked!")
 
-                else -> { /* Not Implemented */ }
+        with(viewModel) {
+            onSuccess.observe(viewLifecycleOwner) {
+                when (it) {
+                    Result.SUCCESS -> {}
+                    Result.FAILED -> {}
+                    Result.LOADING -> {}
+
+                    else -> { /* Not Implemented */
+                    }
+                }
+            }
+
+            errMessage.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    viewModel.createToast(it)
+                }
             }
         }
+
+
     }
 }

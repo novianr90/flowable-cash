@@ -2,14 +2,13 @@ package id.novian.flowablecash.view.journaling.update
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.novian.flowablecash.base.BaseViewModel
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -19,9 +18,7 @@ class UpdateViewModel @Inject constructor(
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
     private val toast: CreateToast
-) : ViewModel() {
-
-    private val compositeDisposable = CompositeDisposable()
+) : BaseViewModel() {
 
     private val _onSuccess: MutableLiveData<Result> = MutableLiveData()
     val onSuccess: LiveData<Result> get() = _onSuccess
@@ -58,6 +55,7 @@ class UpdateViewModel @Inject constructor(
                 _onSuccess.postValue(Result.SUCCESS)
             }, {
                 it.printStackTrace()
+                errorMessage.postValue(it.message)
                 _onSuccess.postValue(Result.FAILED)
             })
 
@@ -71,19 +69,14 @@ class UpdateViewModel @Inject constructor(
             .subscribe({
                 _data.postValue(it)
             }, {
+                errorMessage.postValue(it.message)
                 it.printStackTrace()
             })
 
         compositeDisposable.add(disposable)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-    }
-
     fun createToast(message: String) {
         toast.createToast(message, 0)
     }
-
 }

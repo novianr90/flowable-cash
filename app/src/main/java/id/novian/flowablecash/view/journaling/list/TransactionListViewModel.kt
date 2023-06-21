@@ -2,14 +2,13 @@ package id.novian.flowablecash.view.journaling.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.novian.flowablecash.base.BaseViewModel
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -19,15 +18,10 @@ class TransactionListViewModel @Inject constructor(
     private val repo: TransactionRepository,
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
-) : ViewModel() {
-
-    private val compositeDisposable = CompositeDisposable()
+) : BaseViewModel() {
 
     private val _dataTransactions: MutableLiveData<List<TransactionDomain>> = MutableLiveData()
     val dataTransactions: LiveData<List<TransactionDomain>> get() = _dataTransactions
-
-    private val _onError: MutableLiveData<Boolean> = MutableLiveData(false)
-    val onError: LiveData<Boolean> get() = _onError
 
     private val _updateCondition: MutableLiveData<Result> = MutableLiveData()
     val updateCondition: LiveData<Result> get() = _updateCondition
@@ -40,7 +34,7 @@ class TransactionListViewModel @Inject constructor(
                 _dataTransactions.postValue(data)
             }, {
                 it.printStackTrace()
-                _onError.postValue(true)
+                errorMessage.postValue(it.message)
             })
 
         compositeDisposable.add(disposable)
@@ -53,7 +47,7 @@ class TransactionListViewModel @Inject constructor(
             .subscribe({ data -> _dataTransactions.postValue(data) },
                 {
                     it.printStackTrace()
-                    _onError.postValue(true)
+                    errorMessage.postValue(it.message)
                 })
 
         compositeDisposable.add(disposable)
@@ -65,7 +59,7 @@ class TransactionListViewModel @Inject constructor(
             .observeOn(schedulerMain)
             .subscribe({ data -> _dataTransactions.postValue(data) }, {
                 it.printStackTrace()
-                _onError.postValue(true)
+                errorMessage.postValue(it.message)
             })
 
         compositeDisposable.add(disposable)
@@ -86,14 +80,11 @@ class TransactionListViewModel @Inject constructor(
             .subscribe({
                 // Nothing Implemented
             }, {
+                it.printStackTrace()
+                errorMessage.postValue(it.message)
                 _updateCondition.postValue(Result.FAILED)
             })
 
         compositeDisposable.add(disposable)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
     }
 }

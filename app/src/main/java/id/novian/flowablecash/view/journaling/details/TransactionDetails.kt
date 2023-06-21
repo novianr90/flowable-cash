@@ -6,43 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
+import id.novian.flowablecash.base.BaseFragment
 import id.novian.flowablecash.databinding.FragmentTransactionDetailsBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
-class TransactionDetails : Fragment() {
-    private var _binding: FragmentTransactionDetailsBinding? = null
-
-    private val binding get() = _binding!!
+class TransactionDetails :
+    BaseFragment<FragmentTransactionDetailsBinding>() {
 
     private val args: TransactionDetailsArgs by navArgs()
     private lateinit var feeSpinner: AutoCompleteTextView
     private lateinit var spinner: AutoCompleteTextView
 
     private val viewModel: TransactionDetailsViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentTransactionDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTransactionDetailsBinding
+        get() = FragmentTransactionDetailsBinding::inflate
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -156,12 +142,22 @@ class TransactionDetails : Fragment() {
     }
 
     private fun observe() {
-        viewModel.onSuccess.observe(viewLifecycleOwner) {
 
-            if (it == "Success") {
-                viewModel.createToast(it)
+        with(viewModel) {
+            onSuccess.observe(viewLifecycleOwner) {
+
+                if (it == "Success") {
+                    viewModel.createToast(it)
+                }
+
             }
 
+            errMessage.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    viewModel.createToast(it)
+                }
+            }
         }
+
     }
 }
