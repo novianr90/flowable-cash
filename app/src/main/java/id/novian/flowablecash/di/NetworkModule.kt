@@ -20,20 +20,24 @@ import javax.inject.Singleton
 object NetworkModule {
 
     @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .build()
     }
 
     @Provides
+    @Singleton
     fun provideBaseUrl(): String = BuildConfig.BASE_URL
 
     @Provides
+    @Singleton
     fun provideGsonConverterFactory(): GsonConverterFactory {
         return GsonConverterFactory.create()
     }
 
     @Provides
+    @Singleton
     fun provideRxJava3CallAdapterFactory(): RxJava3CallAdapterFactory {
         return RxJava3CallAdapterFactory.create()
     }
@@ -55,6 +59,7 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideTransactionService(
         retrofit: Retrofit
     ): TransactionService {
@@ -62,6 +67,7 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideSaleService(
         retrofit: Retrofit
     ): SaleService {
@@ -69,6 +75,7 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun providePurchaseService(
         retrofit: Retrofit
     ): PurchaseService {
@@ -76,6 +83,7 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideBalanceSheetService(retrofit: Retrofit): BalanceSheetService {
         return retrofit.create(BalanceSheetService::class.java)
     }

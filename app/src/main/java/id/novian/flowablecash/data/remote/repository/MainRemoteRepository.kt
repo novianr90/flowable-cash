@@ -34,7 +34,7 @@ interface MainRemoteRepository {
         feeType: String,
         type: String,
         description: String
-    ): Observable<Transaction>
+    ): Observable<Unit>
 
     fun updateTransaction(
         id: Int,
@@ -96,7 +96,7 @@ class MainRemoteRepositoryImpl(
         feeType: String,
         type: String,
         description: String
-    ): Observable<Transaction> {
+    ): Observable<Unit> {
         return transactions.postTransaction(
             name = name,
             date = date,

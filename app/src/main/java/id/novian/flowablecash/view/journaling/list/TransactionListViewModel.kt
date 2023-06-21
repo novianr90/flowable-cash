@@ -57,7 +57,9 @@ class TransactionListViewModel @Inject constructor(
         val disposable = repo.getAllPurchaseTransactions()
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
-            .subscribe({ data -> _dataTransactions.postValue(data) }, {
+            .subscribe({ data ->
+                _dataTransactions.postValue(data)
+            }, {
                 it.printStackTrace()
                 errorMessage.postValue(it.message)
             })
