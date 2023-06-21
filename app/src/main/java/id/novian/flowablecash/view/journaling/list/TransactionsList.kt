@@ -55,12 +55,7 @@ class TransactionsList :
     private fun showData(
         type: String
     ) {
-
-        when (type) {
-            "Transactions" -> viewModel.buttonTransactionClicked()
-            "Sales" -> viewModel.buttonSaleClicked()
-            "Purchases" -> viewModel.buttonPurchaseClicked()
-        }
+        viewModel.buttonTransactionClicked()
 
         binding.tvTransactionType.text = type
 

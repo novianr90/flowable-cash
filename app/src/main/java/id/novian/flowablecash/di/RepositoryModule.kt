@@ -26,6 +26,8 @@ import id.novian.flowablecash.domain.repository.BalanceSheetRepository
 import id.novian.flowablecash.domain.repository.BalanceSheetRepositoryImpl
 import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
 import id.novian.flowablecash.domain.repository.CashReceiptJournalRepositoryImpl
+import id.novian.flowablecash.domain.repository.PurchasesJournalRepository
+import id.novian.flowablecash.domain.repository.PurchasesJournalRepositoryImpl
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.domain.repository.TransactionRepositoryImpl
 import id.novian.flowablecash.helpers.Mapper
@@ -92,5 +94,13 @@ object RepositoryModule {
         return CashReceiptJournalRepositoryImpl(
             repo = repo,
         )
+    }
+
+    @Singleton
+    @Provides
+    fun providePurchasesJournalRepository(
+        repo: MainRemoteRepository
+    ): PurchasesJournalRepository {
+        return PurchasesJournalRepositoryImpl(repo)
     }
 }

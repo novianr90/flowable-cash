@@ -40,34 +40,6 @@ class TransactionListViewModel @Inject constructor(
         compositeDisposable.add(disposable)
     }
 
-    fun buttonSaleClicked() {
-        val disposable = repo.getAllSaleTransactions()
-            .subscribeOn(schedulerIo)
-            .observeOn(schedulerMain)
-            .subscribe({ data -> _dataTransactions.postValue(data) },
-                {
-                    it.printStackTrace()
-                    errorMessage.postValue(it.message)
-                })
-
-        compositeDisposable.add(disposable)
-    }
-
-    fun buttonPurchaseClicked() {
-        val disposable = repo.getAllPurchaseTransactions()
-            .subscribeOn(schedulerIo)
-            .observeOn(schedulerMain)
-            .subscribe({ data ->
-                _dataTransactions.postValue(data)
-            }, {
-                it.printStackTrace()
-                errorMessage.postValue(it.message)
-            })
-
-        compositeDisposable.add(disposable)
-    }
-
-
     fun createToast(message: String) {
         toast.createToast(message, 0)
     }
