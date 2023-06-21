@@ -39,16 +39,21 @@ class HomeViewModel @Inject constructor(
         val disposable = balanceSheet.getBalanceSheet()
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
+            .doOnSubscribe {
+                _onLoading.postValue(true)
+            }
             .subscribe({
                 val sorted = it
                     .sortedBy { data -> data.accountNo }
 
                 _dataBalanceSheet.postValue(sorted)
                 _onResult.postValue(Result.SUCCESS)
+                _onLoading.postValue(false)
             }, {
                 it.printStackTrace()
                 _onResult.postValue(Result.FAILED)
-                createToast(it.message ?: "Error Occurred!")
+                _onLoading.postValue(false)
+                errorMessage.postValue(it.message)
             })
 
         compositeDisposable.add(disposable)

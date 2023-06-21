@@ -142,12 +142,22 @@ class TransactionDetails :
     }
 
     private fun observe() {
-        viewModel.onSuccess.observe(viewLifecycleOwner) {
 
-            if (it == "Success") {
-                viewModel.createToast(it)
+        with(viewModel) {
+            onSuccess.observe(viewLifecycleOwner) {
+
+                if (it == "Success") {
+                    viewModel.createToast(it)
+                }
+
             }
 
+            errMessage.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    viewModel.createToast(it)
+                }
+            }
         }
+
     }
 }

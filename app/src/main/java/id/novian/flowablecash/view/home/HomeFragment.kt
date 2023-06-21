@@ -59,7 +59,9 @@ class HomeFragment :
         }
 
         binding.cvSale.setOnClickListener {
-            navigateToTransactionList("Sales")
+            val action = HomeFragmentDirections.actionHomeFragmentToCashReceiptJournal()
+
+            findNavController().navigate(action)
         }
     }
 
@@ -77,6 +79,7 @@ class HomeFragment :
             rvItemBalanceSheet.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = balanceSheetAdapter
+                setHasFixedSize(true)
             }
         }
     }
@@ -88,11 +91,20 @@ class HomeFragment :
     }
 
     private fun observe() {
-        viewModel.onResult.observe(viewLifecycleOwner) {
-            when (it) {
-                Result.FAILED -> viewModel.createToast("Failed!")
-                Result.SUCCESS -> viewModel.createToast("Success")
-                else -> {}
+        with(viewModel) {
+            errMessage.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    viewModel.createToast(it)
+                }
+            }
+
+            onResult.observe(viewLifecycleOwner) {
+                when (it) {
+                    Result.SUCCESS -> {}
+                    Result.FAILED -> {}
+                    Result.LOADING -> {}
+                    else -> {}
+                }
             }
         }
     }

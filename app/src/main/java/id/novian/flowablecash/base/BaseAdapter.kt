@@ -16,6 +16,8 @@ open class BaseAdapter<T : Any> :
         override fun onBind(data: R, position: Int) {}
     }
 
+    override fun getItemCount(): Int = currentList.size
+
     interface BindRecyclerViewHolder<R> {
         fun onBind(data: R)
         fun onBind(data: R, position: Int)

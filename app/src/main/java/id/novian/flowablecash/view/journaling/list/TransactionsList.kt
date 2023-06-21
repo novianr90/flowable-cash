@@ -70,9 +70,9 @@ class TransactionsList :
             }
         }
 
-        viewModel.onError.observe(viewLifecycleOwner) { err ->
-            if (err) {
-                viewModel.createToast("Error Occurred!")
+        viewModel.errMessage.observe(viewLifecycleOwner) { err ->
+            if (err.isNotEmpty()) {
+                viewModel.createToast(err)
             }
         }
     }

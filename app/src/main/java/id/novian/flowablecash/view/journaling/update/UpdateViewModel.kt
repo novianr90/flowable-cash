@@ -55,6 +55,7 @@ class UpdateViewModel @Inject constructor(
                 _onSuccess.postValue(Result.SUCCESS)
             }, {
                 it.printStackTrace()
+                errorMessage.postValue(it.message)
                 _onSuccess.postValue(Result.FAILED)
             })
 
@@ -68,6 +69,7 @@ class UpdateViewModel @Inject constructor(
             .subscribe({
                 _data.postValue(it)
             }, {
+                errorMessage.postValue(it.message)
                 it.printStackTrace()
             })
 

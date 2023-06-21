@@ -3,13 +3,11 @@ package id.novian.flowablecash.domain.mapper
 
 import com.google.gson.Gson
 import id.novian.flowablecash.data.local.models.BalanceSheetLocal
-import id.novian.flowablecash.data.local.models.CashReceiptJournalLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.domain.models.BalanceSheetDomain
-import id.novian.flowablecash.domain.models.CashReceiptJournal
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.Helpers.transactionTypeChanger
@@ -132,31 +130,4 @@ class BalanceSheetLocalMapper(
             updatedAt = domain.updatedAt
         )
     }
-}
-
-class CashReceiptJournalMapper(
-    private val gson: Gson
-) : Mapper<CashReceiptJournalLocal, CashReceiptJournal> {
-    override fun mapToDomain(model: CashReceiptJournalLocal): CashReceiptJournal {
-        val balance = gson.fromJson(model.balance, AccountBalance::class.java)
-
-        return CashReceiptJournal(
-            id = model.id ?: 0,
-            date = model.date,
-            description = model.description,
-            balance = balance
-        )
-    }
-
-    override fun mapToModel(domain: CashReceiptJournal): CashReceiptJournalLocal {
-        val balanceJson = gson.toJson(domain.balance)
-
-        return CashReceiptJournalLocal(
-            id = domain.id,
-            date = domain.date,
-            description = domain.description,
-            balance = balanceJson
-        )
-    }
-
 }

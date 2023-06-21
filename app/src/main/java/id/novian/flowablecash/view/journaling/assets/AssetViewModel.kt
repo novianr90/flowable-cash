@@ -47,6 +47,7 @@ class AssetViewModel @Inject constructor(
             }, {
                 it.printStackTrace()
                 _onSuccess.postValue(Result.FAILED)
+                errorMessage.postValue(it.message)
             })
 
         compositeDisposable.add(disposable)

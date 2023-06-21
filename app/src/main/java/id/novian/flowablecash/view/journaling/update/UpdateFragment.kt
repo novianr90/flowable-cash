@@ -34,10 +34,14 @@ class UpdateFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setSpinner()
         setDatePickerListener()
         buttonBack()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observe()
 
         if (args.id != 0) {
             setDataTransaction(args.id)
@@ -146,4 +150,15 @@ class UpdateFragment :
         }
     }
 
+    private fun observe() {
+        with(viewModel) {
+
+            errMessage.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    viewModel.createToast(it)
+                }
+            }
+
+        }
+    }
 }

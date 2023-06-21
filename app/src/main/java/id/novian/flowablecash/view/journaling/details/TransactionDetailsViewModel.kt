@@ -48,6 +48,8 @@ class TransactionDetailsViewModel @Inject constructor(
             .subscribe({
                 _onSuccess.postValue("Success!")
             }, {
+                it.printStackTrace()
+                errorMessage.postValue(it.message)
                 _onSuccess.postValue("Error occurred!")
             })
 

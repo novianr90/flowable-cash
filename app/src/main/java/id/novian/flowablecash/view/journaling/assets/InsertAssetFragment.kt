@@ -75,14 +75,26 @@ class InsertAssetFragment :
     }
 
     private fun observe() {
-        viewModel.onSuccess.observe(viewLifecycleOwner) {
-            when(it) {
-                Result.SUCCESS -> viewModel.createToast("Success!")
-                Result.FAILED -> viewModel.createToast("Failed!")
-                Result.LOADING -> viewModel.createToast("Invoked!")
 
-                else -> { /* Not Implemented */ }
+        with(viewModel) {
+            onSuccess.observe(viewLifecycleOwner) {
+                when (it) {
+                    Result.SUCCESS -> {}
+                    Result.FAILED -> {}
+                    Result.LOADING -> {}
+
+                    else -> { /* Not Implemented */
+                    }
+                }
+            }
+
+            errMessage.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    viewModel.createToast(it)
+                }
             }
         }
+
+
     }
 }

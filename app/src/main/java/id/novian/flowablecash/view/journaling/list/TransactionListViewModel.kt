@@ -23,9 +23,6 @@ class TransactionListViewModel @Inject constructor(
     private val _dataTransactions: MutableLiveData<List<TransactionDomain>> = MutableLiveData()
     val dataTransactions: LiveData<List<TransactionDomain>> get() = _dataTransactions
 
-    private val _onError: MutableLiveData<Boolean> = MutableLiveData(false)
-    val onError: LiveData<Boolean> get() = _onError
-
     private val _updateCondition: MutableLiveData<Result> = MutableLiveData()
     val updateCondition: LiveData<Result> get() = _updateCondition
 
@@ -37,7 +34,7 @@ class TransactionListViewModel @Inject constructor(
                 _dataTransactions.postValue(data)
             }, {
                 it.printStackTrace()
-                _onError.postValue(true)
+                errorMessage.postValue(it.message)
             })
 
         compositeDisposable.add(disposable)
@@ -50,7 +47,7 @@ class TransactionListViewModel @Inject constructor(
             .subscribe({ data -> _dataTransactions.postValue(data) },
                 {
                     it.printStackTrace()
-                    _onError.postValue(true)
+                    errorMessage.postValue(it.message)
                 })
 
         compositeDisposable.add(disposable)
@@ -62,7 +59,7 @@ class TransactionListViewModel @Inject constructor(
             .observeOn(schedulerMain)
             .subscribe({ data -> _dataTransactions.postValue(data) }, {
                 it.printStackTrace()
-                _onError.postValue(true)
+                errorMessage.postValue(it.message)
             })
 
         compositeDisposable.add(disposable)
@@ -83,6 +80,8 @@ class TransactionListViewModel @Inject constructor(
             .subscribe({
                 // Nothing Implemented
             }, {
+                it.printStackTrace()
+                errorMessage.postValue(it.message)
                 _updateCondition.postValue(Result.FAILED)
             })
 

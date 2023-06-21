@@ -75,7 +75,9 @@
                 android:id="@+id/tv_sale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_all_sale"
+                android:gravity="center"
+                android:text="Cash Receipt
+                Journal"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
