@@ -10,8 +10,6 @@ import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.domain.models.BalanceSheetDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.helpers.Helpers
-import id.novian.flowablecash.helpers.Helpers.transactionTypeChanger
-import id.novian.flowablecash.helpers.Helpers.transactionTypeDecider
 import id.novian.flowablecash.helpers.Mapper
 
 class TransactionMapper : Mapper<Transaction, TransactionDomain> {
@@ -20,7 +18,7 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             id = model.id,
             transactionName = model.name,
             transactionDate = model.date,
-            transactionType = transactionTypeDecider(model.type),
+            transactionType = Helpers.transactionTypeDecider(model.type),
             total = model.total,
             transactionDescription = model.description,
             createdAt = model.createdAt,
@@ -35,7 +33,7 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             id = domain.id,
             name = domain.transactionName,
             date = domain.transactionDate,
-            type = transactionTypeChanger(domain.transactionType),
+            type = Helpers.transactionTypeChanger(domain.transactionType),
             total = domain.total,
             description = domain.transactionDescription,
             createdAt = domain.createdAt,
@@ -52,7 +50,7 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             id = model.id,
             transactionName = model.transactionName,
             transactionDate = model.transactionDate,
-            transactionType = transactionTypeDecider(model.transactionType),
+            transactionType = Helpers.transactionTypeDecider(model.transactionType),
             total = model.transactionTotal,
             transactionDescription = model.transactionDescription,
             createdAt = model.createdAt,
@@ -67,7 +65,7 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             id = domain.id,
             transactionName = domain.transactionName,
             transactionDate = domain.transactionDate,
-            transactionType = transactionTypeChanger(domain.transactionType),
+            transactionType = Helpers.transactionTypeChanger(domain.transactionType),
             transactionTotal = domain.total,
             transactionDescription = domain.transactionDescription,
             createdAt = domain.createdAt,

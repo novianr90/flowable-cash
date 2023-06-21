@@ -24,7 +24,7 @@ interface TransactionRepository {
         feeType: String,
         fee: Int,
         description: String
-    ): Observable<TransactionDomain>
+    ): Observable<Unit>
 
     fun updateTransaction(
         id: Int,
@@ -99,7 +99,7 @@ class TransactionRepositoryImpl(
         feeType: String,
         fee: Int,
         description: String
-    ): Observable<TransactionDomain> {
+    ): Observable<Unit> {
         return remote.postTransaction(
             name = name,
             date = date,
@@ -109,7 +109,6 @@ class TransactionRepositoryImpl(
             feeType = feeType,
             fee = fee,
         )
-            .map { data -> remoteMapper.mapToDomain(data) }
     }
 
     override fun updateTransaction(

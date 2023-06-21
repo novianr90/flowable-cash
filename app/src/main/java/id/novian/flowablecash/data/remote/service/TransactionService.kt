@@ -29,7 +29,7 @@ interface TransactionService {
         @Query("fee_type") feeType: String,
         @Query("transaction_fee") fee: Int,
         @Query("description") desc: String
-    ): Observable<Transaction>
+    ): Observable<Unit>
 
     @PUT(Endpoints.BASE_TRANSACTIONS)
     fun updateTransaction(

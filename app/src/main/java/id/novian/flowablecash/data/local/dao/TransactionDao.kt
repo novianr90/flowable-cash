@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.core.Observable
 
 @Dao
 interface TransactionDao {
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTransactions(query: TransactionLocal)
 
     @Update
