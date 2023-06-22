@@ -1,4 +1,4 @@
-package id.novian.flowablecash.view.journaling.list
+package id.novian.flowablecash.view.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

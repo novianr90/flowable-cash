@@ -10,18 +10,13 @@
         android:name="id.novian.flowablecash.view.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
+
         <action
             android:id="@+id/action_homeFragment_to_recordTransaction"
             app:destination="@id/recordTransaction" />
         <action
-            android:id="@+id/action_homeFragment_to_transactionsList"
-            app:destination="@id/transactionsList" />
-        <action
-            android:id="@+id/action_homeFragment_to_cashReceiptJournal"
-            app:destination="@id/cashReceiptJournal" />
-        <action
-            android:id="@+id/action_homeFragment_to_purchasesJournal"
-            app:destination="@id/purchasesJournal" />
+            android:id="@+id/action_homeFragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
     </fragment>
     <fragment
         android:id="@+id/recordTransaction"
@@ -40,35 +35,10 @@
         android:name="id.novian.flowablecash.view.journaling.details.TransactionDetails"
         android:label="fragment_transaction_details"
         tools:layout="@layout/fragment_transaction_details">
-        <action
-            android:id="@+id/action_transactionDetails_to_homeFragment"
-            app:destination="@id/homeFragment" />
         <argument
             android:name="transactionType"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/transactionsList"
-        android:name="id.novian.flowablecash.view.journaling.list.TransactionsList"
-        android:label="fragment_transactions_list"
-        tools:layout="@layout/fragment_transactions_list">
-        <argument
-            android:name="type"
             app:argType="string"
             app:nullable="true" />
-        <action
-            android:id="@+id/action_transactionsList_to_updateFragment"
-            app:destination="@id/updateFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/updateFragment"
-        android:name="id.novian.flowablecash.view.journaling.update.UpdateFragment"
-        android:label="fragment_update"
-        tools:layout="@layout/fragment_update">
-        <argument
-            android:name="id"
-            android:defaultValue="0"
-            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/insertAssetFragment"
@@ -76,13 +46,40 @@
         android:label="fragment_insert_asset"
         tools:layout="@layout/fragment_insert_asset" />
     <fragment
+        android:id="@+id/mainChart"
+        android:name="id.novian.flowablecash.view.chart.MainChart"
+        android:label="fragment_chart"
+        tools:layout="@layout/fragment_chart" />
+    <fragment
+        android:id="@+id/mainReport"
+        android:name="id.novian.flowablecash.view.report.main.MainReport"
+        android:label="fragment_main_report"
+        tools:layout="@layout/fragment_main_report">
+        <action
+            android:id="@+id/action_mainReport_to_purchasesJournal"
+            app:destination="@id/purchasesJournal" />
+        <action
+            android:id="@+id/action_mainReport_to_cashReceiptJournal"
+            app:destination="@id/cashReceiptJournal" />
+    </fragment>
+    <fragment
         android:id="@+id/cashReceiptJournal"
-        android:name="id.novian.flowablecash.view.journaling.cash_receipt.CashReceiptJournal"
+        android:name="id.novian.flowablecash.view.report.cash_receipt.CashReceiptJournal"
         android:label="fragment_cash_receipt_journal"
         tools:layout="@layout/fragment_cash_receipt_journal" />
     <fragment
         android:id="@+id/purchasesJournal"
-        android:name="id.novian.flowablecash.view.journaling.purchases_journal.PurchasesJournal"
+        android:name="id.novian.flowablecash.view.report.purchases_journal.PurchasesJournal"
         android:label="fragment_purchases_journal"
         tools:layout="@layout/fragment_purchases_journal" />
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="id.novian.flowablecash.view.journaling.update.UpdateFragment"
+        android:label="fragment_update"
+        tools:layout="@layout/fragment_update">
+        <argument
+            android:name="transactionId"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 </navigation>

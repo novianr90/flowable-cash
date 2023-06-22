@@ -1,8 +1,6 @@
 package id.novian.flowablecash.view.journaling.details
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -30,8 +28,11 @@ class TransactionDetails :
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTransactionDetailsBinding
         get() = FragmentTransactionDetailsBinding::inflate
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override val isNavigationVisible: Boolean
+        get() = false
+
+    override fun setup() {
+        super.setup()
         setSpinner()
         setSpinnerForFeeType()
         buttonBack()

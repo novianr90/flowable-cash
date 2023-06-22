@@ -1,8 +1,6 @@
 package id.novian.flowablecash.view.journaling.update
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -32,8 +30,11 @@ class UpdateFragment :
 
     private val args: UpdateFragmentArgs by navArgs()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override val isNavigationVisible: Boolean
+        get() = false
+
+    override fun setup() {
+        super.setup()
         setSpinner()
         setDatePickerListener()
         buttonBack()
@@ -43,10 +44,10 @@ class UpdateFragment :
         super.onResume()
         observe()
 
-        if (args.id != 0) {
-            setDataTransaction(args.id)
+        if (args.transactionId != 0) {
+            setDataTransaction(args.transactionId)
 
-            getUserInput(args.id)
+            getUserInput(args.transactionId)
         }
     }
 

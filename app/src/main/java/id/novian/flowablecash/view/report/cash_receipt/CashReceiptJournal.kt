@@ -1,4 +1,4 @@
-package id.novian.flowablecash.view.journaling.cash_receipt
+package id.novian.flowablecash.view.report.cash_receipt
 
 import android.os.Bundle
 import android.view.LayoutInflater

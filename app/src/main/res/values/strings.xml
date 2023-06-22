@@ -30,6 +30,7 @@
     <string name="txt_purchases_journal">Purchases Journal</string>
     <string name="txt_edit_your_balance_sheet">Edit your balance sheet</string>
     <string name="txt_update_your_balance_sheet">Update your balance sheet</string>
+    <string name="txt_add_edit_transactions_accounts">Add/Edit Transactions/Accounts</string>
     <string-array name="transaction_type">
         <item>Purchase</item>
         <item>Sale</item>
