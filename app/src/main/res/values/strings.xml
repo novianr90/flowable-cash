@@ -31,6 +31,10 @@
     <string name="txt_edit_your_balance_sheet">Edit your balance sheet</string>
     <string name="txt_update_your_balance_sheet">Update your balance sheet</string>
     <string name="txt_add_edit_transactions_accounts">Add/Edit Transactions/Accounts</string>
+    <string name="txt_transactiontype">TransactionType</string>
+    <string name="txt_transactiontotal">TransactionTotal</string>
+    <string name="txt_transactiondate">TransactionDate</string>
+    <string name="txt_transactionname">TransactionName</string>
     <string-array name="transaction_type">
         <item>Purchase</item>
         <item>Sale</item>
@@ -48,5 +52,13 @@
         <item>Pembelian</item>
         <item>Beban Pembelian</item>
         <item>Beban Penjualan</item>
+    </string-array>
+    <string-array name="transaction_date_sort">
+        <item>Hari Ini</item>
+        <item>Kemarin</item>
+        <item>7 Hari Lalu</item>
+        <item>30 Hari Lalu</item>
+        <item>Bulan Ini</item>
+        <item>Bulan Lalu</item>
     </string-array>
 </resources>

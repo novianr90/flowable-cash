@@ -50,5 +50,12 @@ object AppModule {
     fun provideGson() = Gson()
 
     @Provides
-    fun provideCalendar(): Calendar = Calendar.getInstance()
+    @Singleton
+    @Named("SORT")
+    fun provideCalendarSort(): Calendar = Calendar.getInstance()
+
+    @Provides
+    @Singleton
+    @Named("DEFAULT")
+    fun provideCalendarDefault(): Calendar = Calendar.getInstance()
 }

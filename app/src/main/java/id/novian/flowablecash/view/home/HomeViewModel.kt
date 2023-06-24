@@ -1,5 +1,6 @@
 package id.novian.flowablecash.view.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,6 +9,7 @@ import id.novian.flowablecash.domain.models.BalanceSheetDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.BalanceSheetRepository
 import id.novian.flowablecash.domain.repository.TransactionRepository
+import id.novian.flowablecash.helpers.CalendarHelper
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Scheduler
@@ -20,7 +22,8 @@ class HomeViewModel @Inject constructor(
     private val balanceSheet: BalanceSheetRepository,
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
-    private val toast: CreateToast
+    private val toast: CreateToast,
+    val calendarHelper: CalendarHelper
 ) : BaseViewModel() {
 
     private val _onLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -34,6 +37,9 @@ class HomeViewModel @Inject constructor(
 
     private val _dataTransactions: MutableLiveData<List<TransactionDomain>> = MutableLiveData()
     val dataTransactions: LiveData<List<TransactionDomain>> get() = _dataTransactions
+
+    private val _isFirstDataFetch: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isFirstDataFetch: LiveData<Boolean> get() = _isFirstDataFetch
 
     fun createToast(message: String) {
         toast.createToast(message, 0)
@@ -69,6 +75,7 @@ class HomeViewModel @Inject constructor(
                 val sorted = data.sortedBy { it.transactionDate }
                 _dataTransactions.postValue(sorted)
                 _onResult.postValue(Result.SUCCESS)
+                Log.d("HomeViewModel", "sorted Data size is ${sorted.size}")
             }, {
                 it.printStackTrace()
                 errorMessage.postValue(it.message)
@@ -93,5 +100,9 @@ class HomeViewModel @Inject constructor(
             })
 
         compositeDisposable.add(disposable)
+    }
+
+    fun setFirstDataFetch(value: Boolean) {
+        _isFirstDataFetch.value = value
     }
 }

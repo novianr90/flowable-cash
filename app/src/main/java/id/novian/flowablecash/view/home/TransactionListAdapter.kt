@@ -30,13 +30,11 @@ class TransactionListAdapter(
         override fun onBind(data: TransactionDomain) {
             with(binding) {
 
-                tvItemNameDetails.text = data.transactionName
-                tvItemDateDetails.text = data.transactionDate
-                tvItemTypeDetails.text = Helpers.transactionTypeChanger(data.transactionType)
-                tvItemTotalDetails.text = Helpers.numberFormatter(data.total)
-                tvItemDescDetails.text = data.transactionDescription
-                tvItemFeeTypeDetails.text = Helpers.feeTypeChanger(data.feeType)
-                tvItemFeeDetails.text = Helpers.numberFormatter(data.fee)
+                tvTransactionName.text = data.transactionName
+                tvTransactionDate.text =
+                    Helpers.dateFormatFromNonStringToString(data.transactionDate)
+                tvTransactionTotal.text = Helpers.numberFormatter(data.total)
+                tvTransactionType.text = Helpers.transactionTypeChanger(data.transactionType)
 
                 cvItemData.setOnClickListener {
                     onClick(data)

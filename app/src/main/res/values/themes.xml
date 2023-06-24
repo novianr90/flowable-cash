@@ -2,7 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.FlowableCash" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/blue_sea</item>
+        <item name="colorPrimary">@color/blue_sea</item>
+    </style>
+
+    <style name="NoUnderlineEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/no_underline_edit_text</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingTop">0dp</item>
     </style>
 
     <style name="Theme.FlowableCash" parent="Base.Theme.FlowableCash" />

@@ -1,12 +1,19 @@
 package id.novian.flowablecash.view.home
 
 import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import id.novian.flowablecash.R
 import id.novian.flowablecash.base.BaseFragment
 import id.novian.flowablecash.databinding.CustomDialogForItemClickedBinding
 import id.novian.flowablecash.databinding.FragmentHomeBinding
@@ -22,23 +29,129 @@ class HomeFragment :
         get() = FragmentHomeBinding::inflate
 
     private val viewModel: HomeViewModel by viewModels()
+
+    // TransactionList Dependencies
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var spinnerSortDate: Spinner
     private lateinit var transactionListAdapter: TransactionListAdapter
+    private lateinit var arrayAdapter: ArrayAdapter<CharSequence>
+
+    private val transactionList = mutableListOf<TransactionDomain>()
 
     override fun setup() {
         super.setup()
         getTransactions()
-        setListOfTransaction()
-
+        setListAdapter()
+        setupRecyclerView()
         observe()
+        setSpinnerSortDate()
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupRecyclerView()
+    private fun setListAdapter() {
+        Log.d("DATA", "Data size in list adapter is ${transactionList.size}")
+        transactionListAdapter = TransactionListAdapter(::showDialog)
+    }
+
+    private fun setSpinnerSortDate() {
+        Log.d("DATA", "Data size in spinner setup is ${transactionList.size}")
+        spinnerSortDate = binding.spinnerSortDate
+        arrayAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.transaction_date_sort,
+            android.R.layout.simple_dropdown_item_1line,
+        )
+        spinnerSortDate.adapter = arrayAdapter
+        spinnerSortDate.onItemSelectedListener = spinnerSortedDateListener()
+    }
+
+    private fun spinnerSortedDateListener(): AdapterView.OnItemSelectedListener {
+        Log.d("DATA", "Data size in spinner listener is ${transactionList.size}")
+        return object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                when (p0?.getItemAtPosition(p2).toString()) {
+                    "Hari Ini" -> {
+                        val filteredList =
+                            transactionList.filter { it.transactionDate == viewModel.calendarHelper.getCurrentDate() }
+                        transactionListAdapter.submitList(filteredList)
+                    }
+
+                    "Kemarin" -> {
+                        val filteredList =
+                            transactionList.filter { it.transactionDate == viewModel.calendarHelper.getYesterdayDate() }
+                        transactionListAdapter.submitList(filteredList)
+                    }
+
+                    "7 Hari Lalu" -> {
+                        val filteredList = Helpers.filterTransactionsByDateRange(
+                            transactionList,
+                            viewModel.calendarHelper.getLast7DaysRange()
+                        )
+                        transactionListAdapter.submitList(filteredList)
+                    }
+
+                    "30 Hari Lalu" -> {
+                        val filteredList = Helpers.filterTransactionsByDateRange(
+                            transactionList,
+                            viewModel.calendarHelper.getLast30DaysRange()
+                        )
+                        transactionListAdapter.submitList(filteredList)
+                    }
+
+                    "Bulan Ini" -> {
+                        val filteredList = Helpers.filterTransactionsByDateRange(
+                            transactionList,
+                            viewModel.calendarHelper.getCurrentMonthRange()
+                        )
+                        transactionListAdapter.submitList(filteredList)
+                    }
+
+                    "Bulan Lalu" -> {
+                        val filteredList = Helpers.filterTransactionsByDateRange(
+                            transactionList,
+                            viewModel.calendarHelper.getLastMonthRange()
+                        )
+                        transactionListAdapter.submitList(filteredList)
+                    }
+
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                val filteredList =
+                    transactionList.filter { it.transactionDate == viewModel.calendarHelper.getCurrentDate() }
+                transactionListAdapter.submitList(filteredList)
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        recyclerView = binding.rvItemTransactionList
+
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = transactionListAdapter
+        }
+    }
+
+    private fun setSortOptionsWhenAppFreshlyOpened(transactionList: List<TransactionDomain>) {
+        val today = viewModel.calendarHelper.getCurrentDate()
+
+        val filteredList = transactionList.filter { it.transactionDate == today }
+        transactionListAdapter.submitList(filteredList)
     }
 
     private fun observe() {
+        Log.d("DATA", "Data size in observe method is ${transactionList.size}")
         with(viewModel) {
+
+            dataTransactions.observe(viewLifecycleOwner) { newList ->
+                transactionList.addAll(newList)
+                Log.d("DATA", "Data size in when is ${transactionList.size}")
+
+                setSpinnerSortDate()
+            }
+
             errMessage.observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
                     viewModel.createToast(it)
@@ -53,25 +166,14 @@ class HomeFragment :
                     else -> {}
                 }
             }
+
+
         }
     }
 
     private fun getTransactions() {
         viewModel.getListOfTransactions()
-    }
-
-    private fun setListOfTransaction() {
-        viewModel.dataTransactions.observe(viewLifecycleOwner) {
-            transactionListAdapter.submitList(it)
-        }
-    }
-
-    private fun setupRecyclerView() {
-        binding.rvItemTransactionList.apply {
-            transactionListAdapter = TransactionListAdapter(::showDialog)
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = transactionListAdapter
-        }
+        Log.d("DATA", "Data size in get method is ${transactionList.size}")
     }
 
     private fun showDialog(details: TransactionDomain) {
