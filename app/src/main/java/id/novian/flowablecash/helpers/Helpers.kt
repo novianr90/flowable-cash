@@ -4,9 +4,14 @@ import id.novian.flowablecash.data.AccountName
 import id.novian.flowablecash.data.FeeType
 import id.novian.flowablecash.data.TransactionType
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
+import id.novian.flowablecash.domain.models.TransactionDomain
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object Helpers {
+
     fun numberFormatter(number: Int?): String {
         val formatter = DecimalFormat("#,###,###")
         return formatter.format(number)
@@ -93,6 +98,46 @@ object Helpers {
             AccountName.BEBANPENJUALAN -> AccountBalance(debit = value, credit = 0)
             AccountName.PEMBELIAN -> AccountBalance(debit = value, credit = 0)
             else -> AccountBalance(0, 0)
+        }
+    }
+
+    fun dateFormatFromNonStringToString(inputDate: String?): String {
+        val inputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+
+        val date = inputDate?.let {
+            try {
+                inputFormat.parse(inputDate)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+
+        return outputFormat.format(date ?: Date(0))
+    }
+
+    private fun Date.isInRange(startDate: Date, endDate: Date): Boolean {
+        return this in startDate..endDate
+    }
+
+    fun filterTransactionsByDateRange(
+        models: List<TransactionDomain>,
+        rangeStartToEndDate: String
+    ): List<TransactionDomain> {
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+
+        val rangeDates = rangeStartToEndDate.split(" - ")
+
+        val startDate = rangeDates[0]
+        val endDate = rangeDates[1]
+
+        val parsedStartDate = dateFormat.parse(startDate)
+        val parsedEndDate = dateFormat.parse(endDate)
+
+        return models.filter {
+            val date = dateFormat.parse(it.transactionDate)
+            date != null && date.isInRange(parsedStartDate, parsedEndDate)
         }
     }
 }

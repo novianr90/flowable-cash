@@ -1,4 +1,4 @@
-package id.novian.flowablecash.view.journaling.purchases_journal
+package id.novian.flowablecash.view.report.purchases_journal
 
 import android.os.Bundle
 import android.util.Log

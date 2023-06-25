@@ -1,11 +1,11 @@
-package id.novian.flowablecash.view.journaling.cash_receipt
+package id.novian.flowablecash.view.report.purchases_journal
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.BaseViewModel
-import id.novian.flowablecash.domain.models.CashReceiptJournal
-import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
+import id.novian.flowablecash.domain.models.PurchasesJournal
+import id.novian.flowablecash.domain.repository.PurchasesJournalRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Scheduler
@@ -13,34 +13,30 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
-class CashReceiptJournalViewModel @Inject constructor(
+class PurchasesJournalViewModel @Inject constructor(
+    private val repo: PurchasesJournalRepository,
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
-    private val repo: CashReceiptJournalRepository,
     private val toast: CreateToast
 ) : BaseViewModel() {
-    private val _dataCashReceiptJournal: MutableLiveData<List<CashReceiptJournal>> =
-        MutableLiveData()
-    val dataCashReceiptJournal: LiveData<List<CashReceiptJournal>> get() = _dataCashReceiptJournal
-
-    private val _invocationFlag: MutableLiveData<Boolean> = MutableLiveData()
-    val invocationFlag: LiveData<Boolean> get() = _invocationFlag
+    private val _dataPurchaseJournal: MutableLiveData<List<PurchasesJournal>> = MutableLiveData()
+    val dataPurchaseJournal: LiveData<List<PurchasesJournal>> get() = _dataPurchaseJournal
 
     private val _result: MutableLiveData<Result> = MutableLiveData()
     val result: LiveData<Result> get() = _result
 
-    fun getCashReceiptJournal() {
+    fun getJournal() {
         val disposable = repo.getJournal()
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .doOnSubscribe { _result.postValue(Result.LOADING) }
             .subscribe({
+                _dataPurchaseJournal.postValue(it)
                 _result.postValue(Result.SUCCESS)
-                _dataCashReceiptJournal.postValue(it)
             }, {
                 it.printStackTrace()
-                _result.postValue(Result.FAILED)
                 errorMessage.postValue(it.message)
+                _result.postValue(Result.FAILED)
             })
 
         compositeDisposable.add(disposable)

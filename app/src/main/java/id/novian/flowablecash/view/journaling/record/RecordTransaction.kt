@@ -1,8 +1,6 @@
 package id.novian.flowablecash.view.journaling.record
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import id.novian.flowablecash.base.BaseFragment
@@ -14,32 +12,35 @@ class RecordTransaction :
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRecordTransactionBinding
         get() = FragmentRecordTransactionBinding::inflate
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override val isNavigationVisible: Boolean
+        get() = false
+
+    override fun setup() {
+        super.setup()
         moveToTransactionDetails()
         buttonBack()
     }
 
     private fun moveToTransactionDetails() {
 
-        val moveToTransaction: (String) -> Unit = { value ->
-            findNavController().navigate(
-                RecordTransactionDirections.actionRecordTransactionToTransactionDetails(
-                    value
-                )
-            )
-        }
-
         binding.cvAsset.setOnClickListener {
             findNavController().navigate(RecordTransactionDirections.actionRecordTransactionToInsertAssetFragment())
         }
 
         binding.cvSelling.setOnClickListener {
-            moveToTransaction("Selling")
+            findNavController().navigate(
+                RecordTransactionDirections.actionRecordTransactionToTransactionDetails(
+                    transactionType = "Selling"
+                )
+            )
         }
 
         binding.cvBuying.setOnClickListener {
-            moveToTransaction("Buying")
+            findNavController().navigate(
+                RecordTransactionDirections.actionRecordTransactionToTransactionDetails(
+                    transactionType = "Buying"
+                )
+            )
         }
     }
 

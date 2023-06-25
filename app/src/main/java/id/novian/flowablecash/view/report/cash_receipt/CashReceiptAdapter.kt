@@ -1,4 +1,4 @@
-package id.novian.flowablecash.view.journaling.purchases_journal
+package id.novian.flowablecash.view.report.cash_receipt
 
 import android.graphics.Typeface
 import android.view.LayoutInflater
@@ -7,46 +7,35 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import id.novian.flowablecash.base.BaseAdapter
 import id.novian.flowablecash.databinding.JournalTableItemBinding
-import id.novian.flowablecash.domain.models.PurchasesJournal
+import id.novian.flowablecash.domain.models.CashReceiptJournal
 import id.novian.flowablecash.helpers.Helpers
 
-class PurchasesJournalAdapter : BaseAdapter<PurchasesJournal>() {
 
-    inner class PurchasesJournalViewHolder(
+class CashReceiptAdapter : BaseAdapter<CashReceiptJournal>() {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<CashReceiptJournal> {
+        val binding = JournalTableItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return CashReceiptViewHolder(binding)
+    }
+
+    inner class CashReceiptViewHolder(
         private val binding: JournalTableItemBinding
-    ) : BaseViewHolder<PurchasesJournal>(binding.root) {
-        override fun onBind(data: PurchasesJournal, position: Int) {
-
+    ) : BaseViewHolder<CashReceiptJournal>(binding.root) {
+        override fun onBind(data: CashReceiptJournal, position: Int) {
             with(binding) {
-
                 when (position) {
-
                     0 -> {
-
-                        val dateLayoutParams = tvDate.layoutParams as LinearLayout.LayoutParams
-                        val descriptionLayoutParams =
-                            tvDescriptionReceipt.layoutParams as LinearLayout.LayoutParams
-                        val debitLayoutParams =
-                            tvCashReceiptDebit.layoutParams as LinearLayout.LayoutParams
-                        val creditLayoutParams =
-                            tvCashReceiptCredit.layoutParams as LinearLayout.LayoutParams
-
-                        200.apply {
-                            dateLayoutParams.height = this
-                            descriptionLayoutParams.height = this
-                            debitLayoutParams.height = this
-                            creditLayoutParams.height = this
-                        }
-
                         tvDate.text = "Date"
                         tvDescriptionReceipt.text = "Description"
-                        tvCashReceiptDebit.text = "Debit\n(Persediaan Barang Dagang)"
-                        tvCashReceiptCredit.text = "Credit\n(Kas)"
-
-                        tvDate.layoutParams = dateLayoutParams
-                        tvDescriptionReceipt.layoutParams = descriptionLayoutParams
-                        tvCashReceiptDebit.layoutParams = debitLayoutParams
-                        tvCashReceiptCredit.layoutParams = creditLayoutParams
+                        tvCashReceiptDebit.text = "Debit\n(Kas)"
+                        tvCashReceiptCredit.text = "Credit\n(Penjualan)"
 
                         tvDate.setTypeface(null, Typeface.BOLD)
                         tvDescriptionReceipt.setTypeface(null, Typeface.BOLD)
@@ -55,6 +44,7 @@ class PurchasesJournalAdapter : BaseAdapter<PurchasesJournal>() {
                     }
 
                     itemCount - 1 -> {
+
                         tvDate.visibility = View.GONE
                         val layoutParams =
                             tvDescriptionReceipt.layoutParams as LinearLayout.LayoutParams
@@ -93,7 +83,6 @@ class PurchasesJournalAdapter : BaseAdapter<PurchasesJournal>() {
                         layoutParams.weight = 2F
 
                         val item = currentList[position - 1]
-
                         tvDate.text = item.date
                         tvDescriptionReceipt.text = item.description
                         tvCashReceiptDebit.text = Helpers.numberFormatter(item.debit)
@@ -105,23 +94,7 @@ class PurchasesJournalAdapter : BaseAdapter<PurchasesJournal>() {
                         tvCashReceiptCredit.setTypeface(null, Typeface.NORMAL)
                     }
                 }
-
             }
-
         }
     }
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): BaseViewHolder<PurchasesJournal> {
-        val binding = JournalTableItemBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-
-        return PurchasesJournalViewHolder(binding)
-    }
-
 }

@@ -1,12 +1,15 @@
 package id.novian.flowablecash.view.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.BaseViewModel
 import id.novian.flowablecash.domain.models.BalanceSheetDomain
+import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.BalanceSheetRepository
 import id.novian.flowablecash.domain.repository.TransactionRepository
+import id.novian.flowablecash.helpers.CalendarHelper
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Scheduler
@@ -19,7 +22,8 @@ class HomeViewModel @Inject constructor(
     private val balanceSheet: BalanceSheetRepository,
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
-    private val toast: CreateToast
+    private val toast: CreateToast,
+    val calendarHelper: CalendarHelper
 ) : BaseViewModel() {
 
     private val _onLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -30,6 +34,12 @@ class HomeViewModel @Inject constructor(
 
     private val _dataBalanceSheet: MutableLiveData<List<BalanceSheetDomain>> = MutableLiveData()
     val dataBalanceSheet: LiveData<List<BalanceSheetDomain>> = _dataBalanceSheet
+
+    private val _dataTransactions: MutableLiveData<List<TransactionDomain>> = MutableLiveData()
+    val dataTransactions: LiveData<List<TransactionDomain>> get() = _dataTransactions
+
+    private val _isFirstDataFetch: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isFirstDataFetch: LiveData<Boolean> get() = _isFirstDataFetch
 
     fun createToast(message: String) {
         toast.createToast(message, 0)
@@ -45,10 +55,8 @@ class HomeViewModel @Inject constructor(
             .subscribe({
                 val sorted = it
                     .sortedBy { data -> data.accountNo }
-
                 _dataBalanceSheet.postValue(sorted)
                 _onResult.postValue(Result.SUCCESS)
-                _onLoading.postValue(false)
             }, {
                 it.printStackTrace()
                 _onResult.postValue(Result.FAILED)
@@ -59,4 +67,42 @@ class HomeViewModel @Inject constructor(
         compositeDisposable.add(disposable)
     }
 
+    fun getListOfTransactions() {
+        val disposable = transaction.getAllTransactions()
+            .subscribeOn(schedulerIo)
+            .observeOn(schedulerMain)
+            .subscribe({ data ->
+                val sorted = data.sortedBy { it.transactionDate }
+                _dataTransactions.postValue(sorted)
+                _onResult.postValue(Result.SUCCESS)
+                Log.d("HomeViewModel", "sorted Data size is ${sorted.size}")
+            }, {
+                it.printStackTrace()
+                errorMessage.postValue(it.message)
+            })
+
+        compositeDisposable.add(disposable)
+    }
+
+    fun deleteTransaction(query: TransactionDomain) {
+        val disposable = transaction.deleteTransaction(query.id)
+            .subscribeOn(schedulerIo)
+            .observeOn(schedulerMain)
+            .doOnComplete {
+                _onResult.postValue(Result.SUCCESS)
+            }
+            .subscribe({
+                // Nothing Implemented
+            }, {
+                it.printStackTrace()
+                errorMessage.postValue(it.message)
+                _onResult.postValue(Result.FAILED)
+            })
+
+        compositeDisposable.add(disposable)
+    }
+
+    fun setFirstDataFetch(value: Boolean) {
+        _isFirstDataFetch.value = value
+    }
 }
