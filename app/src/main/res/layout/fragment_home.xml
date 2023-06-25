@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/search_view"
+        app:layout_constraintBottom_toTopOf="@id/llRvItemTransactionList"
         app:layout_constraintTop_toBottomOf="@id/tv_owner">
 
         <androidx.cardview.widget.CardView

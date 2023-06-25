@@ -12,39 +12,9 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_homeFragment_to_recordTransaction"
-            app:destination="@id/recordTransaction" />
-        <action
             android:id="@+id/action_homeFragment_to_updateFragment"
             app:destination="@id/updateFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/recordTransaction"
-        android:name="id.novian.flowablecash.view.journaling.record.RecordTransaction"
-        android:label="fragment_record_transaction"
-        tools:layout="@layout/fragment_record_transaction">
-        <action
-            android:id="@+id/action_recordTransaction_to_transactionDetails"
-            app:destination="@id/transactionDetails" />
-        <action
-            android:id="@+id/action_recordTransaction_to_insertAssetFragment"
-            app:destination="@id/insertAssetFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/transactionDetails"
-        android:name="id.novian.flowablecash.view.journaling.details.TransactionDetails"
-        android:label="fragment_transaction_details"
-        tools:layout="@layout/fragment_transaction_details">
-        <argument
-            android:name="transactionType"
-            app:argType="string"
-            app:nullable="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/insertAssetFragment"
-        android:name="id.novian.flowablecash.view.journaling.assets.InsertAssetFragment"
-        android:label="fragment_insert_asset"
-        tools:layout="@layout/fragment_insert_asset" />
     <fragment
         android:id="@+id/mainChart"
         android:name="id.novian.flowablecash.view.chart.MainChart"
@@ -61,6 +31,9 @@
         <action
             android:id="@+id/action_mainReport_to_cashReceiptJournal"
             app:destination="@id/cashReceiptJournal" />
+        <action
+            android:id="@+id/action_mainReport_to_balanceSheetFragment"
+            app:destination="@id/balanceSheetFragment" />
     </fragment>
     <fragment
         android:id="@+id/cashReceiptJournal"
@@ -82,4 +55,9 @@
             android:defaultValue="0"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/balanceSheetFragment"
+        android:name="id.novian.flowablecash.view.report.balance_sheet.BalanceSheetFragment"
+        android:label="fragment_balance_sheet"
+        tools:layout="@layout/fragment_balance_sheet" />
 </navigation>

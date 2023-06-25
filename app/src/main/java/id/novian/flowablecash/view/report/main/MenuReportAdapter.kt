@@ -1,7 +1,9 @@
 package id.novian.flowablecash.view.report.main
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import id.novian.flowablecash.base.BaseAdapter
 import id.novian.flowablecash.databinding.MenuReportItemBinding
 
@@ -15,7 +17,11 @@ class MenuReportAdapter(
         override fun onBind(data: ModelMenu) {
             with(binding) {
                 tvReportTitle.text = data.title
-                ivReport.setImageResource(data.image)
+
+                Glide.with(itemView.context)
+                    .load(data.image)
+                    .override(dpToPx(100), dpToPx(100))
+                    .into(ivReport)
 
                 itemDataReport.setOnClickListener {
                     onClick(data.title)
@@ -31,5 +37,10 @@ class MenuReportAdapter(
             false
         )
         return MenuReportViewHolder(binding)
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        val res = Resources.getSystem().displayMetrics
+        return (dp * res.density).toInt()
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/record_nav_graph"
+    app:startDestination="@id/recordTransaction">
+
+    <fragment
+        android:id="@+id/recordTransaction"
+        android:name="id.novian.flowablecash.view.journaling.record.RecordTransaction"
+        android:label="fragment_record_transaction"
+        tools:layout="@layout/fragment_record_transaction">
+        <action
+            android:id="@+id/action_recordTransaction_to_transactionDetails"
+            app:destination="@id/transactionDetails" />
+        <action
+            android:id="@+id/action_recordTransaction_to_insertAssetFragment"
+            app:destination="@id/insertAssetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/insertAssetFragment"
+        android:name="id.novian.flowablecash.view.journaling.assets.InsertAssetFragment"
+        android:label="fragment_insert_asset"
+        tools:layout="@layout/fragment_insert_asset" />
+    <fragment
+        android:id="@+id/transactionDetails"
+        android:name="id.novian.flowablecash.view.journaling.details.TransactionDetails"
+        android:label="fragment_transaction_details"
+        tools:layout="@layout/fragment_transaction_details">
+        <argument
+            android:name="transactionType"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+</navigation>

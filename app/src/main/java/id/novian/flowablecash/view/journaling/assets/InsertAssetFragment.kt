@@ -27,6 +27,9 @@ class InsertAssetFragment :
     override val isNavigationVisible: Boolean
         get() = false
 
+    override val hasBottomNavigationView: Boolean
+        get() = false
+
     override fun setup() {
         super.setup()
         setSpinner()

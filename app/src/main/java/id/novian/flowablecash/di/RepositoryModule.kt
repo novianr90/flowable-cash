@@ -10,6 +10,10 @@ import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepository
 import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepositoryImpl
+import id.novian.flowablecash.data.local.repository.CashReceiptReportRepo
+import id.novian.flowablecash.data.local.repository.CashReceiptReportRepoImpl
+import id.novian.flowablecash.data.local.repository.PurchasesReportRepo
+import id.novian.flowablecash.data.local.repository.PurchasesReportRepoImpl
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepository
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepositoryImpl
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
@@ -47,6 +51,18 @@ object RepositoryModule {
     @Singleton
     fun provideBalanceLocalRepository(database: AppDatabase): BalanceSheetLocalRepository {
         return BalanceSheetLocalRepositoryImpl(database.balanceSheetDao())
+    }
+
+    @Singleton
+    @Provides
+    fun providePurchasesReportLocalRepo(database: AppDatabase): PurchasesReportRepo {
+        return PurchasesReportRepoImpl(database.purchasesDao())
+    }
+
+    @Singleton
+    @Provides
+    fun provideCashReceiptLocalRepo(database: AppDatabase): CashReceiptReportRepo {
+        return CashReceiptReportRepoImpl(database.cashReceiptDao())
     }
 
     @Provides
@@ -90,17 +106,20 @@ object RepositoryModule {
     @Provides
     fun provideCashReceiptJournalRepo(
         repo: MainRemoteRepository,
+        local: CashReceiptReportRepo
     ): CashReceiptJournalRepository {
         return CashReceiptJournalRepositoryImpl(
             repo = repo,
+            local = local
         )
     }
 
     @Singleton
     @Provides
     fun providePurchasesJournalRepository(
-        repo: MainRemoteRepository
+        repo: MainRemoteRepository,
+        local: PurchasesReportRepo
     ): PurchasesJournalRepository {
-        return PurchasesJournalRepositoryImpl(repo)
+        return PurchasesJournalRepositoryImpl(repo, local)
     }
 }

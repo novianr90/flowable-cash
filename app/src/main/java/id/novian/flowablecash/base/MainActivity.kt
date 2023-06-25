@@ -1,5 +1,6 @@
 package id.novian.flowablecash.base
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -9,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
 import id.novian.flowablecash.databinding.ActivityMainBinding
+import id.novian.flowablecash.view.journaling.record.RecordActivity
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setBottomNavigation()
+        setFabRecord()
     }
 
     private fun setBottomNavigation() {
@@ -42,5 +45,12 @@ class MainActivity : AppCompatActivity() {
             return@setOnItemSelectedListener true
         }
 
+    }
+
+    private fun setFabRecord() {
+        binding.fabRecord.setOnClickListener {
+            val intent = Intent(this, RecordActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
