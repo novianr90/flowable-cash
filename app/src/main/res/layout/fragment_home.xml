@@ -72,77 +72,19 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/llRvItemTransactionList"
-        app:layout_constraintTop_toBottomOf="@id/sort_view">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:elevation="8dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp">
-
-                    <ImageView
-                        android:id="@+id/ivSearch"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-
-                        android:src="@drawable/ic_search"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <EditText
-                        android:id="@+id/etSearch"
-                        style="@style/NoUnderlineEditText"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="8dp"
-                        android:hint="Cari Transaksi"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivSearch"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="TouchTargetSizeCheck" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/llRvItemTransactionList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/search_view">
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sort_view">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvItemTransactionList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="12dp"
-            app:layout_constraintTop_toBottomOf="@id/search_view"
             tools:listitem="@layout/transaction_item" />
     </LinearLayout>
 

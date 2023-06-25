@@ -1,7 +1,6 @@
 package id.novian.flowablecash.view.home
 
 import android.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,19 +40,23 @@ class HomeFragment :
     override fun setup() {
         super.setup()
         getTransactions()
+
+        // RecyclerView Logic
         setListAdapter()
         setupRecyclerView()
-        observe()
+
+        // Sort Use case
         setSpinnerSortDate()
+
+        // Observe All the Data
+        observe()
     }
 
     private fun setListAdapter() {
-        Log.d("DATA", "Data size in list adapter is ${transactionList.size}")
         transactionListAdapter = TransactionListAdapter(::showDialog)
     }
 
     private fun setSpinnerSortDate() {
-        Log.d("DATA", "Data size in spinner setup is ${transactionList.size}")
         spinnerSortDate = binding.spinnerSortDate
         arrayAdapter = ArrayAdapter.createFromResource(
             requireContext(),
@@ -65,7 +68,6 @@ class HomeFragment :
     }
 
     private fun spinnerSortedDateListener(): AdapterView.OnItemSelectedListener {
-        Log.d("DATA", "Data size in spinner listener is ${transactionList.size}")
         return object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
@@ -134,20 +136,11 @@ class HomeFragment :
         }
     }
 
-    private fun setSortOptionsWhenAppFreshlyOpened(transactionList: List<TransactionDomain>) {
-        val today = viewModel.calendarHelper.getCurrentDate()
-
-        val filteredList = transactionList.filter { it.transactionDate == today }
-        transactionListAdapter.submitList(filteredList)
-    }
-
     private fun observe() {
-        Log.d("DATA", "Data size in observe method is ${transactionList.size}")
         with(viewModel) {
 
             dataTransactions.observe(viewLifecycleOwner) { newList ->
                 transactionList.addAll(newList)
-                Log.d("DATA", "Data size in when is ${transactionList.size}")
 
                 setSpinnerSortDate()
             }
@@ -173,7 +166,6 @@ class HomeFragment :
 
     private fun getTransactions() {
         viewModel.getListOfTransactions()
-        Log.d("DATA", "Data size in get method is ${transactionList.size}")
     }
 
     private fun showDialog(details: TransactionDomain) {
