@@ -1,5 +1,6 @@
 package id.novian.flowablecash.helpers
 
+import android.util.Log
 import id.novian.flowablecash.data.AccountName
 import id.novian.flowablecash.data.FeeType
 import id.novian.flowablecash.data.TransactionType
@@ -13,8 +14,12 @@ import java.util.Locale
 object Helpers {
 
     fun numberFormatter(number: Int?): String {
-        val formatter = DecimalFormat("#,###,###")
-        return formatter.format(number)
+        return if (number != null && number != 0) {
+            val formatter = DecimalFormat("#,###,###")
+            formatter.format(number)
+        } else {
+            ""
+        }
     }
 
     fun transactionTypeDecider(value: String): TransactionType {

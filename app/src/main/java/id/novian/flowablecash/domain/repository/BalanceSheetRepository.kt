@@ -1,5 +1,6 @@
 package id.novian.flowablecash.domain.repository
 
+import android.util.Log
 import com.google.gson.Gson
 import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepository
@@ -18,7 +19,7 @@ interface BalanceSheetRepository {
     fun updateBalanceSheet(
         balance: AccountBalance,
         accountName: String
-    ): Observable<BalanceSheetDomain>
+    ): Observable<Unit>
 }
 
 class BalanceSheetRepositoryImpl(
@@ -55,10 +56,10 @@ class BalanceSheetRepositoryImpl(
     override fun updateBalanceSheet(
         balance: AccountBalance,
         accountName: String
-    ): Observable<BalanceSheetDomain> {
+    ): Observable<Unit> {
         val balanceJson = gson.toJson(balance)
         return remote.updateBalanceSheet(accountName, balanceJson)
-            .map { data -> remoteMapper.mapToDomain(data) }
+            .doOnError { Log.d("REPO", "KONTOL") }
             .doOnNext {
                 local.updateBalanceSheetByAccountName(accountName, balanceJson)
             }

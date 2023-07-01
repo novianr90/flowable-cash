@@ -26,8 +26,8 @@
     <string name="txt_fee_type">Fee Type</string>
     <string name="txt_fee">Fee</string>
     <string name="txt_masukkan_biaya_penjualan_pembelian">Masukkan biaya penjualan/pembelian</string>
-    <string name="txt_cash_receipt_journal">Cash Receipt Journal</string>
-    <string name="txt_purchases_journal">Purchases Journal</string>
+    <string name="txt_cash_receipt_journal">Jurnal Penjualan</string>
+    <string name="txt_purchases_journal">Jurnal Pembelian</string>
     <string name="txt_edit_your_balance_sheet">Edit your balance sheet</string>
     <string name="txt_update_your_balance_sheet">Update your balance sheet</string>
     <string name="txt_add_edit_transactions_accounts">Add/Edit Transactions/Accounts</string>
@@ -35,6 +35,7 @@
     <string name="txt_transactiontotal">TransactionTotal</string>
     <string name="txt_transactiondate">TransactionDate</string>
     <string name="txt_transactionname">TransactionName</string>
+    <string name="txt_neraca_saldo">Neraca Saldo</string>
     <string-array name="transaction_type">
         <item>Purchase</item>
         <item>Sale</item>

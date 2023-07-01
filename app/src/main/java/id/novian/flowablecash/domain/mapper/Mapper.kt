@@ -2,6 +2,7 @@ package id.novian.flowablecash.domain.mapper
 
 
 import com.google.gson.Gson
+import id.novian.flowablecash.data.AccountName
 import id.novian.flowablecash.data.local.models.BalanceSheetLocal
 import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
@@ -81,7 +82,7 @@ class BalanceSheetMapper : Mapper<BalanceSheet, BalanceSheetDomain> {
         return BalanceSheetDomain(
             id = model.balanceSheetId,
             accountNo = model.accountNo,
-            accountName = Helpers.stringToAccountName(model.accountName),
+            accountName = stringToAccountName(model.accountName),
             balance = model.accountBalance,
             createdAt = model.createdAt,
             updatedAt = model.updatedAt
@@ -92,11 +93,47 @@ class BalanceSheetMapper : Mapper<BalanceSheet, BalanceSheetDomain> {
         return BalanceSheet(
             balanceSheetId = domain.id,
             accountNo = domain.accountNo,
-            accountName = Helpers.accountNameToString(domain.accountName),
+            accountName = accountNameToString(domain.accountName),
             accountBalance = domain.balance,
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt
         )
+    }
+
+    private fun stringToAccountName(value: String): AccountName {
+        return when (value) {
+            "Kas" -> AccountName.KAS
+            "Persediaan Barang Dagang" -> AccountName.PERSEDIAANBARANGDAGANG
+            "Perlengkapan" -> AccountName.PERLENGKAPAN
+            "Hutang Dagang" -> AccountName.HUTANGDAGANG
+            "Modal" -> AccountName.MODALOWNER
+            "Laba Disimpan" -> AccountName.LABADISIMPAN
+            "Mengambil Laba" -> AccountName.PRIVE
+            "Penjualan" -> AccountName.PENJUALAN
+            "Pembelian" -> AccountName.PEMBELIAN
+            "Beban Penjualan" -> AccountName.BEBANPENJUALAN
+            "Beban Pembelian" -> AccountName.BEBANPEMBELIAN
+            "Akumulasi Penyusutan Perlengkapan" -> AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN
+            else -> AccountName.UNKNOWN
+        }
+    }
+
+    private fun accountNameToString(accountName: AccountName): String {
+        return when (accountName) {
+            AccountName.KAS -> "Kas"
+            AccountName.PERSEDIAANBARANGDAGANG -> "Persediaan Barang Dagang"
+            AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN -> "Akumulasi Penyusutan Perlengkapan"
+            AccountName.PERLENGKAPAN -> "Perlengkapan"
+            AccountName.HUTANGDAGANG -> "Hutang Dagang"
+            AccountName.MODALOWNER -> "Modal"
+            AccountName.LABADISIMPAN -> "Laba Disimpan"
+            AccountName.PRIVE -> "Mengambil Laba"
+            AccountName.PENJUALAN -> "Penjualan"
+            AccountName.PEMBELIAN -> "Pembelian"
+            AccountName.BEBANPENJUALAN -> "Beban Penjualan"
+            AccountName.BEBANPEMBELIAN -> "Beban Pembelian"
+            else -> "Unknown"
+        }
     }
 }
 

@@ -21,7 +21,7 @@ interface BalanceSheetService {
     fun updateBalanceSheet(
         @Part("account_name") accountName: RequestBody,
         @Part("account_balance") balance: RequestBody
-    ): Observable<BalanceSheet>
+    ): Observable<Unit>
 
     @GET(Endpoints.BASE_BALANCE_SHEET + "/")
     fun getBalanceSheetByAccountName(

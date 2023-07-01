@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_mainReport_to_balanceSheetFragment"
             app:destination="@id/balanceSheetFragment" />
+        <action
+            android:id="@+id/action_mainReport_to_ledger"
+            app:destination="@id/ledger" />
     </fragment>
     <fragment
         android:id="@+id/cashReceiptJournal"
@@ -60,4 +63,9 @@
         android:name="id.novian.flowablecash.view.report.balance_sheet.BalanceSheetFragment"
         android:label="fragment_balance_sheet"
         tools:layout="@layout/fragment_balance_sheet" />
+    <fragment
+        android:id="@+id/ledger"
+        android:name="id.novian.flowablecash.view.report.ledger.Ledger"
+        android:label="fragment_ledger"
+        tools:layout="@layout/fragment_ledger" />
 </navigation>

@@ -19,7 +19,6 @@ import javax.inject.Named
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val transaction: TransactionRepository,
-    private val balanceSheet: BalanceSheetRepository,
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
     private val toast: CreateToast,
@@ -32,39 +31,11 @@ class HomeViewModel @Inject constructor(
     private val _onResult: MutableLiveData<Result> = MutableLiveData()
     val onResult: LiveData<Result> get() = _onResult
 
-    private val _dataBalanceSheet: MutableLiveData<List<BalanceSheetDomain>> = MutableLiveData()
-    val dataBalanceSheet: LiveData<List<BalanceSheetDomain>> = _dataBalanceSheet
-
     private val _dataTransactions: MutableLiveData<List<TransactionDomain>> = MutableLiveData()
     val dataTransactions: LiveData<List<TransactionDomain>> get() = _dataTransactions
 
-    private val _isFirstDataFetch: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isFirstDataFetch: LiveData<Boolean> get() = _isFirstDataFetch
-
     fun createToast(message: String) {
         toast.createToast(message, 0)
-    }
-
-    fun getBalanceSheet() {
-        val disposable = balanceSheet.getBalanceSheet()
-            .subscribeOn(schedulerIo)
-            .observeOn(schedulerMain)
-            .doOnSubscribe {
-                _onLoading.postValue(true)
-            }
-            .subscribe({
-                val sorted = it
-                    .sortedBy { data -> data.accountNo }
-                _dataBalanceSheet.postValue(sorted)
-                _onResult.postValue(Result.SUCCESS)
-            }, {
-                it.printStackTrace()
-                _onResult.postValue(Result.FAILED)
-                _onLoading.postValue(false)
-                errorMessage.postValue(it.message)
-            })
-
-        compositeDisposable.add(disposable)
     }
 
     fun getListOfTransactions() {
@@ -75,7 +46,6 @@ class HomeViewModel @Inject constructor(
                 val sorted = data.sortedBy { it.transactionDate }
                 _dataTransactions.postValue(sorted)
                 _onResult.postValue(Result.SUCCESS)
-                Log.d("HomeViewModel", "sorted Data size is ${sorted.size}")
             }, {
                 it.printStackTrace()
                 errorMessage.postValue(it.message)
@@ -100,9 +70,5 @@ class HomeViewModel @Inject constructor(
             })
 
         compositeDisposable.add(disposable)
-    }
-
-    fun setFirstDataFetch(value: Boolean) {
-        _isFirstDataFetch.value = value
     }
 }

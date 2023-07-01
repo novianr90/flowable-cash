@@ -32,10 +32,31 @@ class CashReceiptAdapter : BaseAdapter<CashReceiptJournal>() {
             with(binding) {
                 when (position) {
                     0 -> {
+
+                        val dateLayoutParams = tvDate.layoutParams as LinearLayout.LayoutParams
+                        val descriptionLayoutParams =
+                            tvDescriptionReceipt.layoutParams as LinearLayout.LayoutParams
+                        val debitLayoutParams =
+                            tvCashReceiptDebit.layoutParams as LinearLayout.LayoutParams
+                        val creditLayoutParams =
+                            tvCashReceiptCredit.layoutParams as LinearLayout.LayoutParams
+
+                        200.apply {
+                            dateLayoutParams.height = this
+                            descriptionLayoutParams.height = this
+                            debitLayoutParams.height = this
+                            creditLayoutParams.height = this
+                        }
+
                         tvDate.text = "Date"
                         tvDescriptionReceipt.text = "Description"
                         tvCashReceiptDebit.text = "Debit\n(Kas)"
                         tvCashReceiptCredit.text = "Credit\n(Penjualan)"
+
+                        tvDate.layoutParams = dateLayoutParams
+                        tvDescriptionReceipt.layoutParams = descriptionLayoutParams
+                        tvCashReceiptDebit.layoutParams = debitLayoutParams
+                        tvCashReceiptCredit.layoutParams = creditLayoutParams
 
                         tvDate.setTypeface(null, Typeface.BOLD)
                         tvDescriptionReceipt.setTypeface(null, Typeface.BOLD)

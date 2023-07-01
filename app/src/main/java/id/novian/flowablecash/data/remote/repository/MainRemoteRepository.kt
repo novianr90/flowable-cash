@@ -55,7 +55,7 @@ interface MainRemoteRepository {
     fun updateBalanceSheet(
         newAccountName: String,
         newBalance: String
-    ): Observable<BalanceSheet>
+    ): Observable<Unit>
 }
 
 class MainRemoteRepositoryImpl(
@@ -145,7 +145,7 @@ class MainRemoteRepositoryImpl(
     override fun updateBalanceSheet(
         newAccountName: String,
         newBalance: String
-    ): Observable<BalanceSheet> {
+    ): Observable<Unit> {
         val accountName = newAccountName.toRequestBody(MultipartBody.FORM)
         val balance = newBalance.toRequestBody(MultipartBody.FORM)
 

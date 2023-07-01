@@ -16,6 +16,8 @@ import id.novian.flowablecash.data.local.repository.PurchasesReportRepo
 import id.novian.flowablecash.data.local.repository.PurchasesReportRepoImpl
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepository
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepositoryImpl
+import id.novian.flowablecash.data.local.repository.UpdateModelBalanceSheetLocalRepository
+import id.novian.flowablecash.data.local.repository.UpdateModelBalanceSheetLocalRepositoryImpl
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
@@ -63,6 +65,12 @@ object RepositoryModule {
     @Provides
     fun provideCashReceiptLocalRepo(database: AppDatabase): CashReceiptReportRepo {
         return CashReceiptReportRepoImpl(database.cashReceiptDao())
+    }
+
+    @Singleton
+    @Provides
+    fun provideUpdateModelBalanceSheetLocalRepo(database: AppDatabase): UpdateModelBalanceSheetLocalRepository {
+        return UpdateModelBalanceSheetLocalRepositoryImpl(database.updateBalanceSheetDao())
     }
 
     @Provides

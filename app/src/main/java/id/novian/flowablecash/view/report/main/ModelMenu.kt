@@ -8,7 +8,8 @@ data class ModelMenu(
 )
 
 val menuReportItems = listOf(
-    ModelMenu("Cash Receipt Journal", R.drawable.ic_cash_receipt),
-    ModelMenu("Purchases Journal", R.drawable.ic_purchases_journal),
-    ModelMenu("Balance Sheet", R.drawable.ic_balance_sheet),
+    ModelMenu("Jurnal Penjualan", R.drawable.ic_cash_receipt),
+    ModelMenu("Jurnal Pembelian", R.drawable.ic_purchases_journal),
+    ModelMenu("Neraca Saldo", R.drawable.ic_balance_sheet),
+    ModelMenu("Buku Besar", R.drawable.ic_book_ledger)
 )

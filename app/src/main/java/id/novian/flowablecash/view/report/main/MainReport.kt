@@ -46,9 +46,10 @@ class MainReport : BaseFragment<FragmentMainReportBinding>() {
 
     private fun onClickOnItem(journalType: String) {
         when (journalType) {
-            "Cash Receipt Journal" -> moveTo(R.id.action_mainReport_to_cashReceiptJournal)
-            "Purchases Journal" -> moveTo(R.id.action_mainReport_to_purchasesJournal)
-            "Balance Sheet" -> moveTo(R.id.action_mainReport_to_balanceSheetFragment)
+            "Jurnal Penjualan" -> moveTo(R.id.action_mainReport_to_cashReceiptJournal)
+            "Jurnal Pembelian" -> moveTo(R.id.action_mainReport_to_purchasesJournal)
+            "Neraca Saldo" -> moveTo(R.id.action_mainReport_to_balanceSheetFragment)
+            "Buku Besar" -> moveTo(R.id.action_mainReport_to_ledger)
         }
     }
 }

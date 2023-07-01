@@ -1,14 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".view.report.balance_sheet.BalanceSheetFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/tv_balance_sheet_journal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/txt_neraca_saldo"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_item_balance_sheet_journal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                tools:listitem="@layout/balance_sheet_table_item" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:text="Total"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:gravity="center_horizontal|bottom"
+                    android:background="@drawable/background_table_bordered"/>
+
+                <TextView
+                    android:id="@+id/tvDebit"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:text="Data 2"
+                    android:layout_weight="2"
+                    android:textSize="15sp"
+                    android:gravity="start|bottom"
+                    android:background="@drawable/background_table_bordered"/>
+
+                <TextView
+                    android:id="@+id/tvCredit"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:text="Data 3"
+                    android:layout_weight="2"
+                    android:textSize="15sp"
+                    android:gravity="start|bottom"
+                    android:background="@drawable/background_table_bordered"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</LinearLayout>

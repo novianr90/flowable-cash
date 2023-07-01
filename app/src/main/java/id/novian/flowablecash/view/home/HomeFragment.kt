@@ -36,6 +36,7 @@ class HomeFragment :
     private lateinit var arrayAdapter: ArrayAdapter<CharSequence>
 
     private val transactionList = mutableListOf<TransactionDomain>()
+    private val filteredList = mutableListOf<TransactionDomain>()
 
     override fun setup() {
         super.setup()
@@ -70,59 +71,62 @@ class HomeFragment :
     private fun spinnerSortedDateListener(): AdapterView.OnItemSelectedListener {
         return object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                filteredList.clear()
 
                 when (p0?.getItemAtPosition(p2).toString()) {
                     "Hari Ini" -> {
-                        val filteredList =
-                            transactionList.filter { it.transactionDate == viewModel.calendarHelper.getCurrentDate() }
+                        filteredList.clear()
+                        filteredList.addAll(transactionList.filter { it.transactionDate == viewModel.calendarHelper.getCurrentDate() })
                         transactionListAdapter.submitList(filteredList)
                     }
 
                     "Kemarin" -> {
-                        val filteredList =
-                            transactionList.filter { it.transactionDate == viewModel.calendarHelper.getYesterdayDate() }
+                        filteredList.clear()
+                        filteredList.addAll(transactionList.filter { it.transactionDate == viewModel.calendarHelper.getYesterdayDate() })
                         transactionListAdapter.submitList(filteredList)
                     }
 
                     "7 Hari Lalu" -> {
-                        val filteredList = Helpers.filterTransactionsByDateRange(
+                        filteredList.clear()
+                        filteredList.addAll(Helpers.filterTransactionsByDateRange(
                             transactionList,
                             viewModel.calendarHelper.getLast7DaysRange()
-                        )
+                        ))
                         transactionListAdapter.submitList(filteredList)
                     }
-
                     "30 Hari Lalu" -> {
-                        val filteredList = Helpers.filterTransactionsByDateRange(
+                        filteredList.clear()
+                        filteredList.addAll(Helpers.filterTransactionsByDateRange(
                             transactionList,
                             viewModel.calendarHelper.getLast30DaysRange()
-                        )
+                        ))
                         transactionListAdapter.submitList(filteredList)
                     }
-
                     "Bulan Ini" -> {
-                        val filteredList = Helpers.filterTransactionsByDateRange(
+                        filteredList.clear()
+                        filteredList.addAll(Helpers.filterTransactionsByDateRange(
                             transactionList,
                             viewModel.calendarHelper.getCurrentMonthRange()
-                        )
+                        ))
                         transactionListAdapter.submitList(filteredList)
                     }
-
                     "Bulan Lalu" -> {
-                        val filteredList = Helpers.filterTransactionsByDateRange(
+                        filteredList.clear()
+                        filteredList.addAll(Helpers.filterTransactionsByDateRange(
                             transactionList,
                             viewModel.calendarHelper.getLastMonthRange()
-                        )
+                        ))
                         transactionListAdapter.submitList(filteredList)
                     }
-
                 }
+                recyclerView.scrollToPosition(0)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                val filteredList =
-                    transactionList.filter { it.transactionDate == viewModel.calendarHelper.getCurrentDate() }
+                filteredList.clear()
+                filteredList.addAll(transactionList.filter { it.transactionDate == viewModel.calendarHelper.getCurrentDate() })
                 transactionListAdapter.submitList(filteredList)
+                recyclerView.scrollToPosition(0)
             }
         }
     }
