@@ -15,15 +15,7 @@ class CashReceiptReportRepoImpl(
     private val dao: CashReceiptReportDao
 ) : CashReceiptReportRepo {
     override fun insertCashReceiptAccount(query: CashReceiptReport) {
-        val newQuery = CashReceiptReport(
-            id = query.id,
-            date = query.date,
-            description = query.description,
-            cashReceiptDebit = query.cashReceiptDebit,
-            cashReceiptCredit = query.cashReceiptCredit,
-            accountAlreadyInserted = 1
-        )
-        return dao.insertCashReceiptReport(newQuery)
+        return dao.insertCashReceiptReport(query)
     }
 
     override fun deleteCashReceiptReport() {

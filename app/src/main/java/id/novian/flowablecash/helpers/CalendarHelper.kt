@@ -11,6 +11,8 @@ interface CalendarHelper {
     fun getLast30DaysRange(): String
     fun getCurrentMonthRange(): String
     fun getLastMonthRange(): String
+    fun getMonth(): Int
+    fun getMonthInList(date: String): Int
 }
 
 class CalendarHelperImpl(
@@ -81,6 +83,23 @@ class CalendarHelperImpl(
 
         resetToCurrentDate()
         return response
+    }
+
+    override fun getMonth(): Int {
+        val month = calendar.get(Calendar.MONTH) + 1
+
+        resetToCurrentDate()
+        return month
+    }
+
+    override fun getMonthInList(date: String): Int {
+        val dateObj = dateFormat.parse(date)
+        calendar.time = dateObj
+        val monthInDate = calendar.get(Calendar.MONTH) + 1
+
+        resetToCurrentDate()
+
+        return monthInDate
     }
 
     private fun resetToCurrentDate() {

@@ -10,6 +10,5 @@ data class CashReceiptReport(
     @ColumnInfo(name = "cash_receipt_date") val date: String,
     @ColumnInfo(name = "cash_receipt_description") val description: String,
     @ColumnInfo(name = "cash_receipt_debit") val cashReceiptDebit: Int,
-    @ColumnInfo(name = "cash_receipt_credit") val cashReceiptCredit: Int,
-    val accountAlreadyInserted: Int
+    @ColumnInfo(name = "cash_receipt_credit") val cashReceiptCredit: Int
 )

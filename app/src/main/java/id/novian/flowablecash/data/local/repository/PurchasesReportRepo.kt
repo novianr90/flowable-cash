@@ -18,15 +18,7 @@ class PurchasesReportRepoImpl(
     private val dao: PurchasesReportDao
 ) : PurchasesReportRepo {
     override fun insertPurchasesAccounts(query: PurchasesReport) {
-        val newQuery = PurchasesReport(
-            id = query.id,
-            date = query.date,
-            description = query.description,
-            purchasesDebit = query.purchasesDebit,
-            purchasesCredit = query.purchasesCredit,
-            accountAlreadyInserted = 1
-        )
-        return dao.insertNewAccountToPurchases(newQuery)
+        return dao.insertNewAccountToPurchases(query)
     }
 
     override fun deletePurchasesReport() {

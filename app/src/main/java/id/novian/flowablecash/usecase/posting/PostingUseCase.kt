@@ -1,84 +1,69 @@
 package id.novian.flowablecash.usecase.posting
 
-import com.google.gson.Gson
-import id.novian.flowablecash.data.local.models.BalanceSheetLocal
-import id.novian.flowablecash.data.local.models.UpdateModelBalanceSheet
-import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepository
-import id.novian.flowablecash.data.local.repository.UpdateModelBalanceSheetLocalRepository
+import android.util.Log
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
-import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
-import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
-import id.novian.flowablecash.domain.models.BalanceSheetDomain
-import id.novian.flowablecash.domain.repository.BalanceSheetRepository
+import id.novian.flowablecash.data.remote.models.posting.Postings
+import id.novian.flowablecash.data.remote.repository.PostingRepository
+import id.novian.flowablecash.domain.models.AccountDomain
+import id.novian.flowablecash.domain.repository.AccountsRepository
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Maybe
 
 interface PostingUseCase {
-    // Create to local for update balance sheet
-    fun insertUpdateBalanceSheetToStorage(query: UpdateModelBalanceSheet): Completable
-
-    // Update for updating one particular field on models field (alreadyUpdated)
-    fun setUpdateBalanceSheet(accountNameDebit: String, accountNameCredit: String): Observable<Unit>
-
     // Update to Remote with new data (local and remote additional)
-    fun updateBalanceSheetToRemote(accountName: String, balance: AccountBalance): Observable<Unit>
+    fun updateAccountsToRemote(accountName: String, balance: AccountBalance, month: Int): Completable
 
-    // Local for update
-    fun getUpdateModelBalanceSheetDebit(accountNameDebit: String): Observable<UpdateModelBalanceSheet>
-    fun getUpdateBalanceSheetCredit(accountNameCredit: String): Observable<UpdateModelBalanceSheet>
+    // Update Special Account to remote (override data on remote)
+    fun updateSpecialAccountsToRemote(accountName: String, balance: AccountBalance, month: Int): Completable
 
     // Remote to get current balance sheet for update back to remote
-    fun getBalanceSheetCurrentOnRemote(accountName: String): Observable<BalanceSheetDomain>
+    fun getAccounts(accountName: String, month: Int): Maybe<AccountDomain>
 
-    // (Opt) Delete specific account name based on debit or credit
-    fun deleteSpecificDebitAccountName(accountNameDebit: String): Observable<Unit>
-    fun deleteSpecificCreditAccountName(accountNameCredit: String): Observable<Unit>
+    // Get Tracker
+    fun getTracker(trxId: Int, accId: Int): Maybe<Postings>
+
+    // Record Tracker
+    fun recordNewPostingAct(trxId: Int, accId: Int): Completable
 }
 
 class PostingUseCaseImpl(
-    private val local: UpdateModelBalanceSheetLocalRepository,
-    private val remote: BalanceSheetRepository,
-    private val gson: Gson
+    private val remote: AccountsRepository,
+    private val postings: PostingRepository
 ): PostingUseCase {
-    override fun insertUpdateBalanceSheetToStorage(query: UpdateModelBalanceSheet): Completable {
-        return Completable.fromAction {
-            local.insertNewQueryForUpdateBalanceSheet(query)
-        }
+    override fun updateAccountsToRemote(accountName: String, balance: AccountBalance, month: Int): Completable {
+        return remote.updateBalance(accountName = accountName, balance = balance, month = month)
+            .doOnSubscribe { Log.i("UpdateRe", "Subsc") }
+            .doOnComplete { Log.i("UpdateRe", "Comple") }
+            .doOnError { Log.i("UpdateRe", "Error with ${it.message}") }
     }
 
-    override fun setUpdateBalanceSheet(
-        accountNameDebit: String,
-        accountNameCredit: String
-    ): Observable<Unit> {
-        return local.setUpdateBalanceSheet(accountNameDebit = accountNameDebit, accountNameCredit = accountNameCredit)
-    }
-
-    override fun updateBalanceSheetToRemote(
+    override fun updateSpecialAccountsToRemote(
         accountName: String,
-        balance: AccountBalance
-    ): Observable<Unit> {
-        return remote.updateBalanceSheet(accountName = accountName, balance = balance)
-            .map {  }
+        balance: AccountBalance,
+        month: Int
+    ): Completable {
+       return remote.updateSpecialBalance(accountName = accountName, balance = balance, month = month)
     }
 
-    override fun getUpdateModelBalanceSheetDebit(accountNameDebit: String): Observable<UpdateModelBalanceSheet> {
-        return local.getDebitAccountNameForUpdate(accountNameDebit)
+    override fun getAccounts(accountName: String, month: Int): Maybe<AccountDomain> {
+        return remote.getAccountByAccountName(accountName, month = month)
+            .doOnSubscribe { Log.i("GetAcc", "Subsc") }
+            .doOnComplete { Log.i("GetAcc", "Comple") }
+            .doOnError { Log.i("GetAcc", "Error with ${it.message}") }
     }
 
-    override fun getUpdateBalanceSheetCredit(accountNameCredit: String): Observable<UpdateModelBalanceSheet> {
-        return local.getCreditAccountNameForUpdate(accountNameCredit)
+    override fun getTracker(trxId: Int, accId: Int): Maybe<Postings> {
+        return postings.getPostingByTrxIdAndAccId(trxId, accId)
+            .doOnSubscribe { Log.i("GetTrac", "Subsc") }
+            .doOnComplete { Log.i("GetTrac", "Comple") }
+            .doOnError { Log.i("GetTrac", "Error with ${it.message}") }
     }
 
-    override fun getBalanceSheetCurrentOnRemote(accountName: String): Observable<BalanceSheetDomain> {
-        return remote.getBalanceSheetByAccountName(accountName = accountName)
+    override fun recordNewPostingAct(trxId: Int, accId: Int): Completable {
+        Log.i("PostingTracker", "Invoked")
+        return postings.recordNewPosting(trxId, accId)
+            .doOnSubscribe { Log.i("PostingTracker", "Subsc") }
+            .doOnComplete { Log.i("PostingTracker", "Comple") }
+            .doOnError { Log.i("PostingTracker", "Error with ${it.message}") }
     }
-
-    override fun deleteSpecificDebitAccountName(accountNameDebit: String): Observable<Unit> {
-        return local.deleteSpecificAccountDebit(accountNameDebit)
-    }
-
-    override fun deleteSpecificCreditAccountName(accountNameCredit: String): Observable<Unit> {
-        return local.deleteSpecificAccountCredit(accountNameCredit)
-    }
-
 }

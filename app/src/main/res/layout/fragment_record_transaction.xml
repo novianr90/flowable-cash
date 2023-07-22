@@ -24,7 +24,7 @@
         android:focusable="true"
         app:cardCornerRadius="12dp"
         app:cardElevation="12dp"
-        app:layout_constraintBottom_toTopOf="@id/cv_buying"
+        app:layout_constraintBottom_toTopOf="@id/cv_selling"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:foreground="?android:attr/selectableItemBackground"
@@ -61,50 +61,6 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_buying"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="12dp"
-        app:layout_constraintBottom_toTopOf="@id/cv_selling"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:layout_constraintTop_toBottomOf="@id/cv_asset">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/iv_buying"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/ic_buying"
-                app:layout_constraintBottom_toTopOf="@id/tv_buying"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_buying"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_buying"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_buying" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
         android:id="@+id/cv_selling"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -116,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:foreground="?android:attr/selectableItemBackground"
-        app:layout_constraintTop_toBottomOf="@id/cv_buying">
+        app:layout_constraintTop_toBottomOf="@id/cv_asset">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

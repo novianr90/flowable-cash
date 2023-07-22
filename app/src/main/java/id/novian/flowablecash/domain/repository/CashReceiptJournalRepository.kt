@@ -17,7 +17,6 @@ class CashReceiptJournalRepositoryImpl(
     override fun getJournal(): Observable<List<CashReceiptJournal>> {
         return repo.getAllSaleTypeTransactions()
             .map { listOfSale ->
-
                 val listOfCashReceipt: List<CashReceiptJournal> = listOfSale.transaction
                     .sortedBy { it.date }
                     .map { data ->
@@ -27,7 +26,6 @@ class CashReceiptJournalRepositoryImpl(
                             description = data.description,
                             debit = data.total,
                             credit = data.total,
-                            accountAlreadyInserted = 0
                         )
                         new
                     }
@@ -43,22 +41,20 @@ class CashReceiptJournalRepositoryImpl(
                                 date = it.date,
                                 debit = it.cashReceiptDebit,
                                 credit = it.cashReceiptCredit,
-                                accountAlreadyInserted = it.accountAlreadyInserted
                             )
                         }
                         newList
                     }
             }
             .doAfterNext { listOfCashReceipt ->
-                val filteredList = listOfCashReceipt.filter { it.accountAlreadyInserted == 0 }
-                val newList = filteredList.map {
+
+                val newList = listOfCashReceipt.map {
                     CashReceiptReport(
                         id = it.id,
                         date = it.date,
                         description = it.description,
                         cashReceiptDebit = it.debit,
                         cashReceiptCredit = it.credit,
-                        accountAlreadyInserted = it.accountAlreadyInserted
                     )
                 }
 

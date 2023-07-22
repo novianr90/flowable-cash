@@ -11,6 +11,7 @@ interface TransactionLocalRepository {
     fun getAllTransaction(): Observable<List<TransactionLocal>>
     fun getAllTypeTransaction(queryType: String): Observable<List<TransactionLocal>>
     fun getTransactionById(id: Int): Observable<TransactionLocal>
+    fun getAllTransactionByType(type: String): Observable<List<TransactionLocal>>
 }
 
 class TransactionLocalRepositoryImpl(
@@ -38,6 +39,10 @@ class TransactionLocalRepositoryImpl(
 
     override fun getTransactionById(id: Int): Observable<TransactionLocal> {
         return dao.getTransactionById(id)
+    }
+
+    override fun getAllTransactionByType(type: String): Observable<List<TransactionLocal>> {
+        return dao.getAllTransactionByType(type)
     }
 
 }

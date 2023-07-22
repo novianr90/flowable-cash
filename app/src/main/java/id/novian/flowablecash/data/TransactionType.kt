@@ -1,9 +1,9 @@
 package id.novian.flowablecash.data
 
 enum class TransactionType {
-    PURCHASE, SALE, UNKNOWN
+    PEMBELIAN, PENJUALAN, PERLENGKAPAN, UNKNOWN
 }
 
 enum class FeeType {
-    PURCHASE, SALE, UNKNOWN
+    PEMBELIAN, PENJUALAN, PERLENGKAPAN, UNKNOWN
 }

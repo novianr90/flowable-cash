@@ -24,6 +24,8 @@ import id.novian.flowablecash.helpers.Result
 class HomeFragment :
     BaseFragment<FragmentHomeBinding>() {
 
+    private var isExecuted = false
+
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
         get() = FragmentHomeBinding::inflate
 
@@ -40,6 +42,9 @@ class HomeFragment :
 
     override fun setup() {
         super.setup()
+
+        viewModel.viewModelInitialized()
+
         getTransactions()
 
         // RecyclerView Logic
@@ -51,6 +56,11 @@ class HomeFragment :
 
         // Observe All the Data
         observe()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isExecuted = false
     }
 
     private fun setListAdapter() {
@@ -144,6 +154,7 @@ class HomeFragment :
         with(viewModel) {
 
             dataTransactions.observe(viewLifecycleOwner) { newList ->
+                transactionList.clear()
                 transactionList.addAll(newList)
 
                 setSpinnerSortDate()

@@ -1,16 +1,21 @@
 package id.novian.flowablecash.data.remote.repository
 
+import android.util.Log
+import com.google.gson.Gson
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheets
+import id.novian.flowablecash.data.remote.models.input.AccountInfo
+import id.novian.flowablecash.data.remote.models.input.InputCreateAccounts
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.data.remote.models.transaction.Transactions
 import id.novian.flowablecash.data.remote.service.BalanceSheetService
 import id.novian.flowablecash.data.remote.service.PurchaseService
 import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 
 interface MainRemoteRepository {
@@ -23,7 +28,7 @@ interface MainRemoteRepository {
     fun getSaleTypeTransaction(id: Int): Observable<Transaction>
 
     // Transaction
-    fun getTransactions(): Observable<Transactions>
+    fun getTransactions(): Maybe<Transactions>
     fun getTransactionById(id: Int): Observable<Transaction>
 
     fun postTransaction(
@@ -33,7 +38,8 @@ interface MainRemoteRepository {
         fee: Int,
         feeType: String,
         type: String,
-        description: String
+        description: String,
+        payment: String
     ): Observable<Unit>
 
     fun updateTransaction(
@@ -44,25 +50,42 @@ interface MainRemoteRepository {
         fee: Int,
         feeType: String,
         type: String,
-        description: String
-    ): Observable<Transaction>
+        description: String,
+        alreadyPosted: Int
+    ): Completable
 
     fun deleteTransaction(id: Int): Observable<Response<Unit>>
 
+    fun getAllTransactionByType(type: String): Maybe<Transactions>
+
     // Balance Sheet
-    fun getBalanceSheet(): Observable<BalanceSheets>
-    fun getBalanceSheet(accountName: String): Observable<BalanceSheet>
-    fun updateBalanceSheet(
-        newAccountName: String,
-        newBalance: String
-    ): Observable<Unit>
+    fun getAllAccounts(month: Int): Maybe<BalanceSheets>
+    fun getAccount(accountName: String, month: Int): Maybe<BalanceSheet>
+    fun updateAccount(
+        id: Int?,
+        accountName: String,
+        balance: AccountBalance,
+        month: Int
+    ): Completable
+    fun updateSpecialAccount(
+        id: Int? = null,
+        accountName: String,
+        balance: AccountBalance,
+        month: Int
+    ): Completable
+    fun recordNewAccounts(
+        accountName: String,
+        balance: AccountBalance,
+        month: Int
+    ): Completable
 }
 
 class MainRemoteRepositoryImpl(
     private val purchase: PurchaseService,
     private val sale: SaleService,
     private val transactions: TransactionService,
-    private val balanceSheet: BalanceSheetService
+    private val balanceSheet: BalanceSheetService,
+    private val gson: Gson
 ) : MainRemoteRepository {
     override fun getAllPurchaseTypeTransactions(): Observable<Transactions> {
         return purchase.getAllPurchaseTypeTransactions()
@@ -80,7 +103,7 @@ class MainRemoteRepositoryImpl(
         return sale.getSaleTypeTransaction(id)
     }
 
-    override fun getTransactions(): Observable<Transactions> {
+    override fun getTransactions(): Maybe<Transactions> {
         return transactions.getTransactions()
     }
 
@@ -95,7 +118,8 @@ class MainRemoteRepositoryImpl(
         fee: Int,
         feeType: String,
         type: String,
-        description: String
+        description: String,
+        payment: String
     ): Observable<Unit> {
         return transactions.postTransaction(
             name = name,
@@ -104,7 +128,8 @@ class MainRemoteRepositoryImpl(
             total = total,
             feeType = feeType,
             fee = fee,
-            desc = description
+            desc = description,
+            payment = payment
         )
     }
 
@@ -116,8 +141,9 @@ class MainRemoteRepositoryImpl(
         fee: Int,
         feeType: String,
         type: String,
-        description: String
-    ): Observable<Transaction> {
+        description: String,
+        alreadyPosted: Int
+    ): Completable {
         return transactions.updateTransaction(
             name = name,
             date = date,
@@ -127,6 +153,7 @@ class MainRemoteRepositoryImpl(
             id = id,
             feeType = feeType,
             fee = fee,
+            alreadyPosted = alreadyPosted
         )
     }
 
@@ -134,21 +161,51 @@ class MainRemoteRepositoryImpl(
         return transactions.deleteTransaction(id)
     }
 
-    override fun getBalanceSheet(): Observable<BalanceSheets> {
-        return balanceSheet.getBalanceSheets()
+    override fun getAllTransactionByType(type: String): Maybe<Transactions> {
+        return transactions.getAllTransactionByType(type)
     }
 
-    override fun getBalanceSheet(accountName: String): Observable<BalanceSheet> {
-        return balanceSheet.getBalanceSheetByAccountName(accountName)
+    override fun getAllAccounts(month: Int): Maybe<BalanceSheets> {
+        return balanceSheet.getAllAccounts(month)
     }
 
-    override fun updateBalanceSheet(
-        newAccountName: String,
-        newBalance: String
-    ): Observable<Unit> {
-        val accountName = newAccountName.toRequestBody(MultipartBody.FORM)
-        val balance = newBalance.toRequestBody(MultipartBody.FORM)
+    override fun getAccount(accountName: String, month: Int): Maybe<BalanceSheet> {
+        return balanceSheet.getAllAccountsByAccountName(account_name = accountName, month = month)
+    }
 
-        return balanceSheet.updateBalanceSheet(accountName, balance)
+    override fun updateAccount(
+        id: Int?,
+        accountName: String,
+        balance: AccountBalance,
+        month: Int
+    ): Completable {
+        val newQuery = AccountInfo(balanceSheetId = id, accountName = accountName, accountBalance = balance, accountMonth = month)
+        return balanceSheet.updateAccounts(newQuery)
+    }
+
+    override fun updateSpecialAccount(
+        id: Int?,
+        accountName: String,
+        balance: AccountBalance,
+        month: Int
+    ): Completable {
+        val newQuery = AccountInfo(accountName = accountName, accountBalance = balance, accountMonth = month, balanceSheetId = id)
+        return balanceSheet.updateSpecialAccounts(newQuery)
+    }
+
+    override fun recordNewAccounts(
+        accountName: String,
+        balance: AccountBalance,
+        month: Int
+    ): Completable {
+        val newQuery = InputCreateAccounts(accountName = accountName, balance = balance, month = month)
+        return balanceSheet.recordNewAccounts(newQuery)
+            .doOnComplete {
+                Log.d("MainRemote", "Invoked! $newQuery")
+            }
+            .doOnError {
+                it.printStackTrace()
+                Log.d("MainRemote", "Error! $newQuery")
+            }
     }
 }

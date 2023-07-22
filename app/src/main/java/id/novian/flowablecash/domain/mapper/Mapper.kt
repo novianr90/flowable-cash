@@ -2,15 +2,16 @@ package id.novian.flowablecash.domain.mapper
 
 
 import com.google.gson.Gson
-import id.novian.flowablecash.data.AccountName
-import id.novian.flowablecash.data.local.models.BalanceSheetLocal
+import id.novian.flowablecash.data.local.models.Accounts
 import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
-import id.novian.flowablecash.domain.models.BalanceSheetDomain
+import id.novian.flowablecash.domain.models.AccountDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.helpers.Helpers
+import id.novian.flowablecash.helpers.Helpers.accountNameToString
+import id.novian.flowablecash.helpers.Helpers.stringToAccountName
 import id.novian.flowablecash.helpers.Mapper
 
 class TransactionMapper : Mapper<Transaction, TransactionDomain> {
@@ -25,7 +26,9 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             createdAt = model.createdAt,
             updatedAt = model.updatedAt,
             fee = model.fee,
-            feeType = Helpers.feeTypeDecider(model.feeType)
+            feeType = Helpers.feeTypeDecider(model.feeType),
+            payment = model.payment,
+            alreadyPosted = model.alreadyPosted
         )
     }
 
@@ -40,7 +43,9 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt,
             fee = domain.fee,
-            feeType = Helpers.feeTypeChanger(domain.feeType)
+            feeType = Helpers.feeTypeChanger(domain.feeType),
+            payment = domain.payment,
+            alreadyPosted = domain.alreadyPosted
         )
     }
 }
@@ -57,7 +62,9 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             createdAt = model.createdAt,
             updatedAt = model.updatedAt,
             feeType = Helpers.feeTypeDecider(model.feeType),
-            fee = model.fee
+            fee = model.fee,
+            payment = model.payment,
+            alreadyPosted = model.alreadyPosted
         )
     }
 
@@ -72,97 +79,67 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt,
             fee = domain.fee,
-            feeType = Helpers.feeTypeChanger(domain.feeType)
+            feeType = Helpers.feeTypeChanger(domain.feeType),
+            payment = domain.payment,
+            alreadyPosted = domain.alreadyPosted
         )
     }
 }
 
-class BalanceSheetMapper : Mapper<BalanceSheet, BalanceSheetDomain> {
-    override fun mapToDomain(model: BalanceSheet): BalanceSheetDomain {
-        return BalanceSheetDomain(
+class AccountMapper : Mapper<BalanceSheet, AccountDomain> {
+    override fun mapToDomain(model: BalanceSheet): AccountDomain {
+        return AccountDomain(
             id = model.balanceSheetId,
             accountNo = model.accountNo,
             accountName = stringToAccountName(model.accountName),
             balance = model.accountBalance,
             createdAt = model.createdAt,
-            updatedAt = model.updatedAt
+            updatedAt = model.updatedAt,
+            month = model.month
         )
     }
 
-    override fun mapToModel(domain: BalanceSheetDomain): BalanceSheet {
+    override fun mapToModel(domain: AccountDomain): BalanceSheet {
         return BalanceSheet(
             balanceSheetId = domain.id,
             accountNo = domain.accountNo,
             accountName = accountNameToString(domain.accountName),
             accountBalance = domain.balance,
             createdAt = domain.createdAt,
-            updatedAt = domain.updatedAt
+            updatedAt = domain.updatedAt,
+            month = domain.month
         )
-    }
-
-    private fun stringToAccountName(value: String): AccountName {
-        return when (value) {
-            "Kas" -> AccountName.KAS
-            "Persediaan Barang Dagang" -> AccountName.PERSEDIAANBARANGDAGANG
-            "Perlengkapan" -> AccountName.PERLENGKAPAN
-            "Hutang Dagang" -> AccountName.HUTANGDAGANG
-            "Modal" -> AccountName.MODALOWNER
-            "Laba Disimpan" -> AccountName.LABADISIMPAN
-            "Mengambil Laba" -> AccountName.PRIVE
-            "Penjualan" -> AccountName.PENJUALAN
-            "Pembelian" -> AccountName.PEMBELIAN
-            "Beban Penjualan" -> AccountName.BEBANPENJUALAN
-            "Beban Pembelian" -> AccountName.BEBANPEMBELIAN
-            "Akumulasi Penyusutan Perlengkapan" -> AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN
-            else -> AccountName.UNKNOWN
-        }
-    }
-
-    private fun accountNameToString(accountName: AccountName): String {
-        return when (accountName) {
-            AccountName.KAS -> "Kas"
-            AccountName.PERSEDIAANBARANGDAGANG -> "Persediaan Barang Dagang"
-            AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN -> "Akumulasi Penyusutan Perlengkapan"
-            AccountName.PERLENGKAPAN -> "Perlengkapan"
-            AccountName.HUTANGDAGANG -> "Hutang Dagang"
-            AccountName.MODALOWNER -> "Modal"
-            AccountName.LABADISIMPAN -> "Laba Disimpan"
-            AccountName.PRIVE -> "Mengambil Laba"
-            AccountName.PENJUALAN -> "Penjualan"
-            AccountName.PEMBELIAN -> "Pembelian"
-            AccountName.BEBANPENJUALAN -> "Beban Penjualan"
-            AccountName.BEBANPEMBELIAN -> "Beban Pembelian"
-            else -> "Unknown"
-        }
     }
 }
 
 class BalanceSheetLocalMapper(
     private val gson: Gson
-): Mapper<BalanceSheetLocal, BalanceSheetDomain> {
-    override fun mapToDomain(model: BalanceSheetLocal): BalanceSheetDomain {
+): Mapper<Accounts, AccountDomain> {
+    override fun mapToDomain(model: Accounts): AccountDomain {
         val balance = gson.fromJson(model.balance, AccountBalance::class.java)
 
-        return BalanceSheetDomain(
+        return AccountDomain(
             id = model.id,
             accountNo = model.accountNo,
-            accountName = Helpers.stringToAccountName(model.accountName),
+            accountName = stringToAccountName(model.accountName),
             balance = balance,
             createdAt = model.createdAt,
-            updatedAt = model.updatedAt
+            updatedAt = model.updatedAt,
+            month = model.month
         )
     }
 
-    override fun mapToModel(domain: BalanceSheetDomain): BalanceSheetLocal {
+    override fun mapToModel(domain: AccountDomain): Accounts {
         val balanceJson = gson.toJson(domain.balance)
 
-        return BalanceSheetLocal(
+        return Accounts(
             id = domain.id,
             accountNo = domain.accountNo,
-            accountName = Helpers.accountNameToString(domain.accountName),
+            accountName = accountNameToString(domain.accountName),
             balance = balanceJson,
             createdAt = domain.createdAt,
-            updatedAt = domain.updatedAt
+            updatedAt = domain.updatedAt,
+            month = domain.month
         )
     }
 }

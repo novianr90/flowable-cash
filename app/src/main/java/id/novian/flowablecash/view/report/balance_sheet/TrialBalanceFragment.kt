@@ -8,21 +8,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.base.BaseFragment
 import id.novian.flowablecash.databinding.FragmentBalanceSheetBinding
-import id.novian.flowablecash.domain.models.BalanceSheetDomain
-import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.Result
 
 @AndroidEntryPoint
-class BalanceSheetFragment : BaseFragment<FragmentBalanceSheetBinding>() {
+class TrialBalanceFragment : BaseFragment<FragmentBalanceSheetBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentBalanceSheetBinding
         get() = FragmentBalanceSheetBinding::inflate
 
     override val isNavigationVisible: Boolean
         get() = false
 
-    private val viewModel: BalanceSheetViewModel by viewModels()
+    private val viewModel: TrialBalanceViewModel by viewModels()
 
-    private lateinit var sheetAdapter: BalanceSheetAdapter
+    private lateinit var sheetAdapter: TrialBalanceAdapter
 
     override fun setup() {
         super.setup()
@@ -34,11 +32,11 @@ class BalanceSheetFragment : BaseFragment<FragmentBalanceSheetBinding>() {
     }
 
     private fun getBalanceSheet() {
-        viewModel.getBalanceSheetJournal()
+        viewModel.getJournal()
     }
 
     private fun setAdapter() {
-        sheetAdapter = BalanceSheetAdapter()
+        sheetAdapter = TrialBalanceAdapter()
     }
 
     private fun setRecyclerView() {
@@ -54,8 +52,6 @@ class BalanceSheetFragment : BaseFragment<FragmentBalanceSheetBinding>() {
             dataBalanceSheet.observe(viewLifecycleOwner) {
                 val sortData = it.sortedBy { data -> data.accountNo }
                 sheetAdapter.submitList(sortData)
-
-                setTotalOfBalanceSheet(sortData)
 
                 Log.d("BalanceSheetFragment", "Data is: $it")
             }
@@ -75,19 +71,6 @@ class BalanceSheetFragment : BaseFragment<FragmentBalanceSheetBinding>() {
         viewModel.errMessage.observe(viewLifecycleOwner) {
             Log.d("BalanceSheetFragment", "Error Occurred! Message: $it")
         }
-    }
-
-    private fun setTotalOfBalanceSheet(data: List<BalanceSheetDomain>) {
-        var debit = 0
-        var credit = 0
-
-        for (i in data.indices) {
-            debit += data[i].balance.debit
-            credit += data[i].balance.credit
-        }
-
-        binding.tvDebit.text = Helpers.numberFormatter(debit)
-        binding.tvCredit.text = Helpers.numberFormatter(credit)
     }
 
 }

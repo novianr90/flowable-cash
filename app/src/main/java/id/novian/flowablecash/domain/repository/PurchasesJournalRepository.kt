@@ -24,8 +24,7 @@ class PurchasesJournalRepositoryImpl(
                             date = data.date,
                             description = data.description,
                             debit = data.total,
-                            credit = data.total,
-                            accountAlreadyInserted = 0
+                            credit = data.total
                         )
                         new
                     }
@@ -41,23 +40,19 @@ class PurchasesJournalRepositoryImpl(
                                 description = it.description,
                                 debit = it.purchasesDebit,
                                 credit = it.purchasesCredit,
-                                accountAlreadyInserted = it.accountAlreadyInserted
                             )
                         }
                         newList
                     }
             }
             .doAfterNext { listOfPurchases ->
-                val filteredList = listOfPurchases.filter { it.accountAlreadyInserted == 0 }
-
-                val newList = filteredList.map {
+                val newList = listOfPurchases.map {
                     PurchasesReport(
                         id = it.id,
                         date = it.date,
                         description = it.description,
                         purchasesDebit = it.debit,
                         purchasesCredit = it.credit,
-                        accountAlreadyInserted = it.accountAlreadyInserted
                     )
                 }
 

@@ -10,6 +10,5 @@ data class PurchasesReport(
     @ColumnInfo(name = "purchases_date") val date: String,
     @ColumnInfo(name = "purchases_description") val description: String,
     @ColumnInfo(name = "purchases_debit") val purchasesDebit: Int,
-    @ColumnInfo(name = "purchases_credit") val purchasesCredit: Int,
-    val accountAlreadyInserted: Int
+    @ColumnInfo(name = "purchases_credit") val purchasesCredit: Int
 )

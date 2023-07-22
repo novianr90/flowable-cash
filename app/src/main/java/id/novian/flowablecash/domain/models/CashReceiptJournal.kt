@@ -6,5 +6,4 @@ data class CashReceiptJournal(
     val description: String,
     val debit: Int,
     val credit: Int,
-    val accountAlreadyInserted: Int
 )

@@ -15,5 +15,7 @@ data class TransactionLocal(
     @ColumnInfo(name = "transaction_fee") val fee: Int,
     @ColumnInfo(name = "description") val transactionDescription: String,
     @ColumnInfo(name = "created_at") val createdAt: String,
-    @ColumnInfo(name = "updated_at") val updatedAt: String
+    @ColumnInfo(name = "updated_at") val updatedAt: String,
+    @ColumnInfo(name = "transaction_payment") val payment: String,
+    @ColumnInfo(name = "already_posted") val alreadyPosted: Int
 )

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".view.journaling.details.TransactionDetails">
+    tools:context=".view.journaling.details.SaleRecordFragment">
 
     <ImageView
         android:id="@+id/btn_back"
@@ -19,7 +19,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="8dp">
 
@@ -84,18 +84,18 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:id="@+id/txt_input_type"
+                android:id="@+id/txt_input_payment_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/txt_transaction_type"
+                android:hint="@string/payment_type"
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spinner_transaction_type"
+                    android:id="@+id/spinner_payment_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/txt_transaction_type_hint"
+                    android:hint="@string/txt_payment_type_hint"
                     android:inputType="none"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -151,15 +151,6 @@
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/iv_help"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="6dp"
-                android:src="@drawable/ic_help" />
 
         </LinearLayout>
 

@@ -6,5 +6,4 @@ data class PurchasesJournal(
     val description: String,
     val debit: Int,
     val credit: Int,
-    val accountAlreadyInserted: Int
 )

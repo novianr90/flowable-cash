@@ -1,13 +1,14 @@
 package id.novian.flowablecash.helpers
 
-import android.util.Log
 import id.novian.flowablecash.data.AccountName
 import id.novian.flowablecash.data.FeeType
 import id.novian.flowablecash.data.TransactionType
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.domain.models.TransactionDomain
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.Currency
 import java.util.Date
 import java.util.Locale
 
@@ -22,34 +23,44 @@ object Helpers {
         }
     }
 
+    fun formatCurrency(amount: Int): String {
+        val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+        format.currency = Currency.getInstance("IDR")
+        return format.format(amount.toLong())
+    }
+
     fun transactionTypeDecider(value: String): TransactionType {
         return when (value) {
-            "Sale" -> TransactionType.SALE
-            "Purchase" -> TransactionType.PURCHASE
+            "Penjualan" -> TransactionType.PENJUALAN
+            "Pembelian" -> TransactionType.PEMBELIAN
+            "Perlengkapan" -> TransactionType.PERLENGKAPAN
             else -> TransactionType.UNKNOWN
         }
     }
 
     fun transactionTypeChanger(transactionType: TransactionType): String {
         return when (transactionType) {
-            TransactionType.PURCHASE -> "Purchase"
-            TransactionType.SALE -> "Sale"
+            TransactionType.PEMBELIAN -> "Pembelian"
+            TransactionType.PENJUALAN -> "Penjualan"
+            TransactionType.PERLENGKAPAN -> "Perlengkapan"
             else -> ""
         }
     }
 
     fun feeTypeDecider(value: String): FeeType {
         return when (value) {
-            "Purchase" -> FeeType.PURCHASE
-            "Sale" -> FeeType.SALE
+            "Pembelian" -> FeeType.PEMBELIAN
+            "Penjualan" -> FeeType.PENJUALAN
+            "Perlengkapan" -> FeeType.PERLENGKAPAN
             else -> FeeType.UNKNOWN
         }
     }
 
     fun feeTypeChanger(value: FeeType): String {
         return when (value) {
-            FeeType.SALE -> "Sale"
-            FeeType.PURCHASE -> "Purchase"
+            FeeType.PENJUALAN -> "Penjualan"
+            FeeType.PEMBELIAN -> "Pembelian"
+            FeeType.PERLENGKAPAN -> "Perlengkapan"
             else -> ""
         }
     }
@@ -67,6 +78,8 @@ object Helpers {
             "Pembelian" -> AccountName.PEMBELIAN
             "Beban Penjualan" -> AccountName.BEBANPENJUALAN
             "Beban Pembelian" -> AccountName.BEBANPEMBELIAN
+            "Beban Perlengkapan" -> AccountName.BEBANPERLENGKAPAN
+            "Beban Penyusutan" -> AccountName.BEBANPENYUSUTAN
             "Akumulasi Penyusutan Perlengkapan" -> AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN
             else -> AccountName.UNKNOWN
         }
@@ -86,6 +99,8 @@ object Helpers {
             AccountName.PEMBELIAN -> "Pembelian"
             AccountName.BEBANPENJUALAN -> "Beban Penjualan"
             AccountName.BEBANPEMBELIAN -> "Beban Pembelian"
+            AccountName.BEBANPERLENGKAPAN -> "Beban Perlengkapan"
+            AccountName.BEBANPENYUSUTAN -> "Beban Penyusutan"
             else -> "Unknown"
         }
     }
@@ -144,5 +159,11 @@ object Helpers {
             val date = dateFormat.parse(it.transactionDate)
             date != null && date.isInRange(parsedStartDate, parsedEndDate)
         }
+    }
+
+    fun filterDateByMonth(date: String, month: Int): Boolean {
+        val dateParts = date.split("-")
+        val transactionMonth = dateParts[1].toInt()
+        return transactionMonth == month
     }
 }

@@ -18,10 +18,14 @@ data class Transaction(
     val total: Int,
     @SerializedName("type")
     val type: String,
+    @SerializedName("transaction_payment")
+    val payment: String,
     @SerializedName("transaction_fee")
     val fee: Int,
     @SerializedName("fee_type")
     val feeType: String,
     @SerializedName("updated_at")
-    val updatedAt: String
+    val updatedAt: String,
+    @SerializedName("already_posted")
+    val alreadyPosted: Int
 )

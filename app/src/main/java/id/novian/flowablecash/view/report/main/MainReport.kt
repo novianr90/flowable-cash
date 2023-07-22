@@ -49,7 +49,7 @@ class MainReport : BaseFragment<FragmentMainReportBinding>() {
             "Jurnal Penjualan" -> moveTo(R.id.action_mainReport_to_cashReceiptJournal)
             "Jurnal Pembelian" -> moveTo(R.id.action_mainReport_to_purchasesJournal)
             "Neraca Saldo" -> moveTo(R.id.action_mainReport_to_balanceSheetFragment)
-            "Buku Besar" -> moveTo(R.id.action_mainReport_to_ledger)
+            "Laporan Laba Rugi" -> moveTo(R.id.action_mainReport_to_incomeStatements)
         }
     }
 }
