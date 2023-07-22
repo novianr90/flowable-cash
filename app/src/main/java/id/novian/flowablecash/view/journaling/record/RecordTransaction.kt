@@ -36,6 +36,11 @@ class RecordTransaction :
                 R.id.action_recordTransaction_to_transactionDetails
             )
         }
+        binding.cvBuying.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_recordTransaction_to_purchaseRecordFragment
+            )
+        }
     }
 
     private fun buttonBack() {

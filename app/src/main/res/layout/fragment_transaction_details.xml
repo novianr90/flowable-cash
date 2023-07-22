@@ -42,25 +42,9 @@
             android:padding="14dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/txt_transaction_name"
-                app:expandedHintEnabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_transaction_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/txt_transaction_name_hint" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_input_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:hint="@string/txt_transaction_date"
                 app:expandedHintEnabled="false">
 

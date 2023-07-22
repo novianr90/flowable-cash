@@ -30,7 +30,7 @@ class TransactionListAdapter(
         override fun onBind(data: TransactionDomain) {
             with(binding) {
 
-                tvTransactionName.text = data.transactionName
+                tvTransactionDesc.text = data.transactionDescription
                 tvTransactionDate.text =
                     Helpers.dateFormatFromNonStringToString(data.transactionDate)
                 tvTransactionTotal.text = Helpers.numberFormatter(data.total)

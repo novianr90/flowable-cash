@@ -50,7 +50,6 @@
     <string-array name="fee_type">
         <item>Biaya Ongkos Kirim</item>
         <item>Biaya Pengemasan</item>
-        <item>Biaya Operasional</item>
         <item>Biaya Lainnya</item>
     </string-array>
     <string-array name="account_name">

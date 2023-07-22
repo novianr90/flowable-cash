@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
-class TransactionDetailsViewModel @Inject constructor(
+class RecordHandlerViewModel @Inject constructor(
     private val toast: CreateToast,
     private val repo: TransactionRepository,
     @Named("IO") private val schedulerIo: Scheduler,
