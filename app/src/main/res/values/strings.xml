@@ -2,8 +2,8 @@
     <string name="app_name">Flowable Cash</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txt_buying">Record your buying activities</string>
-    <string name="txt_selling">Record your transaction activities</string>
+    <string name="txt_buying">Rekam transaksi pembelian anda</string>
+    <string name="txt_selling">Rekam transaksi penjualan anda</string>
     <string name="txt_transaction_name">Nama Transaksi</string>
     <string name="txt_save">Simpan</string>
     <string name="txt_transaction_name_hint">Masukkan nama transaksi anda</string>
@@ -28,7 +28,7 @@
     <string name="txt_masukkan_biaya_penjualan_pembelian">Masukkan biaya tambahan</string>
     <string name="txt_cash_receipt_journal">Jurnal Penjualan</string>
     <string name="txt_purchases_journal">Jurnal Pembelian</string>
-    <string name="txt_edit_your_balance_sheet">Edit your balance sheet</string>
+    <string name="txt_edit_your_balance_sheet">Tambah modal atau ambil laba anda</string>
     <string name="txt_update_your_balance_sheet">Update your balance sheet</string>
     <string name="txt_add_edit_transactions_accounts">Add/Edit Transactions/Accounts</string>
     <string name="txt_transactiontype">TransactionType</string>
@@ -50,6 +50,7 @@
     <string-array name="fee_type">
         <item>Biaya Ongkos Kirim</item>
         <item>Biaya Pengemasan</item>
+        <item>Biaya Operasional</item>
         <item>Biaya Lainnya</item>
     </string-array>
     <string-array name="account_name">
@@ -72,6 +73,6 @@
         <item>Bahan Baku</item>
         <item>Barang Dagang</item>
         <item>Bahan Produksi</item>
-        <item>Komponen Manufaktur</item>
+        <item>Perlengkapan Tambahan</item>
     </string-array>
 </resources>
