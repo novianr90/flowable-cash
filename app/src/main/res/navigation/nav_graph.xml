@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_mainReport_to_incomeStatements"
             app:destination="@id/incomeStatements" />
+        <action
+            android:id="@+id/action_mainReport_to_financialPosition"
+            app:destination="@id/financialPosition" />
     </fragment>
     <fragment
         android:id="@+id/cashReceiptJournal"
@@ -68,4 +71,9 @@
         android:name="id.novian.flowablecash.view.report.income_statements.IncomeStatements"
         android:label="fragment_income_statements"
         tools:layout="@layout/fragment_income_statements" />
+    <fragment
+        android:id="@+id/financialPosition"
+        android:name="id.novian.flowablecash.view.report.financial_position.FinancialPosition"
+        android:label="fragment_financial_position"
+        tools:layout="@layout/fragment_financial_position" />
 </navigation>

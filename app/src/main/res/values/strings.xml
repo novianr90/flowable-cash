@@ -45,6 +45,7 @@
     <string name="payment_type">Tipe Pembayaran</string>
     <string name="txt_harga_beban_operasional">Harga Beban Operasional</string>
     <string name="txt_harga_beban_lainnya">Harga Beban Lainnya</string>
+    <string name="txt_posisi_keuangan">Posisi Keuangan</string>
     <string-array name="transaction_type">
         <item>Pembelian</item>
         <item>Penjualan</item>

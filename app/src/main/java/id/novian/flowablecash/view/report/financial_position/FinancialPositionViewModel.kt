@@ -1,6 +1,5 @@
 package id.novian.flowablecash.view.report.financial_position
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.BaseViewModel
@@ -18,9 +17,8 @@ class FinancialPositionViewModel @Inject constructor(
     private val accountRepo: AccountsRepository,
     private val calendarHelper: CalendarHelper
 ): BaseViewModel() {
-
-    private val _dataAllAccounts: MutableLiveData<List<AccountDomain>> = MutableLiveData()
-    val dataAllAccounts: LiveData<List<AccountDomain>> get() = _dataAllAccounts
+    var dataAllAccounts: MutableLiveData<List<AccountDomain>> = MutableLiveData()
+        private set
 
     private val observableAccounts = accountRepo.getAllAccounts(calendarHelper.getMonth())
         .cache()
@@ -34,7 +32,7 @@ class FinancialPositionViewModel @Inject constructor(
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .subscribe({
-                _dataAllAccounts.postValue(it)
+                dataAllAccounts.postValue(it)
             }, {
                 it.printStackTrace()
                 errorMessage.postValue(it.message)
