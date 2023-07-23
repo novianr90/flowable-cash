@@ -31,36 +31,44 @@ class IncomeStatements : BaseFragment<FragmentIncomeStatementsBinding>() {
 
         with(viewModel) {
 
-            cashReceipt.observe(viewLifecycleOwner) { list ->
-                val cashInTotal = list.sumOf { it.credit }
-                val totalInString = Helpers.formatCurrency(cashInTotal)
-                
+            totalPenjualan.observe(viewLifecycleOwner) { total ->
+                val totalInString = Helpers.formatCurrency(total)
+
                 binding.tvSaldoAkunPenjualan.text = totalInString
                 binding.tvTotalSaldoAkunPenjualan.text = totalInString
                 binding.tvCountSaldoPenjualan.text = totalInString
             }
 
-            purchasesJournal.observe(viewLifecycleOwner) { list ->
-                val purchaseInTotal = list.sumOf { it.debit }
-                val totalInString = Helpers.formatCurrency(purchaseInTotal)
-                
+            totalPembelian.observe(viewLifecycleOwner) { total ->
+                val totalInString = Helpers.formatCurrency(total)
+
                 binding.tvSaldoAkunPembelian.text = totalInString
                 binding.tvTotalSaldoAkunPembelian.text = totalInString
                 binding.tvCountSaldoPembelian.text = totalInString
             }
 
-            akunBebanPenjualan.observe(viewLifecycleOwner) { list ->
-                val beban = list.sumOf { it.balance.debit }
-                val totalInString = Helpers.formatCurrency(beban)
+            akunBebanOngkos.observe(viewLifecycleOwner) { total ->
+                val totalInString = Helpers.formatCurrency(total)
                 binding.tvTotalSaldoAkunBebanPenjualan.text = totalInString
-                binding.tvCountSaldoBebanPenjualan.text = totalInString
+                binding.tvCountSaldoBebanOngkos.text = totalInString
             }
 
-            akunBebanPembelian.observe(viewLifecycleOwner) { list ->
-                val beban = list.sumOf { it.balance.debit }
-                val totalInString = Helpers.formatCurrency(beban)
+            akunBebanPengemasan.observe(viewLifecycleOwner) { total ->
+                val totalInString = Helpers.formatCurrency(total)
                 binding.tvTotalSaldoAkunBebanPembelian.text = totalInString
-                binding.tvCountSaldoBebanPembelian.text = totalInString
+                binding.tvCountSaldoBebanPengemasan.text = totalInString
+            }
+
+            akunBebanOperasional.observe(viewLifecycleOwner) { total ->
+                val totalInString = Helpers.formatCurrency(total)
+                binding.tvTotalSaldoAkunBebanOperasional.text = totalInString
+                binding.tvCountSaldoBebanOperasional.text = totalInString
+            }
+
+            akunBebanLainnya.observe(viewLifecycleOwner) { total ->
+                val totalInString = Helpers.formatCurrency(total)
+                binding.tvTotalSaldoAkunBebanLainnya.text = totalInString
+                binding.tvCountSaldoBebanLainnya.text = totalInString
             }
 
             labaKotor.observe(viewLifecycleOwner) {

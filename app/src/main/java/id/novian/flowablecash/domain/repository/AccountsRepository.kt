@@ -78,7 +78,7 @@ class AccountsRepositoryImpl(
     ): Maybe<AccountDomain> {
         return remote.getAccount(accountName = accountName, month = month)
             .flatMap { list ->
-                val mapped = remoteMapper.mapToDomain(list)
+                val mapped = remoteMapper.mapToDomain(list.accounts)
                 Maybe.just(mapped)
             }
             .onErrorResumeNext {

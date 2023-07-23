@@ -1,6 +1,6 @@
 package id.novian.flowablecash.data.remote.service
 
-import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalanceSheet
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheets
 import id.novian.flowablecash.data.remote.models.input.AccountInfo
 import id.novian.flowablecash.data.remote.models.input.InputCreateAccounts
@@ -43,5 +43,5 @@ interface BalanceSheetService {
     fun getAllAccountsByAccountName(
         @Query("account_name") account_name: String,
         @Query("account_month") month: Int
-    ): Maybe<BalanceSheet>
+    ): Maybe<AccountBalanceSheet>
 }

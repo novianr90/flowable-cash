@@ -4,18 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.BaseViewModel
-import id.novian.flowablecash.domain.models.AccountDomain
-import id.novian.flowablecash.domain.models.CashReceiptJournal
-import id.novian.flowablecash.domain.models.PurchasesJournal
 import id.novian.flowablecash.domain.repository.AccountsRepository
-import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
-import id.novian.flowablecash.domain.repository.PurchasesJournalRepository
 import id.novian.flowablecash.helpers.CalendarHelper
-import id.novian.flowablecash.usecase.posting.PostingUseCase
+import id.novian.flowablecash.helpers.FourData
 import io.reactivex.rxjava3.core.Maybe
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.functions.BiFunction
+import io.reactivex.rxjava3.functions.Function4
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -23,24 +18,27 @@ import javax.inject.Named
 class IncomeStatementsViewModel @Inject constructor(
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
-    private val cashReceiptRepo: CashReceiptJournalRepository,
-    private val purchasesJournalRepo: PurchasesJournalRepository,
     private val accountRepo: AccountsRepository,
     val calendarHelper: CalendarHelper,
-    private val postingUseCase: PostingUseCase
 ): BaseViewModel() {
 
-    private val _cashReceipt: MutableLiveData<List<CashReceiptJournal>> = MutableLiveData()
-    val cashReceipt: LiveData<List<CashReceiptJournal>> get() = _cashReceipt
+    var totalPenjualan: MutableLiveData<Int> = MutableLiveData()
+        private set
 
-    private val _purchasesJournal: MutableLiveData<List<PurchasesJournal>> = MutableLiveData()
-    val purchasesJournal: LiveData<List<PurchasesJournal>> get() = _purchasesJournal
+    var totalPembelian: MutableLiveData<Int> = MutableLiveData()
+        private set
 
-    private val _akunBebanPenjualan: MutableLiveData<List<AccountDomain>> = MutableLiveData()
-    val akunBebanPenjualan: LiveData<List<AccountDomain>> get() = _akunBebanPenjualan
+    var akunBebanOngkos: MutableLiveData<Int> = MutableLiveData()
+        private set
 
-    private val _akunBebanPembelian: MutableLiveData<List<AccountDomain>> = MutableLiveData()
-    val akunBebanPembelian: LiveData<List<AccountDomain>> get() = _akunBebanPembelian
+    var akunBebanPengemasan: MutableLiveData<Int> = MutableLiveData()
+        private set
+
+    var akunBebanOperasional: MutableLiveData<Int> = MutableLiveData()
+        private set
+
+    var akunBebanLainnya: MutableLiveData<Int> = MutableLiveData()
+        private set
 
     private val _labaKotor: MutableLiveData<Int> = MutableLiveData()
     val labaKotor: LiveData<Int> get() = _labaKotor
@@ -49,63 +47,81 @@ class IncomeStatementsViewModel @Inject constructor(
     val labaBersih: LiveData<Int> get() = _labaBersih
 
     override fun viewModelInitialized() {
-//        countAndMapData()
+        countAndMapData()
     }
 
-    private val observableCashReceiptAndPurchasesJournal = Observable.combineLatest(
-        cashReceiptRepo.getJournal().subscribeOn(schedulerIo),
-        purchasesJournalRepo.getJournal().subscribeOn(schedulerIo),
+    private val observableCashReceiptAndPurchasesJournal = Maybe.zip(
+        accountRepo.getAccountByAccountName("Penjualan", calendarHelper.getMonth())
+            .subscribeOn(schedulerIo),
+        accountRepo.getAccountByAccountName("Pembelian", calendarHelper.getMonth())
+            .subscribeOn(schedulerIo),
         BiFunction { cash, purchase ->
             Pair(cash, purchase)
         }
-    ).share()
+    ).cache()
 
-    private val observableBebanPenjualanAndBebanPembelian = Maybe.zip(
-        accountRepo.getAccountByAccountName("Beban Penjualan", calendarHelper.getMonth()).subscribeOn(schedulerIo),
-        accountRepo.getAccountByAccountName("Beban Pembelian", calendarHelper.getMonth()).subscribeOn(schedulerIo),
-        BiFunction { penjualan, pembelian ->
-            Pair(penjualan, pembelian)
+    private val maybeBebanBeban = Maybe.zip(
+        accountRepo.getAccountByAccountName("Beban Ongkos", calendarHelper.getMonth())
+            .subscribeOn(schedulerIo),
+        accountRepo.getAccountByAccountName("Beban Pengemasan", calendarHelper.getMonth())
+            .subscribeOn(schedulerIo),
+        accountRepo.getAccountByAccountName("Beban Lainnya", calendarHelper.getMonth())
+            .subscribeOn(schedulerIo),
+        accountRepo.getAccountByAccountName("Beban Operasional", calendarHelper.getMonth())
+            .subscribeOn(schedulerIo),
+        Function4 { ongkos, pengemasan, lainnya, operasional ->
+            FourData(ongkos, pengemasan, lainnya, operasional)
         }
     ).cache()
 
-//    private fun countAndMapData() {
-//        val disposable = Observable.combineLatest(
-//            observableCashReceiptAndPurchasesJournal.subscribeOn(schedulerIo),
-//            observableBebanPenjualanAndBebanPembelian.subscribeOn(schedulerIo),
-//            BiFunction { (cash, purchase), (penjualan, pembelian) ->
-//                FourData(cash, purchase, penjualan, pembelian)
-//            }
-//        )
-//            .flatMap { (cash, purchase, penjualan, pembelian) ->
-//                val filteredCash = cash.filter { calendarHelper.getMonthInList(it.date) == calendarHelper.getMonth() }
-//                val filteredPurchases = purchase.filter { calendarHelper.getMonthInList(it.date) == calendarHelper.getMonth() }
-//
-//                _cashReceipt.postValue(filteredCash)
-//                _purchasesJournal.postValue(filteredPurchases)
-//                _akunBebanPenjualan.postValue(penjualan)
-//                _akunBebanPembelian.postValue(pembelian)
-//
-//                Observable.just(FourData(filteredCash, filteredPurchases, penjualan, pembelian))
-//            }
-//            .subscribeOn(schedulerIo)
-//            .observeOn(schedulerMain)
-//            .subscribe({ (cash, purchase, penjualan, pembelian) ->
-//                val totalCash = cash.sumOf { it.credit }
-//                val totalPurchase = purchase.sumOf { it.debit }
-//                val totalBebanPenjualan = penjualan.sumOf { it.balance.debit }
-//                val totalBebanPembelian = pembelian.sumOf { it.balance.debit }
-//
-//                val labaKotor = totalCash - totalPurchase
-//                val totalBeban = totalBebanPenjualan + totalBebanPembelian
-//                val labaBersih = labaKotor - totalBeban
-//
-//                _labaKotor.postValue(labaKotor)
-//                _labaBersih.postValue(labaBersih)
-//            }, {
-//                it.printStackTrace()
-//                errorMessage.postValue(it.message)
-//            })
-//
-//        compositeDisposable.add(disposable)
-//    }
+    private fun countAndMapData() {
+        val disposable = Maybe.zip(
+            observableCashReceiptAndPurchasesJournal,
+            maybeBebanBeban,
+            BiFunction { cashPurchasePair, bebanBebanPair ->
+                Pair(cashPurchasePair, bebanBebanPair)
+            }
+        )
+            .subscribeOn(schedulerIo)
+            .observeOn(schedulerMain)
+            .subscribe({ (cashPurchasePair, bebanBeban) ->
+
+                val penjualan = cashPurchasePair.first
+                val pembelian = cashPurchasePair.second
+
+                val ongkos = bebanBeban.first
+                val pengemasan = bebanBeban.second
+                val lainnya = bebanBeban.third
+                val operasional = bebanBeban.fourth
+
+                val totalCash = penjualan.balance.credit
+                val totalPurchase = pembelian.balance.debit
+
+                val bebanOngkos = ongkos.balance.debit
+                val bebanPengemasan = pengemasan.balance.debit
+                val bebanLainnya = lainnya.balance.debit
+                val bebanOperasional = operasional.balance.debit
+
+                val labaKotor = totalCash - totalPurchase
+                val totalBeban = bebanOngkos + bebanPengemasan + bebanLainnya + bebanOperasional
+                val labaBersih = labaKotor - totalBeban
+
+                totalPenjualan.postValue(totalCash)
+                totalPembelian.postValue(totalPurchase)
+
+                akunBebanOngkos.postValue(bebanOngkos)
+                akunBebanPengemasan.postValue(bebanPengemasan)
+                akunBebanLainnya.postValue(bebanLainnya)
+                akunBebanOperasional.postValue(bebanOperasional)
+
+                // Laba
+                _labaKotor.postValue(labaKotor)
+                _labaBersih.postValue(labaBersih)
+            }, { err ->
+                err.printStackTrace()
+                errorMessage.postValue(err.message)
+            })
+
+        compositeDisposable.add(disposable)
+    }
 }

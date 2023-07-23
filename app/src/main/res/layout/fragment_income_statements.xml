@@ -1,578 +1,762 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     tools:context=".view.report.income_statements.IncomeStatements">
 
-    <ImageView
-                android:id="@+id/btn_back"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="6dp"
-                android:src="@drawable/ic_back" />
-
-    <TextView
-                android:id="@+id/tvIncomeStatements"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="3dp"
-                android:text="@string/txt_income_statements"
-        android:layout_marginTop="16dp"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/tvMonth"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="3dp"
-        android:text="Bulan"
-        android:layout_marginTop="4dp"
-        android:textSize="14sp"
-        android:textColor="@color/black"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-                android:id="@+id/cvPenjualan"
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tvIncomeStatements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="@string/txt_income_statements"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="Bulan"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvPenjualan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="2dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="2dp"
-                android:elevation="8dp">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvPenjualan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginStart="20dp"
+                    android:text="@string/txt_pendapatan_dari_penjualan"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/llPenjualan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="20dp"
+                        android:background="@color/blue_sea" />
 
                     <TextView
-                        android:id="@+id/tvPenjualan"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvNoAkunPenjualan"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_pendapatan_dari_penjualan"
-                        android:textSize="18sp"
+                        android:layout_marginStart="16dp"
+                        android:text="4-1000"
+                        android:textColor="@color/blue_sea"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvNamaAkunPenjualan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Penjualan"
+                        android:textColor="@color/blue_sea"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvSaldoAkunPenjualan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000"
                         android:textColor="@color/black"
-                        android:layout_marginStart="20dp"/>
-
-                    <LinearLayout
-                        android:id="@+id/llPenjualan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginStart="28dp"
-                        android:layout_marginTop="4dp">
-
-                        <View
-                            android:layout_width="2dp"
-                            android:layout_height="20dp"
-                            android:background="@color/blue_sea"/>
-
-                        <TextView
-                            android:id="@+id/tvNoAkunPenjualan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4-1000"
-                            android:layout_marginStart="16dp"
-                            android:textSize="15sp"
-                            android:textColor="@color/blue_sea"/>
-
-                        <TextView
-                            android:id="@+id/tvNamaAkunPenjualan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Penjualan"
-                            android:layout_marginStart="16dp"
-                            android:textSize="15sp"
-                            android:textColor="@color/blue_sea"/>
-
-                        <TextView
-                            android:id="@+id/tvSaldoAkunPenjualan"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="Rp 100,000"
-                            android:textSize="15sp"
-                            android:textColor="@color/black"
-                            android:gravity="end"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="8dp"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llTotalAkunPenjualan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginBottom="6dp">
-
-                        <TextView
-                            android:id="@+id/tvTitleTotalSaldoAkunPenjualan"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textSize="15sp"
-                            android:textColor="@color/black"
-                            android:text="Total"/>
-
-                        <TextView
-                            android:id="@+id/tvTotalSaldoAkunPenjualan"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="Rp 100,000"
-                            android:textSize="15sp"
-                            android:textColor="@color/black"
-                            android:gravity="end"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="8dp"/>
-
-                    </LinearLayout>
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-                android:id="@+id/cvPembelian"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="2dp"
-                android:elevation="8dp">
-
                 <LinearLayout
+                    android:id="@+id/llTotalAkunPenjualan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tvPembelian"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tvTitleTotalSaldoAkunPenjualan"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_harga_pembelian"
-                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:text="Total"
                         android:textColor="@color/black"
-                        android:layout_marginStart="20dp"/>
+                        android:textSize="15sp" />
 
-                    <LinearLayout
-                        android:id="@+id/llPembelian"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tvTotalSaldoAkunPenjualan"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginStart="28dp"
-                        android:layout_marginTop="4dp">
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
 
-                        <View
-                            android:layout_width="2dp"
-                            android:layout_height="20dp"
-                            android:background="@color/blue_sea"/>
-
-                        <TextView
-                            android:id="@+id/tvNoAkunPembelian"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5-1000"
-                            android:layout_marginStart="16dp"
-                            android:textSize="15sp"
-                            android:textColor="@color/blue_sea"/>
-
-                        <TextView
-                            android:id="@+id/tvNamaAkunPembelian"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pembelian"
-                            android:layout_marginStart="16dp"
-                            android:textSize="15sp"
-                            android:textColor="@color/blue_sea"/>
-
-                        <TextView
-                            android:id="@+id/tvSaldoAkunPembelian"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="Rp 100,000"
-                            android:textSize="15sp"
-                            android:textColor="@color/black"
-                            android:gravity="end"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="8dp"/>
-
-                    </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llTotalAkunPembelian"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp">
-
-            <TextView
-                android:id="@+id/tvTitleTotalSaldoAkunPembelian"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="15sp"
-                android:textColor="@color/black"
-                android:text="Total"/>
-
-            <TextView
-                android:id="@+id/tvTotalSaldoAkunPembelian"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Rp 100,000"
-                android:textSize="15sp"
-                android:textColor="@color/black"
-                android:gravity="end"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"/>
-        </LinearLayout>
-</LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvBebanPenjualan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="2dp"
-        android:elevation="8dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvBebanPenjualan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_harga_beban_penjualan"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:layout_marginStart="20dp"/>
-
-            <LinearLayout
-                android:id="@+id/llTotalAkunBebanPenjualan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp">
-
-                <TextView
-                    android:id="@+id/tvTitleTotalSaldoAkunBebanPenjualan"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:text="Total"/>
-
-                <TextView
-                    android:id="@+id/tvTotalSaldoAkunBebanPenjualan"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Rp 100,000"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:gravity="end"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"/>
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvBebanPembelian"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="2dp"
-        android:elevation="8dp">
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvPembelian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvBebanPembelian"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_harga_beban_pembelian"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:layout_marginStart="20dp"/>
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="2dp">
 
             <LinearLayout
-                android:id="@+id/llTotalAkunBebanPembelian"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="6dp">
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvTitleTotalSaldoAkunBebanPembelian"
-                    android:layout_width="0dp"
+                    android:id="@+id/tvPembelian"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:text="Total"/>
-
-                <TextView
-                    android:id="@+id/tvTotalSaldoAkunBebanPembelian"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Rp 100,000"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:gravity="end"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvCountData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="2dp"
-        android:elevation="8dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/llCountPenjualan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="4dp">
-
-                <TextView
-                    android:id="@+id/tvCountPenjualan"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/txt_pendapatan_dari_penjualan"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/tvCountSaldoPenjualan"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Rp 100,000"
-                    android:layout_marginEnd="8dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llCountPembelian"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="3dp">
-
-                <TextView
-                    android:id="@+id/tvCountPembelian"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
                     android:text="@string/txt_harga_pembelian"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/tvCountSaldoPembelian"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Rp 100,000"
-                    android:layout_marginEnd="8dp"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginTop="4dp"/>
-
-            <LinearLayout
-                android:id="@+id/llCountLabaKotor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="3dp">
-
-                <TextView
-                    android:id="@+id/tvCountLabaKotor"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Laba Kotor"
-                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/tvCountSaldoLabaKotor"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/llPembelian"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Rp 100,000"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
 
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="20dp"
+                        android:background="@color/blue_sea" />
+
+                    <TextView
+                        android:id="@+id/tvNoAkunPembelian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="5-1000"
+                        android:textColor="@color/blue_sea"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvNamaAkunPembelian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Pembelian"
+                        android:textColor="@color/blue_sea"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvSaldoAkunPembelian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llTotalAkunPembelian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitleTotalSaldoAkunPembelian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvTotalSaldoAkunPembelian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
             </LinearLayout>
 
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBebanPenjualan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="2dp">
+
             <LinearLayout
-                android:id="@+id/llCountBebanPenjualan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="8dp">
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvCountBebanPenjualan"
-                    android:layout_width="0dp"
+                    android:id="@+id/tvBebanPenjualan"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
                     android:text="@string/txt_harga_beban_penjualan"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/tvCountSaldoBebanPenjualan"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Rp 100,000"
-                    android:layout_marginEnd="8dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llCountBebanPembelian"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="3dp">
-
-                <TextView
-                    android:id="@+id/tvCountBebanPembelian"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/txt_harga_beban_pembelian"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/tvCountSaldoBebanPembelian"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Rp 100,000"
-                    android:layout_marginEnd="8dp"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginTop="4dp"/>
-
-            <LinearLayout
-                android:id="@+id/llCountLabaBersih"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="4dp">
-
-                <TextView
-                    android:id="@+id/tvCountLabaBersih"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Laba Bersih"
-                    android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/tvCountSaldoLabaBersih"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/llTotalAkunBebanPenjualan"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Rp 100,000"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitleTotalSaldoAkunBebanPenjualan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvTotalSaldoAkunBebanPenjualan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBebanPembelian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBebanPembelian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/txt_harga_beban_pembelian"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/llTotalAkunBebanPembelian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitleTotalSaldoAkunBebanPembelian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvTotalSaldoAkunBebanPembelian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBebanOperasional"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBebanOperasional"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/txt_harga_beban_operasional"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/llTotalAkunBebanOperasional"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitleTotalSaldoAkunBebanOperasional"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvTotalSaldoAkunBebanOperasional"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvBebanLainnya"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBebanLainnya"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/txt_harga_beban_lainnya"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/llTotalAkunBebanLainnya"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitleTotalSaldoAkunBebanLainnya"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvTotalSaldoAkunBebanLainnya"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvCountData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llCountPenjualan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCountPenjualan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/txt_pendapatan_dari_penjualan"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCountSaldoPenjualan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCountPembelian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCountPembelian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/txt_harga_pembelian"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCountSaldoPembelian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/llCountLabaKotor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCountLabaKotor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Laba Kotor"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCountSaldoLabaKotor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCountBebanOngkos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCountBebanOngkos"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/txt_harga_beban_penjualan"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCountSaldoBebanOngkos"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCountBebanPengemasan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCountBebanPengemasan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/txt_harga_beban_pembelian"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCountSaldoBebanPengemasan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCountBebanOperasional"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCountBebanOperasional"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/txt_harga_beban_operasional"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCountSaldoBebanOperasional"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCountBebanLainnya"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCountBebanLainnya"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/txt_harga_beban_lainnya"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCountSaldoBebanLainnya"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/llCountLabaBersih"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvCountLabaBersih"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Laba Bersih"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCountSaldoLabaBersih"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Rp 100,000" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

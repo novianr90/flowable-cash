@@ -3,7 +3,7 @@ package id.novian.flowablecash.data.remote.repository
 import android.util.Log
 import com.google.gson.Gson
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
-import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalanceSheet
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheets
 import id.novian.flowablecash.data.remote.models.input.AccountInfo
 import id.novian.flowablecash.data.remote.models.input.InputCreateAccounts
@@ -60,7 +60,7 @@ interface MainRemoteRepository {
 
     // Balance Sheet
     fun getAllAccounts(month: Int): Maybe<BalanceSheets>
-    fun getAccount(accountName: String, month: Int): Maybe<BalanceSheet>
+    fun getAccount(accountName: String, month: Int): Maybe<AccountBalanceSheet>
     fun updateAccount(
         id: Int?,
         accountName: String,
@@ -169,7 +169,7 @@ class MainRemoteRepositoryImpl(
         return balanceSheet.getAllAccounts(month)
     }
 
-    override fun getAccount(accountName: String, month: Int): Maybe<BalanceSheet> {
+    override fun getAccount(accountName: String, month: Int): Maybe<AccountBalanceSheet> {
         return balanceSheet.getAllAccountsByAccountName(account_name = accountName, month = month)
     }
 

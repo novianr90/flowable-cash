@@ -3,6 +3,13 @@ package id.novian.flowablecash.data.remote.models.balancesheet
 
 import com.google.gson.annotations.SerializedName
 
+data class AccountBalanceSheet(
+    @SerializedName("balance_sheet")
+    val accounts: BalanceSheet,
+    @SerializedName("status")
+    val status: String
+)
+
 data class BalanceSheet(
     @SerializedName("account_balance")
     val accountBalance: AccountBalance,

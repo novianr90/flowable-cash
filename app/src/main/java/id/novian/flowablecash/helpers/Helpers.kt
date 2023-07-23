@@ -3,7 +3,6 @@ package id.novian.flowablecash.helpers
 import id.novian.flowablecash.data.AccountName
 import id.novian.flowablecash.data.FeeType
 import id.novian.flowablecash.data.TransactionType
-import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.domain.models.TransactionDomain
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -71,16 +70,18 @@ object Helpers {
             "Persediaan Barang Dagang" -> AccountName.PERSEDIAANBARANGDAGANG
             "Perlengkapan" -> AccountName.PERLENGKAPAN
             "Hutang Dagang" -> AccountName.HUTANGDAGANG
+            "Piutang Dagang" -> AccountName.PIUTANG
             "Modal" -> AccountName.MODALOWNER
             "Laba Disimpan" -> AccountName.LABADISIMPAN
             "Mengambil Laba" -> AccountName.PRIVE
             "Penjualan" -> AccountName.PENJUALAN
             "Pembelian" -> AccountName.PEMBELIAN
-            "Beban Penjualan" -> AccountName.BEBANPENJUALAN
-            "Beban Pembelian" -> AccountName.BEBANPEMBELIAN
-            "Beban Perlengkapan" -> AccountName.BEBANPERLENGKAPAN
+            "Beban Ongkos" -> AccountName.BEBANONGKOS
+            "Beban Pengemasan" -> AccountName.BEBANPENGEMASAN
             "Beban Penyusutan" -> AccountName.BEBANPENYUSUTAN
             "Akumulasi Penyusutan Perlengkapan" -> AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN
+            "Beban Lainnya" -> AccountName.BEBANLAINNYA
+            "Beban Operasional" -> AccountName.BEBANOPS
             else -> AccountName.UNKNOWN
         }
     }
@@ -92,32 +93,18 @@ object Helpers {
             AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN -> "Akumulasi Penyusutan Perlengkapan"
             AccountName.PERLENGKAPAN -> "Perlengkapan"
             AccountName.HUTANGDAGANG -> "Hutang Dagang"
+            AccountName.PIUTANG -> "Piutang Dagang"
             AccountName.MODALOWNER -> "Modal"
             AccountName.LABADISIMPAN -> "Laba Disimpan"
             AccountName.PRIVE -> "Mengambil Laba"
             AccountName.PENJUALAN -> "Penjualan"
             AccountName.PEMBELIAN -> "Pembelian"
-            AccountName.BEBANPENJUALAN -> "Beban Penjualan"
-            AccountName.BEBANPEMBELIAN -> "Beban Pembelian"
-            AccountName.BEBANPERLENGKAPAN -> "Beban Perlengkapan"
+            AccountName.BEBANONGKOS -> "Beban Ongkos"
+            AccountName.BEBANPENGEMASAN -> "Beban Pengemasan"
             AccountName.BEBANPENYUSUTAN -> "Beban Penyusutan"
+            AccountName.BEBANLAINNYA -> "Beban Lainnya"
+            AccountName.BEBANOPS -> "Beban Operasional"
             else -> "Unknown"
-        }
-    }
-
-    fun debitCreditDeciderForBalanceSheet(accountName: AccountName, value: Int): AccountBalance {
-        return when (accountName) {
-            AccountName.KAS -> AccountBalance(debit = value, credit = 0)
-            AccountName.PERSEDIAANBARANGDAGANG -> AccountBalance(debit = value, credit = 0)
-            AccountName.PERLENGKAPAN -> AccountBalance(debit = value, credit = 0)
-            AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN -> AccountBalance(debit = 0, credit = value)
-            AccountName.HUTANGDAGANG -> AccountBalance(debit = 0, credit = value)
-            AccountName.MODALOWNER -> AccountBalance(debit = 0, credit = value)
-            AccountName.LABADISIMPAN -> AccountBalance(debit = 0, credit = value)
-            AccountName.PRIVE -> AccountBalance(debit = 0, credit = value)
-            AccountName.BEBANPENJUALAN -> AccountBalance(debit = value, credit = 0)
-            AccountName.PEMBELIAN -> AccountBalance(debit = value, credit = 0)
-            else -> AccountBalance(0, 0)
         }
     }
 
