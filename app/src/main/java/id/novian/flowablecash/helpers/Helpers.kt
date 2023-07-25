@@ -147,10 +147,4 @@ object Helpers {
             date != null && date.isInRange(parsedStartDate, parsedEndDate)
         }
     }
-
-    fun filterDateByMonth(date: String, month: Int): Boolean {
-        val dateParts = date.split("-")
-        val transactionMonth = dateParts[1].toInt()
-        return transactionMonth == month
-    }
 }
