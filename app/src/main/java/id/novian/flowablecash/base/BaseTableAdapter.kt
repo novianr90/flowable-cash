@@ -15,7 +15,7 @@ open class BaseTableAdapter<T: Any>:
 
     open class BaseTableViewHolder<T>(
         itemView: View
-    ): RecyclerView.ViewHolder(itemView), BindRecyclerView<T> {
+    ) : RecyclerView.ViewHolder(itemView), BindRecyclerView<T> {
         override fun onBindHeader(position: Int) {}
 
         override fun onBindFooter(data: List<T>, position: Int) {}
@@ -23,7 +23,9 @@ open class BaseTableAdapter<T: Any>:
         override fun onBindItem(data: T, position: Int) {}
     }
 
-    override fun getItemCount(): Int = currentList.size + 2
+    override fun getItemCount(): Int {
+        return if (currentList.isEmpty()) 1 else currentList.size + 2
+    }
 
     override fun getItemViewType(position: Int): Int {
         return when {

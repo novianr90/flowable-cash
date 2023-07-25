@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.base.BaseFragment
@@ -29,6 +30,8 @@ class TrialBalanceFragment : BaseFragment<FragmentBalanceSheetBinding>() {
         setRecyclerView()
         observeData()
         observeError()
+
+        buttonBack()
     }
 
     private fun getBalanceSheet() {
@@ -73,4 +76,9 @@ class TrialBalanceFragment : BaseFragment<FragmentBalanceSheetBinding>() {
         }
     }
 
+    private fun buttonBack() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
 }
