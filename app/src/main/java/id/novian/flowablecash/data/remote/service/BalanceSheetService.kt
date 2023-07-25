@@ -7,6 +7,7 @@ import id.novian.flowablecash.data.remote.models.input.InputCreateAccounts
 import id.novian.flowablecash.helpers.Endpoints
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -44,4 +45,9 @@ interface BalanceSheetService {
         @Query("account_name") account_name: String,
         @Query("account_month") month: Int
     ): Maybe<AccountBalanceSheet>
+
+    @GET(Endpoints.BASE_BALANCE_SHEET + "/accountName=")
+    fun getAllAccountsSpecific(
+        @Query("account_name") account_name: String,
+    ): Observable<BalanceSheets>
 }

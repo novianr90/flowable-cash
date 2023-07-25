@@ -11,6 +11,7 @@ import id.novian.flowablecash.domain.models.AccountDomain
 import id.novian.flowablecash.helpers.Mapper
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
 
 interface AccountsRepository {
     fun recordNewAccounts(
@@ -34,6 +35,8 @@ interface AccountsRepository {
         accountName: String,
         month: Int,
     ): Completable
+
+    fun getAllSpecific(accountName: String): Observable<List<AccountDomain>>
 }
 
 class AccountsRepositoryImpl(
@@ -58,6 +61,12 @@ class AccountsRepositoryImpl(
                     remoteMapper.mapToDomain(data)
                 }
                 Maybe.just(mapped)
+            }
+            .doAfterSuccess {
+                val list = it.map { new ->
+                    localMapper.mapToModel(new)
+                }
+                list.forEach { new -> local.insertAccountsToLocal(new) }
             }
             .onErrorResumeNext {
                 it.printStackTrace()
@@ -101,7 +110,6 @@ class AccountsRepositoryImpl(
             balance = balance,
             month = month
         )
-            .doOnSubscribe { Log.d("AccountsRepo", "Invoked!") }
             .doOnError {
                 it.printStackTrace()
                 Log.d("AccountsRepo", "Error: ${it.message}")
@@ -121,14 +129,27 @@ class AccountsRepositoryImpl(
             accountName = accountName,
             balance = balance,
             month = month
-        )
-            .doOnSubscribe { Log.d("AccountsRepo", "Invoked!") }
-            .doOnError {
-                it.printStackTrace()
-                Log.d("AccountsRepo", "Error: ${it.message}")
-            }
-            .doOnComplete {
-                local.updateBalanceByAccountNameOnLocal(accountName = accountName, value = gson.toJson(balance), month)
+       )
+           .doOnError {
+               it.printStackTrace()
+               Log.d("AccountsRepo", "Error: ${it.message}")
+           }
+           .doOnComplete {
+               local.updateBalanceByAccountNameOnLocal(
+                   accountName = accountName,
+                   value = gson.toJson(balance),
+                   month
+               )
+           }
+    }
+
+    override fun getAllSpecific(accountName: String): Observable<List<AccountDomain>> {
+        return remote.getSpecificAccounts(accountName)
+            .flatMap {
+                val mapped = it.balanceSheet.map { data ->
+                    remoteMapper.mapToDomain(data)
+                }
+                Observable.just(mapped)
             }
     }
 

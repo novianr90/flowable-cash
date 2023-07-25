@@ -78,6 +78,8 @@ interface MainRemoteRepository {
         balance: AccountBalance,
         month: Int
     ): Completable
+
+    fun getSpecificAccounts(accountName: String): Observable<BalanceSheets>
 }
 
 class MainRemoteRepositoryImpl(
@@ -198,7 +200,8 @@ class MainRemoteRepositoryImpl(
         balance: AccountBalance,
         month: Int
     ): Completable {
-        val newQuery = InputCreateAccounts(accountName = accountName, balance = balance, month = month)
+        val newQuery =
+            InputCreateAccounts(accountName = accountName, balance = balance, month = month)
         return balanceSheet.recordNewAccounts(newQuery)
             .doOnComplete {
                 Log.d("MainRemote", "Invoked! $newQuery")
@@ -207,5 +210,9 @@ class MainRemoteRepositoryImpl(
                 it.printStackTrace()
                 Log.d("MainRemote", "Error! $newQuery")
             }
+    }
+
+    override fun getSpecificAccounts(accountName: String): Observable<BalanceSheets> {
+        return balanceSheet.getAllAccountsSpecific(accountName)
     }
 }
