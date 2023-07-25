@@ -5,5 +5,5 @@ data class CashReceiptJournal(
     val date: String,
     val description: String,
     val debit: Int,
-    val credit: Int
+    val credit: Int,
 )

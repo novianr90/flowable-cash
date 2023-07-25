@@ -1,9 +1,7 @@
 package id.novian.flowablecash.view.report.purchases_journal
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,16 +18,15 @@ class PurchasesJournal : BaseFragment<FragmentPurchasesJournalBinding>() {
     private val viewModel: PurchasesJournalViewModel by viewModels()
     private lateinit var itemAdapter: PurchasesJournalAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override val isNavigationVisible: Boolean
+        get() = false
 
+    override fun setup() {
+        super.setup()
         itemAdapter = PurchasesJournalAdapter()
         viewModel.getJournal()
         setBtnBack()
-    }
 
-    override fun onResume() {
-        super.onResume()
         observe()
         setRecyclerView()
     }
@@ -56,7 +53,7 @@ class PurchasesJournal : BaseFragment<FragmentPurchasesJournalBinding>() {
 
             errMessage.observe(viewLifecycleOwner) {
                 createToast(it)
-                Log.d("PurchaseJournal", it)
+                Log.d("PurchaseJournal", "Error Occurred! Message: $it")
             }
         }
     }

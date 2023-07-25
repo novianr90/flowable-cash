@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginTop="18dp"
-        android:text="@string/txt_default"
+        android:text="Welcome"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/search_view"
+        app:layout_constraintBottom_toTopOf="@id/llRvItemTransactionList"
         app:layout_constraintTop_toBottomOf="@id/tv_owner">
 
         <androidx.cardview.widget.CardView

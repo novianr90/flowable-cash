@@ -1,5 +1,6 @@
 package id.novian.flowablecash.view.journaling.assets
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -9,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
 import id.novian.flowablecash.base.BaseFragment
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.databinding.FragmentInsertAssetBinding
-import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.Result
 
 @AndroidEntryPoint
@@ -25,6 +26,9 @@ class InsertAssetFragment :
         get() = FragmentInsertAssetBinding::inflate
 
     override val isNavigationVisible: Boolean
+        get() = false
+
+    override val hasBottomNavigationView: Boolean
         get() = false
 
     override fun setup() {
@@ -46,7 +50,7 @@ class InsertAssetFragment :
         spinner = binding.spinnerAccountName
         spinner.setAdapter(adapter)
 
-        spinner.setText("Kas", false)
+        spinner.setText("Menambah Modal", false)
     }
 
     private fun getUserInput() {
@@ -54,15 +58,19 @@ class InsertAssetFragment :
 
             btnSave.setOnClickListener {
 
-                val assetString = spinnerAccountName.text?.toString() ?: "Modal"
-                val asset = Helpers.stringToAccountName(assetString)
+                val assetString = spinnerAccountName.text?.toString() ?: "Unknown"
                 val balance = etBalance.text.toString().toInt()
-                val balanceInModel = Helpers.debitCreditDeciderForBalanceSheet(asset, balance)
 
+                val queryBalance = AccountBalance(
+                    debit = balance, credit = balance
+                )
 
-                viewModel.updateBalance(assetString, balanceInModel)
+//                viewModel.processData(assetString, queryBalance)
 
-                viewModel.createToast(assetString)
+                Log.d("Asset", "asset: $assetString")
+                Log.d("Asset", "balance: $queryBalance")
+
+                viewModel.onSuccess.value?.name?.let { it1 -> viewModel.createToast(it1) }
             }
 
         }

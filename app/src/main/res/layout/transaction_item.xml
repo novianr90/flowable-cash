@@ -37,7 +37,7 @@
                 android:layout_weight="1">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvTransactionName"
+                    android:id="@+id/tvTransactionDesc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/txt_transactionname"
@@ -46,6 +46,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/tvTransactionDate"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -58,7 +60,7 @@
                     android:textAlignment="textEnd"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tvTransactionName"
+                    app:layout_constraintStart_toEndOf="@id/tvTransactionDesc"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

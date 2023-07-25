@@ -2,13 +2,16 @@ package id.novian.flowablecash.view.report.cash_receipt
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.BaseViewModel
 import id.novian.flowablecash.domain.models.CashReceiptJournal
 import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
+import id.novian.flowablecash.usecase.posting.PostingUseCase
 import io.reactivex.rxjava3.core.Scheduler
+import java.util.Calendar
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -17,20 +20,23 @@ class CashReceiptJournalViewModel @Inject constructor(
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
     private val repo: CashReceiptJournalRepository,
-    private val toast: CreateToast
+    private val toast: CreateToast,
+    private val gson: Gson,
+    private val postingUseCase: PostingUseCase,
+    private val calendar: Calendar
 ) : BaseViewModel() {
     private val _dataCashReceiptJournal: MutableLiveData<List<CashReceiptJournal>> =
         MutableLiveData()
     val dataCashReceiptJournal: LiveData<List<CashReceiptJournal>> get() = _dataCashReceiptJournal
 
-    private val _invocationFlag: MutableLiveData<Boolean> = MutableLiveData()
-    val invocationFlag: LiveData<Boolean> get() = _invocationFlag
-
     private val _result: MutableLiveData<Result> = MutableLiveData()
     val result: LiveData<Result> get() = _result
 
+    private val observableCashReceiptJournal = repo.getJournal()
+        .share()
+
     fun getCashReceiptJournal() {
-        val disposable = repo.getJournal()
+        val disposable = observableCashReceiptJournal
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .doOnSubscribe { _result.postValue(Result.LOADING) }
@@ -43,7 +49,7 @@ class CashReceiptJournalViewModel @Inject constructor(
                 errorMessage.postValue(it.message)
             })
 
-        compositeDisposable.add(disposable)
+        compositeDisposable.addAll(disposable)
     }
 
     fun createToast(message: String) {

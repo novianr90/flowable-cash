@@ -6,24 +6,33 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.novian.flowablecash.data.local.database.AppDatabase
-import id.novian.flowablecash.data.local.models.BalanceSheetLocal
+import id.novian.flowablecash.data.local.models.Accounts
 import id.novian.flowablecash.data.local.models.TransactionLocal
-import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepository
-import id.novian.flowablecash.data.local.repository.BalanceSheetLocalRepositoryImpl
+import id.novian.flowablecash.data.local.repository.AccountLocalRepository
+import id.novian.flowablecash.data.local.repository.AccountLocalRepositoryImpl
+import id.novian.flowablecash.data.local.repository.CashReceiptReportRepo
+import id.novian.flowablecash.data.local.repository.CashReceiptReportRepoImpl
+import id.novian.flowablecash.data.local.repository.CompanyDetailsRepository
+import id.novian.flowablecash.data.local.repository.CompanyDetailsRepositoryImpl
+import id.novian.flowablecash.data.local.repository.PurchasesReportRepo
+import id.novian.flowablecash.data.local.repository.PurchasesReportRepoImpl
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepository
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepositoryImpl
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepositoryImpl
+import id.novian.flowablecash.data.remote.repository.PostingRepository
+import id.novian.flowablecash.data.remote.repository.PostingRepositoryImpl
 import id.novian.flowablecash.data.remote.service.BalanceSheetService
+import id.novian.flowablecash.data.remote.service.PostingService
 import id.novian.flowablecash.data.remote.service.PurchaseService
 import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
-import id.novian.flowablecash.domain.models.BalanceSheetDomain
+import id.novian.flowablecash.domain.models.AccountDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
-import id.novian.flowablecash.domain.repository.BalanceSheetRepository
-import id.novian.flowablecash.domain.repository.BalanceSheetRepositoryImpl
+import id.novian.flowablecash.domain.repository.AccountsRepository
+import id.novian.flowablecash.domain.repository.AccountsRepositoryImpl
 import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
 import id.novian.flowablecash.domain.repository.CashReceiptJournalRepositoryImpl
 import id.novian.flowablecash.domain.repository.PurchasesJournalRepository
@@ -45,9 +54,30 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideBalanceLocalRepository(database: AppDatabase): BalanceSheetLocalRepository {
-        return BalanceSheetLocalRepositoryImpl(database.balanceSheetDao())
+    fun provideBalanceLocalRepository(database: AppDatabase): AccountLocalRepository {
+        return AccountLocalRepositoryImpl(database.accountsDao())
     }
+
+    @Singleton
+    @Provides
+    fun providePurchasesReportLocalRepo(database: AppDatabase): PurchasesReportRepo {
+        return PurchasesReportRepoImpl(database.purchasesDao())
+    }
+
+    @Singleton
+    @Provides
+    fun provideCashReceiptLocalRepo(database: AppDatabase): CashReceiptReportRepo {
+        return CashReceiptReportRepoImpl(database.cashReceiptDao())
+    }
+
+    @Singleton
+    @Provides
+    fun provideCompanyDetailsRepo(database: AppDatabase): CompanyDetailsRepository {
+        return CompanyDetailsRepositoryImpl(database.companyDetailsDao())
+    }
+
+    @Provides
+    fun providePostingRepository(api: PostingService): PostingRepository = PostingRepositoryImpl(api)
 
     @Provides
     @Singleton
@@ -55,8 +85,9 @@ object RepositoryModule {
         trx: TransactionService,
         sale: SaleService,
         purchase: PurchaseService,
-        balanceSheet: BalanceSheetService
-    ): MainRemoteRepository = MainRemoteRepositoryImpl(purchase, sale, trx, balanceSheet)
+        balanceSheet: BalanceSheetService,
+        gson: Gson
+    ): MainRemoteRepository = MainRemoteRepositoryImpl(purchase, sale, trx, balanceSheet, gson)
 
     @Singleton
     @Provides
@@ -72,12 +103,12 @@ object RepositoryModule {
     @Provides
     fun provideBalanceSheetRepository(
         remote: MainRemoteRepository,
-        local: BalanceSheetLocalRepository,
-        remoteMapper: Mapper<BalanceSheet, BalanceSheetDomain>,
-        localMapper: Mapper<BalanceSheetLocal, BalanceSheetDomain>,
+        local: AccountLocalRepository,
+        remoteMapper: Mapper<BalanceSheet, AccountDomain>,
+        localMapper: Mapper<Accounts, AccountDomain>,
         gson: Gson
-    ): BalanceSheetRepository {
-        return BalanceSheetRepositoryImpl(
+    ): AccountsRepository {
+        return AccountsRepositoryImpl(
             local = local,
             remote = remote,
             localMapper = localMapper,
@@ -90,17 +121,20 @@ object RepositoryModule {
     @Provides
     fun provideCashReceiptJournalRepo(
         repo: MainRemoteRepository,
+        local: CashReceiptReportRepo
     ): CashReceiptJournalRepository {
         return CashReceiptJournalRepositoryImpl(
             repo = repo,
+            local = local
         )
     }
 
     @Singleton
     @Provides
     fun providePurchasesJournalRepository(
-        repo: MainRemoteRepository
+        repo: MainRemoteRepository,
+        local: PurchasesReportRepo
     ): PurchasesJournalRepository {
-        return PurchasesJournalRepositoryImpl(repo)
+        return PurchasesJournalRepositoryImpl(repo, local)
     }
 }

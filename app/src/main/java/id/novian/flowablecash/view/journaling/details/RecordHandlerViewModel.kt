@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
-class TransactionDetailsViewModel @Inject constructor(
+class RecordHandlerViewModel @Inject constructor(
     private val toast: CreateToast,
     private val repo: TransactionRepository,
     @Named("IO") private val schedulerIo: Scheduler,
@@ -32,7 +32,8 @@ class TransactionDetailsViewModel @Inject constructor(
         type: String,
         description: String,
         feeType: String,
-        fee: Int
+        fee: Int,
+        payment: String
     ) {
         val disposable = repo.createTransaction(
             name = name,
@@ -41,7 +42,8 @@ class TransactionDetailsViewModel @Inject constructor(
             type = type,
             description = description,
             feeType = feeType,
-            fee = fee
+            fee = fee,
+            payment = payment
         )
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)

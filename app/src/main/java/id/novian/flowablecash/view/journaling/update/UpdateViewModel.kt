@@ -44,7 +44,8 @@ class UpdateViewModel @Inject constructor(
             type = type,
             description = description,
             fee = fee,
-            feeType = feeType
+            feeType = feeType,
+            alreadyPosted = 0
         )
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)

@@ -6,11 +6,13 @@ import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.helpers.Mapper
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Response
 
 interface TransactionRepository {
-    fun getAllTransactions(): Observable<List<TransactionDomain>>
+    fun getAllTransactions(): Maybe<List<TransactionDomain>>
     fun getAllSaleTransactions(): Observable<List<TransactionDomain>>
     fun getAllPurchaseTransactions(): Observable<List<TransactionDomain>>
 
@@ -23,7 +25,8 @@ interface TransactionRepository {
         type: String,
         feeType: String,
         fee: Int,
-        description: String
+        description: String,
+        payment: String
     ): Observable<Unit>
 
     fun updateTransaction(
@@ -34,10 +37,13 @@ interface TransactionRepository {
         fee: Int,
         feeType: String,
         type: String,
-        description: String
-    ): Observable<TransactionDomain>
+        description: String,
+        alreadyPosted: Int
+    ): Completable
 
     fun deleteTransaction(id: Int): Observable<Response<Unit>>
+
+    fun getAllTransactionByType(type: String): Maybe<List<TransactionDomain>>
 }
 
 class TransactionRepositoryImpl(
@@ -46,15 +52,17 @@ class TransactionRepositoryImpl(
     private val remoteMapper: Mapper<Transaction, TransactionDomain>,
     private val localMapper: Mapper<TransactionLocal, TransactionDomain>
 ) : TransactionRepository {
-    override fun getAllTransactions(): Observable<List<TransactionDomain>> {
+    override fun getAllTransactions(): Maybe<List<TransactionDomain>> {
         return remote.getTransactions()
             .map { data -> data.transaction.map { remoteMapper.mapToDomain(it) } }
-            .doOnNext { data ->
+            .doAfterSuccess {data ->
                 data.map { local.insertTransaction(localMapper.mapToModel(it)) }
+
             }
             .onErrorResumeNext {
                 local.getAllTransaction()
                     .map { local -> local.map { localMapper.mapToDomain(it) } }
+                    .firstElement()
             }
     }
 
@@ -98,7 +106,8 @@ class TransactionRepositoryImpl(
         type: String,
         feeType: String,
         fee: Int,
-        description: String
+        description: String,
+        payment: String
     ): Observable<Unit> {
         return remote.postTransaction(
             name = name,
@@ -108,6 +117,7 @@ class TransactionRepositoryImpl(
             description = description,
             feeType = feeType,
             fee = fee,
+            payment = payment
         )
     }
 
@@ -119,8 +129,9 @@ class TransactionRepositoryImpl(
         fee: Int,
         feeType: String,
         type: String,
-        description: String
-    ): Observable<TransactionDomain> {
+        description: String,
+        alreadyPosted: Int
+    ): Completable {
         return remote.updateTransaction(
             name = name,
             date = date,
@@ -130,14 +141,25 @@ class TransactionRepositoryImpl(
             id = id,
             feeType = feeType,
             fee = fee,
+            alreadyPosted = alreadyPosted
         )
-            .map { data -> remoteMapper.mapToDomain(data) }
+
     }
 
     override fun deleteTransaction(id: Int): Observable<Response<Unit>> {
         return remote.deleteTransaction(id)
             .doOnNext {
                 local.deleteTransaction(id)
+            }
+    }
+
+    override fun getAllTransactionByType(type: String): Maybe<List<TransactionDomain>> {
+        return remote.getAllTransactionByType(type)
+            .map { it.transaction.map { data -> remoteMapper.mapToDomain(data) } }
+            .onErrorResumeNext {
+                local.getAllTransactionByType(type)
+                    .map { it.map { data -> localMapper.mapToDomain(data) }}
+                    .firstElement()
             }
     }
 }

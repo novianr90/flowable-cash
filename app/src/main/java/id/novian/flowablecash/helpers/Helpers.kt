@@ -3,48 +3,63 @@ package id.novian.flowablecash.helpers
 import id.novian.flowablecash.data.AccountName
 import id.novian.flowablecash.data.FeeType
 import id.novian.flowablecash.data.TransactionType
-import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.domain.models.TransactionDomain
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.Currency
 import java.util.Date
 import java.util.Locale
 
 object Helpers {
 
     fun numberFormatter(number: Int?): String {
-        val formatter = DecimalFormat("#,###,###")
-        return formatter.format(number)
+        return if (number != null && number != 0) {
+            val formatter = DecimalFormat("#,###,###")
+            formatter.format(number)
+        } else {
+            ""
+        }
+    }
+
+    fun formatCurrency(amount: Int): String {
+        val format = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+        format.currency = Currency.getInstance("IDR")
+        return format.format(amount.toLong())
     }
 
     fun transactionTypeDecider(value: String): TransactionType {
         return when (value) {
-            "Sale" -> TransactionType.SALE
-            "Purchase" -> TransactionType.PURCHASE
+            "Penjualan" -> TransactionType.PENJUALAN
+            "Pembelian" -> TransactionType.PEMBELIAN
+            "Perlengkapan" -> TransactionType.PERLENGKAPAN
             else -> TransactionType.UNKNOWN
         }
     }
 
     fun transactionTypeChanger(transactionType: TransactionType): String {
         return when (transactionType) {
-            TransactionType.PURCHASE -> "Purchase"
-            TransactionType.SALE -> "Sale"
+            TransactionType.PEMBELIAN -> "Pembelian"
+            TransactionType.PENJUALAN -> "Penjualan"
+            TransactionType.PERLENGKAPAN -> "Perlengkapan"
             else -> ""
         }
     }
 
     fun feeTypeDecider(value: String): FeeType {
         return when (value) {
-            "Purchase" -> FeeType.PURCHASE
-            "Sale" -> FeeType.SALE
+            "Pembelian" -> FeeType.PEMBELIAN
+            "Penjualan" -> FeeType.PENJUALAN
+            "Perlengkapan" -> FeeType.PERLENGKAPAN
             else -> FeeType.UNKNOWN
         }
     }
 
     fun feeTypeChanger(value: FeeType): String {
         return when (value) {
-            FeeType.SALE -> "Sale"
-            FeeType.PURCHASE -> "Purchase"
+            FeeType.PENJUALAN -> "Penjualan"
+            FeeType.PEMBELIAN -> "Pembelian"
+            FeeType.PERLENGKAPAN -> "Perlengkapan"
             else -> ""
         }
     }
@@ -55,14 +70,18 @@ object Helpers {
             "Persediaan Barang Dagang" -> AccountName.PERSEDIAANBARANGDAGANG
             "Perlengkapan" -> AccountName.PERLENGKAPAN
             "Hutang Dagang" -> AccountName.HUTANGDAGANG
+            "Piutang Dagang" -> AccountName.PIUTANG
             "Modal" -> AccountName.MODALOWNER
             "Laba Disimpan" -> AccountName.LABADISIMPAN
             "Mengambil Laba" -> AccountName.PRIVE
             "Penjualan" -> AccountName.PENJUALAN
             "Pembelian" -> AccountName.PEMBELIAN
-            "Beban Penjualan" -> AccountName.BEBANPENJUALAN
-            "Beban Pembelian" -> AccountName.BEBANPEMBELIAN
+            "Beban Ongkos" -> AccountName.BEBANONGKOS
+            "Beban Pengemasan" -> AccountName.BEBANPENGEMASAN
+            "Beban Penyusutan" -> AccountName.BEBANPENYUSUTAN
             "Akumulasi Penyusutan Perlengkapan" -> AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN
+            "Beban Lainnya" -> AccountName.BEBANLAINNYA
+            "Beban Operasional" -> AccountName.BEBANOPS
             else -> AccountName.UNKNOWN
         }
     }
@@ -74,30 +93,18 @@ object Helpers {
             AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN -> "Akumulasi Penyusutan Perlengkapan"
             AccountName.PERLENGKAPAN -> "Perlengkapan"
             AccountName.HUTANGDAGANG -> "Hutang Dagang"
+            AccountName.PIUTANG -> "Piutang Dagang"
             AccountName.MODALOWNER -> "Modal"
             AccountName.LABADISIMPAN -> "Laba Disimpan"
             AccountName.PRIVE -> "Mengambil Laba"
             AccountName.PENJUALAN -> "Penjualan"
             AccountName.PEMBELIAN -> "Pembelian"
-            AccountName.BEBANPENJUALAN -> "Beban Penjualan"
-            AccountName.BEBANPEMBELIAN -> "Beban Pembelian"
+            AccountName.BEBANONGKOS -> "Beban Ongkos"
+            AccountName.BEBANPENGEMASAN -> "Beban Pengemasan"
+            AccountName.BEBANPENYUSUTAN -> "Beban Penyusutan"
+            AccountName.BEBANLAINNYA -> "Beban Lainnya"
+            AccountName.BEBANOPS -> "Beban Operasional"
             else -> "Unknown"
-        }
-    }
-
-    fun debitCreditDeciderForBalanceSheet(accountName: AccountName, value: Int): AccountBalance {
-        return when (accountName) {
-            AccountName.KAS -> AccountBalance(debit = value, credit = 0)
-            AccountName.PERSEDIAANBARANGDAGANG -> AccountBalance(debit = value, credit = 0)
-            AccountName.PERLENGKAPAN -> AccountBalance(debit = value, credit = 0)
-            AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN -> AccountBalance(debit = 0, credit = value)
-            AccountName.HUTANGDAGANG -> AccountBalance(debit = 0, credit = value)
-            AccountName.MODALOWNER -> AccountBalance(debit = 0, credit = value)
-            AccountName.LABADISIMPAN -> AccountBalance(debit = 0, credit = value)
-            AccountName.PRIVE -> AccountBalance(debit = 0, credit = value)
-            AccountName.BEBANPENJUALAN -> AccountBalance(debit = value, credit = 0)
-            AccountName.PEMBELIAN -> AccountBalance(debit = value, credit = 0)
-            else -> AccountBalance(0, 0)
         }
     }
 
@@ -139,5 +146,11 @@ object Helpers {
             val date = dateFormat.parse(it.transactionDate)
             date != null && date.isInRange(parsedStartDate, parsedEndDate)
         }
+    }
+
+    fun filterDateByMonth(date: String, month: Int): Boolean {
+        val dateParts = date.split("-")
+        val transactionMonth = dateParts[1].toInt()
+        return transactionMonth == month
     }
 }

@@ -3,6 +3,7 @@ package id.novian.flowablecash.view.journaling.record
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import id.novian.flowablecash.R
 import id.novian.flowablecash.base.BaseFragment
 import id.novian.flowablecash.databinding.FragmentRecordTransactionBinding
 
@@ -13,6 +14,9 @@ class RecordTransaction :
         get() = FragmentRecordTransactionBinding::inflate
 
     override val isNavigationVisible: Boolean
+        get() = false
+
+    override val hasBottomNavigationView: Boolean
         get() = false
 
     override fun setup() {
@@ -29,17 +33,12 @@ class RecordTransaction :
 
         binding.cvSelling.setOnClickListener {
             findNavController().navigate(
-                RecordTransactionDirections.actionRecordTransactionToTransactionDetails(
-                    transactionType = "Selling"
-                )
+                R.id.action_recordTransaction_to_transactionDetails
             )
         }
-
         binding.cvBuying.setOnClickListener {
             findNavController().navigate(
-                RecordTransactionDirections.actionRecordTransactionToTransactionDetails(
-                    transactionType = "Buying"
-                )
+                R.id.action_recordTransaction_to_purchaseRecordFragment
             )
         }
     }

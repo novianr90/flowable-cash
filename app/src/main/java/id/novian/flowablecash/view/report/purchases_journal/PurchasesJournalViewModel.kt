@@ -25,8 +25,11 @@ class PurchasesJournalViewModel @Inject constructor(
     private val _result: MutableLiveData<Result> = MutableLiveData()
     val result: LiveData<Result> get() = _result
 
+    private val observablePurchasesJournal = repo.getJournal()
+        .share()
+
     fun getJournal() {
-        val disposable = repo.getJournal()
+        val disposable = observablePurchasesJournal
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .doOnSubscribe { _result.postValue(Result.LOADING) }

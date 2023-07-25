@@ -12,4 +12,7 @@ object Endpoints {
 
     // Balance Sheet
     const val BASE_BALANCE_SHEET = "balance-sheets"
+
+    // Posting
+    const val BASE_POSTING = "posting"
 }

@@ -7,12 +7,12 @@
     tools:context=".view.report.cash_receipt.CashReceiptJournal">
 
     <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="6dp"
-        android:src="@drawable/ic_back" />
+    android:id="@+id/btn_back"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="6dp"
+    android:src="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/tv_cash_receipt_journal"

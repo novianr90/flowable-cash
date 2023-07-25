@@ -1,7 +1,7 @@
 package id.novian.flowablecash.base
 
 import androidx.recyclerview.widget.DiffUtil
-import id.novian.flowablecash.domain.models.BalanceSheetDomain
+import id.novian.flowablecash.domain.models.AccountDomain
 import id.novian.flowablecash.domain.models.CashReceiptJournal
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.helpers.sameAndEqual
@@ -9,7 +9,7 @@ import id.novian.flowablecash.helpers.sameAndEqual
 class BaseItemCallBack<T : Any> : DiffUtil.ItemCallback<T>() {
     override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
         return when (oldItem) {
-            is BalanceSheetDomain -> if (newItem is BalanceSheetDomain) oldItem.id.sameAndEqual(
+            is AccountDomain -> if (newItem is AccountDomain) oldItem.id.sameAndEqual(
                 newItem
             ) else false
 

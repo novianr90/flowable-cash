@@ -27,4 +27,7 @@ interface TransactionDao {
 
     @Query("SELECT * FROM TRANSACTIONLOCAL WHERE id = :id")
     fun getTransactionById(id: Int): Observable<TransactionLocal>
+
+    @Query("SELECT * FROM TransactionLocal WHERE type = :type")
+    fun getAllTransactionByType(type: String): Observable<List<TransactionLocal>>
 }

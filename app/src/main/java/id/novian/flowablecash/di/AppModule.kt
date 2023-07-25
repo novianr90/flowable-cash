@@ -56,6 +56,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named("DEFAULT")
     fun provideCalendarDefault(): Calendar = Calendar.getInstance()
 }

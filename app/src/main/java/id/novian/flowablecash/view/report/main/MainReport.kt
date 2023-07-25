@@ -33,6 +33,9 @@ class MainReport : BaseFragment<FragmentMainReportBinding>() {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = reportAdapter
             setHasFixedSize(true)
+            val spacingInPixels = resources.getDimensionPixelSize(R.dimen.grid_spacing)
+            val includeEdge = false
+            addItemDecoration(GridSpacingItemDecoration(2, spacingInPixels, includeEdge))
         }
         reportAdapter.submitList(menuReportItems)
     }
@@ -43,8 +46,11 @@ class MainReport : BaseFragment<FragmentMainReportBinding>() {
 
     private fun onClickOnItem(journalType: String) {
         when (journalType) {
-            "Cash Receipt Journal" -> moveTo(R.id.action_mainReport_to_cashReceiptJournal)
-            "Purchases Journal" -> moveTo(R.id.action_mainReport_to_purchasesJournal)
+            "Jurnal Penjualan" -> moveTo(R.id.action_mainReport_to_cashReceiptJournal)
+            "Jurnal Pembelian" -> moveTo(R.id.action_mainReport_to_purchasesJournal)
+            "Neraca Saldo" -> moveTo(R.id.action_mainReport_to_balanceSheetFragment)
+            "Laporan Laba Rugi" -> moveTo(R.id.action_mainReport_to_incomeStatements)
+            "Laporan Posisi Keuangan" -> moveTo(R.id.action_mainReport_to_financialPosition)
         }
     }
 }

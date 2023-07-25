@@ -1,8 +1,7 @@
 package id.novian.flowablecash.view.report.cash_receipt
 
-import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,18 +21,19 @@ class CashReceiptJournal :
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCashReceiptJournalBinding
         get() = FragmentCashReceiptJournalBinding::inflate
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override val isNavigationVisible: Boolean
+        get() = false
+
+    override fun setup() {
+        super.setup()
         viewModel.getCashReceiptJournal()
         itemAdapter = CashReceiptAdapter()
         observe()
         setButtonBack()
         setRecyclerView()
-    }
-
-    override fun onResume() {
-        super.onResume()
         getJournal()
+
+//        viewModel.postingKasPenjualanAndPersediaan()
     }
 
     private fun setRecyclerView() {
@@ -51,6 +51,7 @@ class CashReceiptJournal :
         with(viewModel) {
             errMessage.observe(viewLifecycleOwner) {
                 viewModel.createToast(it)
+                Log.d("CashReceipt", "Error Occurred! Message $it")
             }
         }
     }

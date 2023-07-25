@@ -16,5 +16,7 @@ data class TransactionDomain(
     val fee: Int,
     val feeType: FeeType,
     val createdAt: String,
-    val updatedAt: String
+    val updatedAt: String,
+    val payment: String,
+    val alreadyPosted: Int
 ) : Parcelable

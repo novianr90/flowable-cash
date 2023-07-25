@@ -2,19 +2,19 @@
     <string name="app_name">Flowable Cash</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txt_buying">Record your buying activities</string>
-    <string name="txt_selling">Record your selling activities</string>
-    <string name="txt_transaction_name">Transaction Name</string>
-    <string name="txt_save">Save</string>
+    <string name="txt_buying">Rekam transaksi pembelian anda</string>
+    <string name="txt_selling">Rekam transaksi penjualan anda</string>
+    <string name="txt_transaction_name">Nama Transaksi</string>
+    <string name="txt_save">Simpan</string>
     <string name="txt_transaction_name_hint">Masukkan nama transaksi anda</string>
-    <string name="txt_transaction_date">Transaction Date</string>
+    <string name="txt_transaction_date">Tanggal Transaksi</string>
     <string name="txt_transaction_date_hint">Masukkan tanggal transaksi anda</string>
-    <string name="txt_transaction_description">Transaction Description</string>
+    <string name="txt_transaction_description">Deskripsi Tambahan</string>
     <string name="txt_transaction_desc_hint">Masukkan deskripsi transaksi anda</string>
-    <string name="txt_balance">Price</string>
+    <string name="txt_balance">Harga</string>
     <string name="txt_balance_hint">Masukkan harga transaksi anda</string>
-    <string name="txt_transaction_type">Transaction Type</string>
-    <string name="txt_transaction_type_hint">Masukkan tipe transaksi</string>
+    <string name="txt_purchase_type">Tipe Pembelian</string>
+    <string name="txt_purchase_type_hint">Masukkan tipe pembelian yang dilakukan</string>
     <string name="txt_default">Lorem ipsum</string>
     <string name="txt_all_transactions">All Transactions</string>
     <string name="txt_all_sale">All Sales</string>
@@ -23,35 +23,41 @@
     <string name="txt_update">Update</string>
     <string name="txt_asset">Record your equity and assets first</string>
     <string name="txt_insert_fee_type">Masukkan tipe biaya</string>
-    <string name="txt_fee_type">Fee Type</string>
+    <string name="txt_fee_type">Biaya tambahan</string>
     <string name="txt_fee">Fee</string>
-    <string name="txt_masukkan_biaya_penjualan_pembelian">Masukkan biaya penjualan/pembelian</string>
-    <string name="txt_cash_receipt_journal">Cash Receipt Journal</string>
-    <string name="txt_purchases_journal">Purchases Journal</string>
-    <string name="txt_edit_your_balance_sheet">Edit your balance sheet</string>
+    <string name="txt_masukkan_biaya_penjualan_pembelian">Masukkan biaya tambahan</string>
+    <string name="txt_cash_receipt_journal">Jurnal Penjualan</string>
+    <string name="txt_purchases_journal">Jurnal Pembelian</string>
+    <string name="txt_edit_your_balance_sheet">Tambah modal atau ambil laba anda</string>
     <string name="txt_update_your_balance_sheet">Update your balance sheet</string>
     <string name="txt_add_edit_transactions_accounts">Add/Edit Transactions/Accounts</string>
     <string name="txt_transactiontype">TransactionType</string>
     <string name="txt_transactiontotal">TransactionTotal</string>
     <string name="txt_transactiondate">TransactionDate</string>
     <string name="txt_transactionname">TransactionName</string>
+    <string name="txt_neraca_saldo">Neraca Saldo</string>
+    <string name="txt_income_statements">Laba Rugi</string>
+    <string name="txt_pendapatan_dari_penjualan">Pendapatan dari Penjualan</string>
+    <string name="txt_harga_pembelian">Harga Pembelian</string>
+    <string name="txt_harga_beban_pembelian">Harga Beban Pengemasan</string>
+    <string name="txt_harga_beban_penjualan">Harga Beban Ongkos</string>
+    <string name="txt_payment_type_hint">Masukkan tipe pembayaran anda</string>
+    <string name="payment_type">Tipe Pembayaran</string>
+    <string name="txt_harga_beban_operasional">Harga Beban Operasional</string>
+    <string name="txt_harga_beban_lainnya">Harga Beban Lainnya</string>
+    <string name="txt_posisi_keuangan">Posisi Keuangan</string>
     <string-array name="transaction_type">
-        <item>Purchase</item>
-        <item>Sale</item>
+        <item>Pembelian</item>
+        <item>Penjualan</item>
+    </string-array>
+    <string-array name="fee_type">
+        <item>Biaya Ongkos Kirim</item>
+        <item>Biaya Pengemasan</item>
+        <item>Biaya Lainnya</item>
     </string-array>
     <string-array name="account_name">
-        <item>Kas</item>
-        <item>Persediaan Barang Dagang</item>
-        <item>Perlengkapan</item>
-        <item>Akumulasi Penyusutan Perlengkapan</item>
-        <item>Hutang Dagang</item>
-        <item>Modal</item>
-        <item>Laba Disimpan</item>
+        <item>Menambah Modal</item>
         <item>Mengambil Laba</item>
-        <item>Penjualan</item>
-        <item>Pembelian</item>
-        <item>Beban Pembelian</item>
-        <item>Beban Penjualan</item>
     </string-array>
     <string-array name="transaction_date_sort">
         <item>Hari Ini</item>
@@ -60,5 +66,15 @@
         <item>30 Hari Lalu</item>
         <item>Bulan Ini</item>
         <item>Bulan Lalu</item>
+    </string-array>
+    <string-array name="payment_type">
+        <item>Tunai</item>
+        <item>Non-Tunai</item>
+    </string-array>
+    <string-array name="purchase_type">
+        <item>Bahan Baku</item>
+        <item>Barang Dagang</item>
+        <item>Bahan Produksi</item>
+        <item>Perlengkapan Tambahan</item>
     </string-array>
 </resources>
