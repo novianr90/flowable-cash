@@ -43,7 +43,10 @@ class HomeFragment :
     override fun setup() {
         super.setup()
 
-        viewModel.viewModelInitialized()
+        if (!isExecuted) {
+            viewModel.viewModelInitialized()
+            isExecuted = true
+        }
 
         getTransactions()
 

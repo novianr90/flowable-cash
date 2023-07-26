@@ -26,7 +26,7 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             createdAt = model.createdAt,
             updatedAt = model.updatedAt,
             fee = model.fee,
-            feeType = Helpers.feeTypeDecider(model.feeType),
+            feeType = model.feeType,
             payment = model.payment,
             alreadyPosted = model.alreadyPosted
         )
@@ -43,7 +43,7 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt,
             fee = domain.fee,
-            feeType = Helpers.feeTypeChanger(domain.feeType),
+            feeType = domain.feeType,
             payment = domain.payment,
             alreadyPosted = domain.alreadyPosted
         )
@@ -61,7 +61,7 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             transactionDescription = model.transactionDescription,
             createdAt = model.createdAt,
             updatedAt = model.updatedAt,
-            feeType = Helpers.feeTypeDecider(model.feeType),
+            feeType = model.feeType,
             fee = model.fee,
             payment = model.payment,
             alreadyPosted = model.alreadyPosted
@@ -79,7 +79,7 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt,
             fee = domain.fee,
-            feeType = Helpers.feeTypeChanger(domain.feeType),
+            feeType = domain.feeType,
             payment = domain.payment,
             alreadyPosted = domain.alreadyPosted
         )
