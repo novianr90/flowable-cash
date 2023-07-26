@@ -51,14 +51,14 @@
                 android:id="@+id/txt_input_account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Account Name"
+                android:hint="Nama Biaya"
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_account_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Masukkan Nama Akun"
+                    android:hint="Masukkan Jenis Biaya"
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:hint="Masukkan Total Saldo pada Akun Ini" />
+                    android:hint="Masukkan Total Saldo pada Biaya Ini" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +87,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_gravity="end"/>
         </LinearLayout>
-
 
     </androidx.cardview.widget.CardView>
 
