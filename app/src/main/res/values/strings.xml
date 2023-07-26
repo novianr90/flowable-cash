@@ -28,8 +28,8 @@
     <string name="txt_masukkan_biaya_penjualan_pembelian">Masukkan biaya tambahan</string>
     <string name="txt_cash_receipt_journal">Jurnal Penjualan</string>
     <string name="txt_purchases_journal">Jurnal Pembelian</string>
-    <string name="txt_edit_your_balance_sheet">Tambah modal atau ambil laba anda</string>
-    <string name="txt_update_your_balance_sheet">Update your balance sheet</string>
+    <string name="txt_edit_your_balance_sheet">Tambah pengeluaran tambahan</string>
+    <string name="txt_update_your_balance_sheet">Masukkan transaksi pengeluaran</string>
     <string name="txt_add_edit_transactions_accounts">Add/Edit Transactions/Accounts</string>
     <string name="txt_transactiontype">TransactionType</string>
     <string name="txt_transactiontotal">TransactionTotal</string>
@@ -56,8 +56,11 @@
         <item>Biaya Lainnya</item>
     </string-array>
     <string-array name="account_name">
-        <item>Menambah Modal</item>
-        <item>Mengambil Laba</item>
+        <item>Biaya Listrik</item>
+        <item>Biaya Air</item>
+        <item>Biaya Pembersihan</item>
+        <item>Biaya Promosi</item>
+        <item>Biaya Lainnya</item>
     </string-array>
     <string-array name="transaction_date_sort">
         <item>Hari Ini</item>

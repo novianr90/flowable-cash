@@ -50,7 +50,7 @@ class InsertAssetFragment :
         spinner = binding.spinnerAccountName
         spinner.setAdapter(adapter)
 
-        spinner.setText("Menambah Modal", false)
+        spinner.setText("Biaya Listrik", false)
     }
 
     private fun getUserInput() {
@@ -65,7 +65,7 @@ class InsertAssetFragment :
                     debit = balance, credit = balance
                 )
 
-//                viewModel.processData(assetString, queryBalance)
+                viewModel.processData(assetString, queryBalance)
 
                 Log.d("Asset", "asset: $assetString")
                 Log.d("Asset", "balance: $queryBalance")
@@ -102,7 +102,6 @@ class InsertAssetFragment :
                 }
             }
         }
-
 
     }
 }
