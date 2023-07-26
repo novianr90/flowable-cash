@@ -1,7 +1,6 @@
 package id.novian.flowablecash.helpers
 
 import id.novian.flowablecash.data.AccountName
-import id.novian.flowablecash.data.FeeType
 import id.novian.flowablecash.data.TransactionType
 import id.novian.flowablecash.domain.models.TransactionDomain
 import java.text.DecimalFormat
@@ -42,24 +41,6 @@ object Helpers {
             TransactionType.PEMBELIAN -> "Pembelian"
             TransactionType.PENJUALAN -> "Penjualan"
             TransactionType.PERLENGKAPAN -> "Perlengkapan"
-            else -> ""
-        }
-    }
-
-    fun feeTypeDecider(value: String): FeeType {
-        return when (value) {
-            "Pembelian" -> FeeType.PEMBELIAN
-            "Penjualan" -> FeeType.PENJUALAN
-            "Perlengkapan" -> FeeType.PERLENGKAPAN
-            else -> FeeType.UNKNOWN
-        }
-    }
-
-    fun feeTypeChanger(value: FeeType): String {
-        return when (value) {
-            FeeType.PENJUALAN -> "Penjualan"
-            FeeType.PEMBELIAN -> "Pembelian"
-            FeeType.PERLENGKAPAN -> "Perlengkapan"
             else -> ""
         }
     }

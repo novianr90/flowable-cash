@@ -107,7 +107,7 @@ class UpdateFragment :
             )
             binding.etTransactionBalance.setText(Helpers.numberFormatter(data.total))
             binding.etTransactionDesc.setText(data.transactionDescription)
-            binding.spinnerFeeType.setText(Helpers.feeTypeChanger(data.feeType), false)
+            binding.spinnerFeeType.setText(data.feeType, false)
             binding.etFeeBalance.setText(Helpers.numberFormatter(data.fee))
         }
     }

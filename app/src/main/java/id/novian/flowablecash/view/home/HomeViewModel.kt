@@ -4,17 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.BaseViewModel
+import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.domain.models.TransactionDomain
-import id.novian.flowablecash.domain.repository.AccountsRepository
-import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
-import id.novian.flowablecash.domain.repository.PurchasesJournalRepository
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CalendarHelper
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
 import id.novian.flowablecash.usecase.posting.PostingUseCase
 import io.reactivex.rxjava3.core.Scheduler
-import java.util.Calendar
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -26,13 +23,7 @@ class HomeViewModel @Inject constructor(
     private val toast: CreateToast,
     val calendarHelper: CalendarHelper,
     private val postingUseCase: PostingUseCase,
-    private val cashRepo: CashReceiptJournalRepository,
-    private val purchaseRepo: PurchasesJournalRepository,
-    private val calendar: Calendar,
-    private val accountsRepository: AccountsRepository,
 ) : BaseViewModel() {
-
-    private val getMonth = calendar.get(Calendar.MONTH) + 1
 
     private val _onLoading: MutableLiveData<Boolean> = MutableLiveData()
     val onLoading: LiveData<Boolean> get() = _onLoading
@@ -46,7 +37,7 @@ class HomeViewModel @Inject constructor(
     private val observableTransaction = transaction.getAllTransactions().cache()
 
     override fun viewModelInitialized() {
-
+        postingBebanBeban()
     }
 
     fun createToast(message: String) {
@@ -82,6 +73,60 @@ class HomeViewModel @Inject constructor(
                 it.printStackTrace()
                 errorMessage.postValue(it.message)
                 _onResult.postValue(Result.FAILED)
+            })
+
+        compositeDisposable.add(disposable)
+    }
+
+    private fun postingBebanBeban() {
+        val disposable = observableTransaction
+            .subscribeOn(schedulerIo)
+            .observeOn(schedulerMain)
+            .flatMapCompletable { list ->
+                val biayaOngkosKirim = list.filter { it.feeType == "Biaya Ongkos Kirim" }
+                val biayaLainnya = list.filter { it.feeType == "Biaya Lainnya" }
+                val biayaPengemasan = list.filter { it.feeType == "Biaya Pengemasan" }
+
+                val ongkosBalance = AccountBalance(
+                    debit = biayaOngkosKirim.sumOf { it.fee },
+                    credit = 0
+                )
+
+                val lainnyaBalance = AccountBalance(
+                    debit = biayaLainnya.sumOf { it.fee },
+                    credit = 0
+                )
+
+                val pengemasanBalance = AccountBalance(
+                    debit = biayaPengemasan.sumOf { it.fee },
+                    credit = 0
+                )
+
+                postingUseCase.updateAccountsToRemote(
+                    "Beban Ongkos",
+                    ongkosBalance,
+                    calendarHelper.getMonth()
+                )
+                    .andThen(
+                        postingUseCase.updateAccountsToRemote(
+                            "Beban Lainnya",
+                            lainnyaBalance,
+                            calendarHelper.getMonth()
+                        )
+                    )
+                    .andThen(
+                        postingUseCase.updateAccountsToRemote(
+                            "Beban Pengemasan",
+                            pengemasanBalance,
+                            calendarHelper.getMonth()
+                        )
+                    )
+            }
+            .subscribe({
+                // Not yet implemented
+            }, { err ->
+                err.printStackTrace()
+                errorMessage.postValue(err.message)
             })
 
         compositeDisposable.add(disposable)
