@@ -31,10 +31,10 @@ class UpdateViewModel @Inject constructor(
         name: String,
         date: String,
         total: Int,
-        type: String,
+        type: String = "",
         description: String,
-        feeType: String,
-        fee: Int
+        feeType: String = "",
+        fee: Int = 0
     ) {
         val disposable = repo.updateTransaction(
             id = id,

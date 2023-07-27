@@ -208,8 +208,7 @@ class HomeFragment :
 
         dialogBinding.tvItemNameDetails.text = details.transactionName
         dialogBinding.tvItemDateDetails.text = details.transactionDate
-        dialogBinding.tvItemTypeDetails.text =
-            Helpers.transactionTypeChanger(details.transactionType)
+        dialogBinding.tvItemTypeDetails.text = details.transactionType
         dialogBinding.tvItemTotalDetails.text = Helpers.numberFormatter(details.total)
         dialogBinding.tvItemCreatedAtDetails.text = details.createdAt
         dialogBinding.tvItemUpdatedAtDetails.text = details.updatedAt

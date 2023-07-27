@@ -32,8 +32,6 @@ class CashReceiptJournal :
         setButtonBack()
         setRecyclerView()
         getJournal()
-
-//        viewModel.postingKasPenjualanAndPersediaan()
     }
 
     private fun setRecyclerView() {

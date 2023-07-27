@@ -2,14 +2,11 @@ package id.novian.flowablecash.view.journaling.update
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import id.novian.flowablecash.R
 import id.novian.flowablecash.base.custom.CustomSnackBar
 import id.novian.flowablecash.base.custom.CustomSnackBarImpl
 import id.novian.flowablecash.base.layout.BaseFragment
@@ -29,8 +26,6 @@ class UpdateFragment :
         get() = FragmentUpdateBinding::inflate
 
     private val viewModel: UpdateViewModel by viewModels()
-    private lateinit var spinner: AutoCompleteTextView
-    private lateinit var feeSpinner: AutoCompleteTextView
 
     private val args: UpdateFragmentArgs by navArgs()
 
@@ -42,7 +37,6 @@ class UpdateFragment :
 
         snackBar = CustomSnackBarImpl(requireNotNull(rootView))
 
-        setSpinner()
         setDatePickerListener()
         buttonBack()
     }
@@ -56,20 +50,6 @@ class UpdateFragment :
 
             getUserInput(args.transactionId)
         }
-    }
-
-    private fun setSpinner() {
-        val adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.transaction_type,
-            android.R.layout.simple_dropdown_item_1line
-        )
-        spinner = binding.spinnerTransactionType
-
-        feeSpinner = binding.spinnerFeeType
-
-        feeSpinner.setAdapter(adapter)
-        spinner.setAdapter(adapter)
     }
 
     private fun setDatePickerListener() {
@@ -108,14 +88,8 @@ class UpdateFragment :
             binding.etTransactionName.setText(data.transactionName)
             binding.etTransactionDate.setText(data.transactionDate)
 
-            binding.spinnerTransactionType.setText(
-                Helpers.transactionTypeChanger(data.transactionType),
-                false
-            )
             binding.etTransactionBalance.setText(Helpers.numberFormatter(data.total))
             binding.etTransactionDesc.setText(data.transactionDescription)
-            binding.spinnerFeeType.setText(data.feeType, false)
-            binding.etFeeBalance.setText(Helpers.numberFormatter(data.fee))
         }
     }
 
@@ -133,9 +107,6 @@ class UpdateFragment :
                 "01-01-1970"
             }
 
-            val transactionType = binding.spinnerTransactionType.text.toString()
-            val feeType = binding.spinnerFeeType.text.toString()
-            val transactionFee = binding.etFeeBalance.text.toString().toInt()
             val transactionTotal = binding.etTransactionBalance.text.toString().toInt()
             val transactionDescription = binding.etTransactionDesc.text.toString()
 
@@ -144,10 +115,7 @@ class UpdateFragment :
                 name = transactionName,
                 date = transactionDate,
                 description = transactionDescription,
-                total = transactionTotal,
-                type = transactionType,
-                fee = transactionFee,
-                feeType = feeType
+                total = transactionTotal
             )
         }
     }
@@ -171,7 +139,6 @@ class UpdateFragment :
 
             errMessage.observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
-//                    viewModel.createToast(it)
                     snackBar.showSnackBar(it)
                 }
             }
