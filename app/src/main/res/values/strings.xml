@@ -28,8 +28,8 @@
     <string name="txt_masukkan_biaya_penjualan_pembelian">Masukkan biaya tambahan</string>
     <string name="txt_cash_receipt_journal">Jurnal Penjualan</string>
     <string name="txt_purchases_journal">Jurnal Pembelian</string>
-    <string name="txt_edit_your_balance_sheet">Tambah pengeluaran tambahan</string>
-    <string name="txt_update_your_balance_sheet">Masukkan transaksi pengeluaran</string>
+    <string name="txt_edit_your_balance_sheet">Masukkan Saldo Awal</string>
+    <string name="txt_update_your_balance_sheet">Masukkan saldo awal</string>
     <string name="txt_add_edit_transactions_accounts">Add/Edit Transactions/Accounts</string>
     <string name="txt_transactiontype">TransactionType</string>
     <string name="txt_transactiontotal">TransactionTotal</string>
