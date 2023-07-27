@@ -22,7 +22,7 @@
         android:layout_marginBottom="4dp"
         android:gravity="center"
         android:padding="2dp"
-        android:text="Catat Penjualan Anda"
+        android:text="Catat Pemasukkan Anda"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -109,41 +109,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:hint="@string/txt_balance_hint" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_fee_type"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/txt_fee_type"
-                app:expandedHintEnabled="false">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spinner_fee_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/txt_insert_fee_type"
-                    android:inputType="none" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txt_input_fee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/txt_fee"
-                app:expandedHintEnabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_fee_balance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/txt_masukkan_biaya_penjualan_pembelian"
-                    android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

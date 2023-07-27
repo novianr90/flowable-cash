@@ -43,12 +43,12 @@
     </fragment>
     <fragment
         android:id="@+id/cashReceiptJournal"
-        android:name="id.novian.flowablecash.view.report.cash_receipt.CashReceiptJournal"
+        android:name="id.novian.flowablecash.view.report.rekap_pemasukkan.CashReceiptJournal"
         android:label="fragment_cash_receipt_journal"
         tools:layout="@layout/fragment_cash_receipt_journal" />
     <fragment
         android:id="@+id/purchasesJournal"
-        android:name="id.novian.flowablecash.view.report.purchases_journal.PurchasesJournal"
+        android:name="id.novian.flowablecash.view.report.rekap_pengeluaran.PurchasesJournal"
         android:label="fragment_purchases_journal"
         tools:layout="@layout/fragment_purchases_journal" />
     <fragment
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/balanceSheetFragment"
-        android:name="id.novian.flowablecash.view.report.balance_sheet.TrialBalanceFragment"
+        android:name="id.novian.flowablecash.view.report.rekap_hpp.TrialBalanceFragment"
         android:label="fragment_balance_sheet"
         tools:layout="@layout/fragment_balance_sheet" />
     <fragment

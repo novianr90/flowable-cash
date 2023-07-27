@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     private val observableTransaction = transaction.getAllTransactions().cache()
 
     override fun viewModelInitialized() {
-        postingBebanBeban()
+//        postingBebanBeban()
     }
 
     fun createToast(message: String) {

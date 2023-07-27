@@ -1,4 +1,4 @@
-package id.novian.flowablecash.view.report.cash_receipt
+package id.novian.flowablecash.view.report.rekap_pengeluaran
 
 import android.graphics.Typeface
 import android.view.LayoutInflater
@@ -9,15 +9,14 @@ import id.novian.flowablecash.base.layout.BaseTableAdapter
 import id.novian.flowablecash.base.layout.VIEW_TYPE_FOOTER
 import id.novian.flowablecash.base.layout.VIEW_TYPE_HEADER
 import id.novian.flowablecash.databinding.JournalTableItemBinding
-import id.novian.flowablecash.domain.models.CashReceiptJournal
+import id.novian.flowablecash.domain.models.PurchasesJournal
 import id.novian.flowablecash.helpers.Helpers
 
-
-class CashReceiptAdapter : BaseTableAdapter<CashReceiptJournal>() {
+class PurchasesJournalAdapter : BaseTableAdapter<PurchasesJournal>() {
 
     inner class HeaderViewHolder(
         private val binding: JournalTableItemBinding
-    ): BaseTableViewHolder<CashReceiptJournal>(binding.root) {
+    ): BaseTableViewHolder<PurchasesJournal>(binding.root) {
         override fun onBindHeader(position: Int) {
             with(binding) {
                 if (position == 0) {
@@ -57,8 +56,9 @@ class CashReceiptAdapter : BaseTableAdapter<CashReceiptJournal>() {
 
     inner class FooterViewHolder(
         private val binding: JournalTableItemBinding
-    ): BaseTableViewHolder<CashReceiptJournal>(binding.root) {
-        override fun onBindFooter(data: List<CashReceiptJournal>, position: Int) {
+    ): BaseTableViewHolder<PurchasesJournal>(binding.root) {
+
+        override fun onBindFooter(data: List<PurchasesJournal>, position: Int) {
             with(binding) {
                 if (position == itemCount - 1) {
                     tvDate.visibility = View.GONE
@@ -78,8 +78,10 @@ class CashReceiptAdapter : BaseTableAdapter<CashReceiptJournal>() {
                     }
 
                     tvDescriptionReceipt.text = "Total"
-                    tvCashReceiptDebit.text = Helpers.numberFormatter(debit)
-                    tvCashReceiptCredit.text = Helpers.numberFormatter(credit)
+                    tvCashReceiptDebit.text =
+                        if (debit != 0) Helpers.numberFormatter(debit) else ""
+                    tvCashReceiptCredit.text =
+                        if (credit != 0) Helpers.numberFormatter(credit) else ""
 
                     tvDescriptionReceipt.setTypeface(null, Typeface.BOLD)
                     tvCashReceiptDebit.setTypeface(null, Typeface.NORMAL)
@@ -89,12 +91,11 @@ class CashReceiptAdapter : BaseTableAdapter<CashReceiptJournal>() {
         }
     }
 
-    inner class ItemViewHolder(
+    inner class ItemTableViewHolder(
         private val binding: JournalTableItemBinding
-    ): BaseTableViewHolder<CashReceiptJournal>(binding.root) {
-        override fun onBindItem(data: CashReceiptJournal, position: Int) {
+    ): BaseTableViewHolder<PurchasesJournal>(binding.root) {
+        override fun onBindItem(data: PurchasesJournal, position: Int) {
             with(binding) {
-
                 tvDate.visibility = View.VISIBLE
 
                 val layoutParams =
@@ -112,7 +113,6 @@ class CashReceiptAdapter : BaseTableAdapter<CashReceiptJournal>() {
                 tvDescriptionReceipt.setTypeface(null, Typeface.NORMAL)
                 tvCashReceiptDebit.setTypeface(null, Typeface.NORMAL)
                 tvCashReceiptCredit.setTypeface(null, Typeface.NORMAL)
-
             }
         }
     }
@@ -120,7 +120,7 @@ class CashReceiptAdapter : BaseTableAdapter<CashReceiptJournal>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseTableViewHolder<CashReceiptJournal> {
+    ): BaseTableViewHolder<PurchasesJournal> {
         val binding = JournalTableItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -130,7 +130,7 @@ class CashReceiptAdapter : BaseTableAdapter<CashReceiptJournal>() {
         return when(viewType) {
             VIEW_TYPE_HEADER -> HeaderViewHolder(binding)
             VIEW_TYPE_FOOTER -> FooterViewHolder(binding)
-            else -> ItemViewHolder(binding)
+            else -> ItemTableViewHolder(binding)
         }
     }
 }

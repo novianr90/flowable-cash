@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.report.cash_receipt.CashReceiptJournal">
+    tools:context=".view.report.rekap_pemasukkan.CashReceiptJournal">
 
     <ImageView
-    android:id="@+id/btn_back"
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="6dp"
-    android:src="@drawable/ic_back" />
+        android:id="@+id/btn_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/tv_cash_receipt_journal"

@@ -2,8 +2,8 @@
     <string name="app_name">Flowable Cash</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txt_buying">Rekam transaksi pembelian anda</string>
-    <string name="txt_selling">Rekam transaksi penjualan anda</string>
+    <string name="txt_buying">Rekam transaksi pengeluaran anda</string>
+    <string name="txt_selling">Rekam transaksi pemasukkan anda</string>
     <string name="txt_transaction_name">Nama Transaksi</string>
     <string name="txt_save">Simpan</string>
     <string name="txt_transaction_name_hint">Masukkan nama transaksi anda</string>
@@ -13,8 +13,8 @@
     <string name="txt_transaction_desc_hint">Masukkan deskripsi transaksi anda</string>
     <string name="txt_balance">Harga</string>
     <string name="txt_balance_hint">Masukkan harga transaksi anda</string>
-    <string name="txt_purchase_type">Tipe Pembelian</string>
-    <string name="txt_purchase_type_hint">Masukkan tipe pembelian yang dilakukan</string>
+    <string name="txt_purchase_type">Tipe Pengeluaran</string>
+    <string name="txt_purchase_type_hint">Masukkan tipe pengeluaran yang dilakukan</string>
     <string name="txt_default">Lorem ipsum</string>
     <string name="txt_all_transactions">All Transactions</string>
     <string name="txt_all_sale">All Sales</string>
@@ -28,7 +28,7 @@
     <string name="txt_masukkan_biaya_penjualan_pembelian">Masukkan biaya tambahan</string>
     <string name="txt_cash_receipt_journal">Jurnal Penjualan</string>
     <string name="txt_purchases_journal">Jurnal Pembelian</string>
-    <string name="txt_edit_your_balance_sheet">Tambah pengeluaran tambahan</string>
+    <string name="txt_edit_your_balance_sheet">Catat Saldo Awal</string>
     <string name="txt_update_your_balance_sheet">Masukkan transaksi pengeluaran</string>
     <string name="txt_add_edit_transactions_accounts">Add/Edit Transactions/Accounts</string>
     <string name="txt_transactiontype">TransactionType</string>
@@ -50,17 +50,18 @@
         <item>Pembelian</item>
         <item>Penjualan</item>
     </string-array>
-    <string-array name="fee_type">
-        <item>Biaya Ongkos Kirim</item>
-        <item>Biaya Pengemasan</item>
-        <item>Biaya Lainnya</item>
-    </string-array>
     <string-array name="account_name">
-        <item>Biaya Listrik</item>
-        <item>Biaya Air</item>
-        <item>Biaya Pembersihan</item>
-        <item>Biaya Promosi</item>
-        <item>Biaya Lainnya</item>
+        <!-- Aset Lancar -->
+        <item>Uang Tunai dan Saldo Bank</item>
+        <item>Piutang Usaha</item>
+        <item>Stok Barang</item>
+        <item>Stok Bahan</item>
+        <!-- Aset Tetap -->
+        <item>Peralatan Komputer</item>
+        <item>Kendaraan</item>
+        <item>Peralatan Lainnya</item>
+        <!-- Liabilitas -->
+        <item>Utang Usaha</item>
     </string-array>
     <string-array name="transaction_date_sort">
         <item>Hari Ini</item>
@@ -75,9 +76,21 @@
         <item>Non-Tunai</item>
     </string-array>
     <string-array name="purchase_type">
+        <!-- HPP -->
         <item>Bahan Baku</item>
         <item>Barang Dagang</item>
-        <item>Bahan Produksi</item>
-        <item>Perlengkapan Tambahan</item>
+        <item>Bahan Tambahan</item>
+        <!-- Aset Tetap -->
+        <item>Pengeluaran untuk Pembelian Alat Usaha</item>
+        <!-- Beban Beban -->
+        <item>Biaya Listrik</item>
+        <item>Biaya Air</item>
+        <item>Biaya Perbaikan</item>
+        <item>Biaya Promosi</item>
+        <item>Biaya Ongkos Kirim</item>
+        <item>Biaya Pengemasan</item>
+        <item>Biaya Gaji</item>
+        <item>Biaya Sewa</item>
+        <item>Biaya Lainnya</item>
     </string-array>
 </resources>
