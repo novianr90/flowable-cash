@@ -34,7 +34,7 @@ class TransactionListAdapter(
                 tvTransactionDate.text =
                     Helpers.dateFormatFromNonStringToString(data.transactionDate)
                 tvTransactionTotal.text = Helpers.numberFormatter(data.total)
-                tvTransactionType.text = Helpers.transactionTypeChanger(data.transactionType)
+                tvTransactionType.text = data.transactionType
 
                 cvItemData.setOnClickListener {
                     onClick(data)

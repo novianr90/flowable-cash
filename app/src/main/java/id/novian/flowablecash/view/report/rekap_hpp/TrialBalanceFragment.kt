@@ -53,7 +53,7 @@ class TrialBalanceFragment : BaseFragment<FragmentBalanceSheetBinding>() {
         with(viewModel) {
 
             dataBalanceSheet.observe(viewLifecycleOwner) {
-                val sortData = it.sortedBy { data -> data.accountNo }
+                val sortData = it.sortedBy { data -> data.transactionDate }
                 sheetAdapter.submitList(sortData)
 
                 Log.d("BalanceSheetFragment", "Data is: $it")

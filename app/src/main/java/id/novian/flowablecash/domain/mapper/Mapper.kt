@@ -9,7 +9,6 @@ import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
 import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.domain.models.AccountDomain
 import id.novian.flowablecash.domain.models.TransactionDomain
-import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.Helpers.accountNameToString
 import id.novian.flowablecash.helpers.Helpers.stringToAccountName
 import id.novian.flowablecash.helpers.Mapper
@@ -20,7 +19,7 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             id = model.id,
             transactionName = model.name,
             transactionDate = model.date,
-            transactionType = Helpers.transactionTypeDecider(model.type),
+            transactionType = model.type,
             total = model.total,
             transactionDescription = model.description,
             createdAt = model.createdAt,
@@ -37,7 +36,7 @@ class TransactionMapper : Mapper<Transaction, TransactionDomain> {
             id = domain.id,
             name = domain.transactionName,
             date = domain.transactionDate,
-            type = Helpers.transactionTypeChanger(domain.transactionType),
+            type = domain.transactionType,
             total = domain.total,
             description = domain.transactionDescription,
             createdAt = domain.createdAt,
@@ -56,7 +55,7 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             id = model.id,
             transactionName = model.transactionName,
             transactionDate = model.transactionDate,
-            transactionType = Helpers.transactionTypeDecider(model.transactionType),
+            transactionType = model.transactionType,
             total = model.transactionTotal,
             transactionDescription = model.transactionDescription,
             createdAt = model.createdAt,
@@ -73,7 +72,7 @@ class LocalMapper : Mapper<TransactionLocal, TransactionDomain> {
             id = domain.id,
             transactionName = domain.transactionName,
             transactionDate = domain.transactionDate,
-            transactionType = Helpers.transactionTypeChanger(domain.transactionType),
+            transactionType = domain.transactionType,
             transactionTotal = domain.total,
             transactionDescription = domain.transactionDescription,
             createdAt = domain.createdAt,

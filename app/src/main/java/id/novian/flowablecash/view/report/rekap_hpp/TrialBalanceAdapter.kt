@@ -10,28 +10,26 @@ import id.novian.flowablecash.base.layout.BaseTableAdapter
 import id.novian.flowablecash.base.layout.VIEW_TYPE_FOOTER
 import id.novian.flowablecash.base.layout.VIEW_TYPE_HEADER
 import id.novian.flowablecash.databinding.BalanceSheetTableItemBinding
-import id.novian.flowablecash.domain.models.AccountDomain
+import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.helpers.Helpers
 
-class TrialBalanceAdapter: BaseTableAdapter<AccountDomain>() {
+class TrialBalanceAdapter : BaseTableAdapter<TransactionDomain>() {
 
     inner class HeaderViewHolder(
         private val binding: BalanceSheetTableItemBinding
-    ): BaseTableViewHolder<AccountDomain>(binding.root) {
+    ) : BaseTableViewHolder<TransactionDomain>(binding.root) {
         override fun onBindHeader(position: Int) {
             with(binding) {
                 if (position == 0) {
                     tvAccountName.gravity = Gravity.CENTER
 
-                    tvAccountNo.text = "No Akun"
-                    tvAccountName.text = "Nama Akun"
-                    tvAccountBalanceDebit.text = "Debit"
-                    tvAccountBalanceCredit.text = "Kredit"
+                    tvAccountNo.text = "Tanggal"
+                    tvAccountName.text = "Nama Transaksi"
+                    tvAccountBalanceTotal.text = "Total"
 
                     tvAccountNo.setTypeface(null, Typeface.BOLD)
                     tvAccountName.setTypeface(null, Typeface.BOLD)
-                    tvAccountBalanceDebit.setTypeface(null, Typeface.BOLD)
-                    tvAccountBalanceCredit.setTypeface(null, Typeface.BOLD)
+                    tvAccountBalanceTotal.setTypeface(null, Typeface.BOLD)
                 }
             }
         }
@@ -39,8 +37,8 @@ class TrialBalanceAdapter: BaseTableAdapter<AccountDomain>() {
 
     inner class FooterViewHolder(
         private val binding: BalanceSheetTableItemBinding
-    ): BaseTableViewHolder<AccountDomain>(binding.root) {
-        override fun onBindFooter(data: List<AccountDomain>, position: Int) {
+    ) : BaseTableViewHolder<TransactionDomain>(binding.root) {
+        override fun onBindFooter(data: List<TransactionDomain>, position: Int) {
             with(binding) {
                 if (position == itemCount - 1) {
                     tvAccountNo.visibility = View.GONE
@@ -48,28 +46,22 @@ class TrialBalanceAdapter: BaseTableAdapter<AccountDomain>() {
                     val layoutParams = tvAccountName.layoutParams as LinearLayout.LayoutParams
 
                     layoutParams.width = 0
-                    layoutParams.weight = 3F
+                    layoutParams.weight = 4F
 
                     tvAccountName.layoutParams = layoutParams
 
                     var debit = 0
-                    var credit = 0
                     for (i in 0 until currentList.size) {
-                        debit += data[i].balance.debit
-                        credit += data[i].balance.credit
+                        debit += data[i].total
                     }
 
-                    val result = if (debit == credit) {
-                        "Balance"
-                    } else "Not Balance"
+                    val total = Helpers.numberFormatter(debit)
 
-                    tvAccountName.text = result
-                    tvAccountBalanceDebit.text = Helpers.numberFormatter(debit)
-                    tvAccountBalanceCredit.text = Helpers.numberFormatter(credit)
+                    tvAccountName.text = "Total"
+                    tvAccountBalanceTotal.text = total
 
                     tvAccountName.setTypeface(null, Typeface.BOLD)
-                    tvAccountBalanceDebit.setTypeface(null, Typeface.NORMAL)
-                    tvAccountBalanceCredit.setTypeface(null, Typeface.NORMAL)
+                    tvAccountBalanceTotal.setTypeface(null, Typeface.NORMAL)
                 }
             }
         }
@@ -77,25 +69,25 @@ class TrialBalanceAdapter: BaseTableAdapter<AccountDomain>() {
 
     inner class ItemViewHolder(
         private val binding: BalanceSheetTableItemBinding
-    ): BaseTableViewHolder<AccountDomain>(binding.root) {
-        override fun onBindItem(data: AccountDomain, position: Int) {
+    ) : BaseTableViewHolder<TransactionDomain>(binding.root) {
+        override fun onBindItem(data: TransactionDomain, position: Int) {
             with(binding) {
                 tvAccountNo.visibility = View.VISIBLE
 
                 val layoutParams = tvAccountName.layoutParams as LinearLayout.LayoutParams
 
                 layoutParams.width = 0
-                layoutParams.weight = 2F
+                layoutParams.weight = 3F
 
-                tvAccountNo.text = data.accountNo
-                tvAccountName.text = Helpers.accountNameToString(data.accountName)
-                tvAccountBalanceDebit.text = Helpers.numberFormatter(data.balance.debit)
-                tvAccountBalanceCredit.text = Helpers.numberFormatter(data.balance.credit)
+                val total = data.total
+
+                tvAccountNo.text = data.transactionName
+                tvAccountName.text = data.transactionDescription
+                tvAccountBalanceTotal.text = Helpers.numberFormatter(total)
 
                 tvAccountNo.setTypeface(null, Typeface.NORMAL)
                 tvAccountName.setTypeface(null, Typeface.NORMAL)
-                tvAccountBalanceDebit.setTypeface(null, Typeface.NORMAL)
-                tvAccountBalanceCredit.setTypeface(null, Typeface.NORMAL)
+                tvAccountBalanceTotal.setTypeface(null, Typeface.NORMAL)
             }
         }
     }
@@ -103,14 +95,14 @@ class TrialBalanceAdapter: BaseTableAdapter<AccountDomain>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseTableViewHolder<AccountDomain> {
+    ): BaseTableViewHolder<TransactionDomain> {
         val binding = BalanceSheetTableItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
 
-        return when(viewType) {
+        return when (viewType) {
             VIEW_TYPE_HEADER -> HeaderViewHolder(binding)
             VIEW_TYPE_FOOTER -> FooterViewHolder(binding)
             else -> ItemViewHolder(binding)

@@ -32,11 +32,8 @@ class CashReceiptJournalViewModel @Inject constructor(
     private val _result: MutableLiveData<Result> = MutableLiveData()
     val result: LiveData<Result> get() = _result
 
-    private val observableCashReceiptJournal = repo.getJournal()
-        .share()
-
     fun getCashReceiptJournal() {
-        val disposable = observableCashReceiptJournal
+        val disposable = repo.getJournal()
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .doOnSubscribe { _result.postValue(Result.LOADING) }
