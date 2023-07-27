@@ -18,8 +18,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-// Need Research on FeeType and Fee
-// Do we need to set it non-null or nullable?
 @AndroidEntryPoint
 class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPurchaseRecordBinding
@@ -33,7 +31,6 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
 
     private lateinit var snackBar: CustomSnackBar
     private lateinit var purchaseTypeSpinner: AutoCompleteTextView
-    private lateinit var feeTypeSpinner: AutoCompleteTextView
     private lateinit var paymentTypeSpinner: AutoCompleteTextView
 
     private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
@@ -47,7 +44,7 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
 
         purchaseSpinner()
         paymentSpinner()
-        feeSpinner()
+
         datePickerListener()
 
         getUserInput()
@@ -105,17 +102,6 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
         paymentTypeSpinner.setAdapter(adapter)
     }
 
-    private fun feeSpinner() {
-        val adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.fee_type,
-            android.R.layout.simple_dropdown_item_1line
-        )
-
-        feeTypeSpinner = binding.spinnerFeeType
-        feeTypeSpinner.setAdapter(adapter)
-    }
-
     private fun getUserInput() {
         binding.btnSave.setOnClickListener {
 
@@ -128,8 +114,6 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
                 null
             }
 
-            val feeType = binding.spinnerFeeType.text
-            val fee = binding.etFeeBalance.text
             val transactionTotal = binding.etTransactionBalance.text
             val transactionDescription = binding.etTransactionDesc.text
             val paymentType = binding.spinnerPaymentType.text
@@ -137,8 +121,6 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
 
             if (
                 !transactionDate.isNullOrEmpty() &&
-                feeType.isNotEmpty() &&
-                !fee.isNullOrEmpty() &&
                 !transactionTotal.isNullOrEmpty() &&
                 paymentType.isNotEmpty() && purchaseType.isNotEmpty()
             ) {
@@ -147,9 +129,9 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
                     date = transactionDate.toString(),
                     total = transactionTotal.toString().toInt(),
                     description = transactionDescription.toString(),
-                    type = "Pembelian",
-                    feeType = feeType.toString(),
-                    fee = fee.toString().toInt(),
+                    type = "Pengeluaran",
+                    feeType = "",
+                    fee = 0,
                     payment = paymentType.toString()
                 )
             } else {

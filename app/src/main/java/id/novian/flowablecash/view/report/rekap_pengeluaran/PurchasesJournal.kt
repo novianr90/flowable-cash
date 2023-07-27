@@ -1,4 +1,4 @@
-package id.novian.flowablecash.view.report.purchases_journal
+package id.novian.flowablecash.view.report.rekap_pengeluaran
 
 import android.util.Log
 import android.view.LayoutInflater

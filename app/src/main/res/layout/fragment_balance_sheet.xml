@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.report.balance_sheet.TrialBalanceFragment">
+    tools:context=".view.report.rekap_hpp.TrialBalanceFragment">
 
     <ScrollView
         android:layout_width="match_parent"

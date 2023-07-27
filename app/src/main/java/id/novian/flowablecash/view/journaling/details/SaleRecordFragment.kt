@@ -18,14 +18,11 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-// Need Research on FeeType and Fee
-// Do we need to set it non-null or nullable?
 @AndroidEntryPoint
 class SaleRecordFragment :
     BaseFragment<FragmentTransactionDetailsBinding>() {
 
     private lateinit var snackBar: CustomSnackBar
-    private lateinit var feeSpinner: AutoCompleteTextView
     private lateinit var paymentSpinner: AutoCompleteTextView
 
     private val viewModel: RecordHandlerViewModel by viewModels()
@@ -43,7 +40,6 @@ class SaleRecordFragment :
 
         snackBar = CustomSnackBarImpl(requireNotNull(rootView))
 
-        setSpinnerForFeeType()
         setPaymentSpinner()
 
         checkDataIfNull()
@@ -68,17 +64,6 @@ class SaleRecordFragment :
 
         paymentSpinner = binding.spinnerPaymentType
         paymentSpinner.setAdapter(adapter)
-    }
-
-    private fun setSpinnerForFeeType() {
-        val adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.fee_type,
-            android.R.layout.simple_dropdown_item_1line
-        )
-
-        feeSpinner = binding.spinnerFeeType
-        feeSpinner.setAdapter(adapter)
     }
 
     private fun transactionDateListener() {
@@ -120,27 +105,23 @@ class SaleRecordFragment :
                 null
             }
 
-            val feeType = binding.spinnerFeeType.text
-            val fee = binding.etFeeBalance.text
             val transactionTotal = binding.etTransactionBalance.text
             val transactionDescription = binding.etTransactionDesc.text
             val paymentType = binding.spinnerPaymentType.text
 
             if (!transactionDate.isNullOrEmpty() &&
-                feeType.isNotEmpty() &&
-                !fee.isNullOrEmpty() &&
                 !transactionTotal.isNullOrEmpty() &&
                 paymentType.isNotEmpty()
             ) {
 
                 viewModel.buttonSavedClicked(
-                    name = "Penjualan",
+                    name = "Pemasukkan",
                     date = transactionDate,
                     description = transactionDescription.toString(),
                     total = transactionTotal.toString().toInt(),
-                    type = "Penjualan",
-                    feeType = feeType.toString(),
-                    fee = fee.toString().toInt(),
+                    type = "Pemasukkan",
+                    feeType = "",
+                    fee = 0,
                     payment = paymentType.toString()
                 )
             } else {
