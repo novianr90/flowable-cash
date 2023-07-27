@@ -51,14 +51,14 @@
                 android:id="@+id/txt_input_account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nama Biaya"
+                android:hint="Nama Transaksi"
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinner_account_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Masukkan Jenis Biaya"
+                    android:hint="Masukkan Jenis Transaksi"
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,13 +79,14 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/iv_help"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_help"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="end"/>
+            <!-- GoodToHave #refactor-next -->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/iv_help"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:src="@drawable/ic_help"-->
+            <!--                android:layout_marginTop="16dp"-->
+            <!--                android:layout_gravity="end"/>-->
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
