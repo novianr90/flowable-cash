@@ -1,4 +1,4 @@
-package id.novian.flowablecash.base
+package id.novian.flowablecash.base.layout
 
 import android.view.LayoutInflater
 import android.view.View

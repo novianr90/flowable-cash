@@ -1,4 +1,4 @@
-package id.novian.flowablecash.base
+package id.novian.flowablecash.base.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

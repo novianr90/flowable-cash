@@ -4,7 +4,7 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import id.novian.flowablecash.base.BaseAdapter
+import id.novian.flowablecash.base.layout.BaseAdapter
 import id.novian.flowablecash.databinding.MenuReportItemBinding
 
 class MenuReportAdapter(

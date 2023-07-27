@@ -1,4 +1,4 @@
-package id.novian.flowablecash.base
+package id.novian.flowablecash.base.layout
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +26,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     open val hasBottomNavigationView: Boolean
         get() = true
 
+    var rootView: View? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +44,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        rootView = view.rootView
         setup()
     }
 

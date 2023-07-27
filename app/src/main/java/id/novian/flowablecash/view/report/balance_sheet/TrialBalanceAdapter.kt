@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import id.novian.flowablecash.base.BaseTableAdapter
-import id.novian.flowablecash.base.VIEW_TYPE_FOOTER
-import id.novian.flowablecash.base.VIEW_TYPE_HEADER
+import id.novian.flowablecash.base.layout.BaseTableAdapter
+import id.novian.flowablecash.base.layout.VIEW_TYPE_FOOTER
+import id.novian.flowablecash.base.layout.VIEW_TYPE_HEADER
 import id.novian.flowablecash.databinding.BalanceSheetTableItemBinding
 import id.novian.flowablecash.domain.models.AccountDomain
 import id.novian.flowablecash.helpers.Helpers

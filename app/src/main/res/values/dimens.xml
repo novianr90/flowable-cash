@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="grid_spacing">8dp</dimen>
+    <!-- Dimensi untuk elevation/tinggi Snackbar -->
+    <dimen name="snackbar_elevation">8dp</dimen>
+
+    <!-- Margin bawah untuk menaikkan posisi Snackbar -->
+    <dimen name="snackbar_margin_bottom">16dp</dimen>
 </resources>

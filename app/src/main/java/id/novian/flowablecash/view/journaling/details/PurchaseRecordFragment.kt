@@ -10,7 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
-import id.novian.flowablecash.base.BaseFragment
+import id.novian.flowablecash.base.custom.CustomSnackBar
+import id.novian.flowablecash.base.custom.CustomSnackBarImpl
+import id.novian.flowablecash.base.layout.BaseFragment
 import id.novian.flowablecash.databinding.FragmentPurchaseRecordBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -29,6 +31,7 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
     override val isNavigationVisible: Boolean
         get() = false
 
+    private lateinit var snackBar: CustomSnackBar
     private lateinit var purchaseTypeSpinner: AutoCompleteTextView
     private lateinit var feeTypeSpinner: AutoCompleteTextView
     private lateinit var paymentTypeSpinner: AutoCompleteTextView
@@ -39,6 +42,9 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
 
     override fun setup() {
         super.setup()
+
+        snackBar = CustomSnackBarImpl(requireNotNull(rootView))
+
         purchaseSpinner()
         paymentSpinner()
         feeSpinner()
@@ -48,6 +54,7 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
 
         backButton()
         checkDataIfNull()
+        observeProcess()
     }
 
     private fun showDatePicker() {
@@ -201,5 +208,11 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
             }
         }
 
+    }
+
+    private fun observeProcess() {
+        viewModel.onSuccess.observe(viewLifecycleOwner) {
+            snackBar.showSnackBar(it)
+        }
     }
 }

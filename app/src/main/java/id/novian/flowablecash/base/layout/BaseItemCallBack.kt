@@ -1,4 +1,4 @@
-package id.novian.flowablecash.base
+package id.novian.flowablecash.base.layout
 
 import androidx.recyclerview.widget.DiffUtil
 import id.novian.flowablecash.domain.models.AccountDomain

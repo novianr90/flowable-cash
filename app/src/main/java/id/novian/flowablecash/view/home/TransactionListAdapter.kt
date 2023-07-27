@@ -2,7 +2,7 @@ package id.novian.flowablecash.view.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import id.novian.flowablecash.base.BaseAdapter
+import id.novian.flowablecash.base.layout.BaseAdapter
 import id.novian.flowablecash.databinding.TransactionItemBinding
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.helpers.Helpers

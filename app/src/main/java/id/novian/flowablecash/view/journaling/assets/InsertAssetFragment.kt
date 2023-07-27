@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
-import id.novian.flowablecash.base.BaseFragment
+import id.novian.flowablecash.base.custom.CustomSnackBar
+import id.novian.flowablecash.base.custom.CustomSnackBarImpl
+import id.novian.flowablecash.base.layout.BaseFragment
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.databinding.FragmentInsertAssetBinding
 import id.novian.flowablecash.helpers.Result
@@ -18,6 +20,7 @@ import id.novian.flowablecash.helpers.Result
 class InsertAssetFragment :
     BaseFragment<FragmentInsertAssetBinding>() {
 
+    private lateinit var snackBar: CustomSnackBar
     private lateinit var spinner: AutoCompleteTextView
 
     private val viewModel: AssetViewModel by viewModels()
@@ -33,6 +36,9 @@ class InsertAssetFragment :
 
     override fun setup() {
         super.setup()
+
+        snackBar = CustomSnackBarImpl(requireNotNull(rootView))
+
         setSpinner()
         getBack()
 
@@ -87,7 +93,10 @@ class InsertAssetFragment :
         with(viewModel) {
             onSuccess.observe(viewLifecycleOwner) {
                 when (it) {
-                    Result.SUCCESS -> {}
+                    Result.SUCCESS -> {
+                        snackBar.showSnackBar("Success!")
+                    }
+
                     Result.FAILED -> {}
                     Result.LOADING -> {}
 
@@ -98,7 +107,8 @@ class InsertAssetFragment :
 
             errMessage.observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
-                    viewModel.createToast(it)
+//                    viewModel.createToast(it)
+                    snackBar.showSnackBar(it ?: "Error Occurred!")
                 }
             }
         }
