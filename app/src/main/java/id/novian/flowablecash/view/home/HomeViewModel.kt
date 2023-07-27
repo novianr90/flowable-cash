@@ -3,7 +3,7 @@ package id.novian.flowablecash.view.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.novian.flowablecash.base.BaseViewModel
+import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.TransactionRepository
@@ -51,10 +51,8 @@ class HomeViewModel @Inject constructor(
             .subscribe({ data ->
                 val sorted = data.sortedBy { it.transactionDate }
                 _dataTransactions.postValue(sorted)
-                _onResult.postValue(Result.SUCCESS)
             }, {
                 it.printStackTrace()
-                errorMessage.postValue(it.message)
             })
 
         compositeDisposable.add(disposable)
@@ -126,7 +124,6 @@ class HomeViewModel @Inject constructor(
                 // Not yet implemented
             }, { err ->
                 err.printStackTrace()
-                errorMessage.postValue(err.message)
             })
 
         compositeDisposable.add(disposable)

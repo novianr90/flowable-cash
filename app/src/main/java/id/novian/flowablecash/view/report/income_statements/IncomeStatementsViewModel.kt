@@ -3,7 +3,7 @@ package id.novian.flowablecash.view.report.income_statements
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.novian.flowablecash.base.BaseViewModel
+import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.domain.repository.AccountsRepository
 import id.novian.flowablecash.helpers.CalendarHelper
 import id.novian.flowablecash.helpers.FourData

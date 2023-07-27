@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import id.novian.flowablecash.base.BaseFragment
+import id.novian.flowablecash.base.layout.BaseFragment
 import id.novian.flowablecash.databinding.FragmentFinancialPositionBinding
 import id.novian.flowablecash.domain.models.AccountDomain
 

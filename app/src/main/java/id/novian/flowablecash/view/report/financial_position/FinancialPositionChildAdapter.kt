@@ -2,7 +2,7 @@ package id.novian.flowablecash.view.report.financial_position
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import id.novian.flowablecash.base.BaseAdapter
+import id.novian.flowablecash.base.layout.BaseAdapter
 import id.novian.flowablecash.databinding.ItemFinancialPositionChildBinding
 import id.novian.flowablecash.domain.models.AccountDomain
 import id.novian.flowablecash.helpers.Helpers

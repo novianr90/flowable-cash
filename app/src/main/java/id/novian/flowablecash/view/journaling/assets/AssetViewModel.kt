@@ -3,7 +3,7 @@ package id.novian.flowablecash.view.journaling.assets
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.novian.flowablecash.base.BaseViewModel
+import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.helpers.CalendarHelper
 import id.novian.flowablecash.helpers.CreateToast
@@ -19,7 +19,7 @@ class AssetViewModel @Inject constructor(
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
     private val toast: CreateToast,
-    private val calendarHelper: CalendarHelper
+    private val calendarHelper: CalendarHelper,
 ) : BaseViewModel() {
     private val _onSuccess: MutableLiveData<Result> = MutableLiveData()
     val onSuccess: LiveData<Result> get() = _onSuccess
@@ -63,6 +63,7 @@ class AssetViewModel @Inject constructor(
             }
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
+            .doOnComplete { _onSuccess.postValue(Result.SUCCESS) }
             .subscribe({
                 // Nothing yet to implement
             }, {

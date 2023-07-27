@@ -3,7 +3,7 @@ package id.novian.flowablecash.view.report.financial_position
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import id.novian.flowablecash.base.BaseAdapter
+import id.novian.flowablecash.base.layout.BaseAdapter
 import id.novian.flowablecash.databinding.ItemFinancialPositionParentBinding
 import id.novian.flowablecash.helpers.Helpers
 

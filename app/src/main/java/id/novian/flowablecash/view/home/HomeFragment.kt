@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
-import id.novian.flowablecash.base.BaseFragment
+import id.novian.flowablecash.base.custom.CustomSnackBar
+import id.novian.flowablecash.base.custom.CustomSnackBarImpl
+import id.novian.flowablecash.base.layout.BaseFragment
 import id.novian.flowablecash.databinding.CustomDialogForItemClickedBinding
 import id.novian.flowablecash.databinding.FragmentHomeBinding
 import id.novian.flowablecash.domain.models.TransactionDomain
@@ -23,6 +25,8 @@ import id.novian.flowablecash.helpers.Result
 @AndroidEntryPoint
 class HomeFragment :
     BaseFragment<FragmentHomeBinding>() {
+
+    private lateinit var snackBar: CustomSnackBar
 
     private var isExecuted = false
 
@@ -42,6 +46,11 @@ class HomeFragment :
 
     override fun setup() {
         super.setup()
+
+        snackBar = CustomSnackBarImpl(
+            requireNotNull(rootView),
+            requireActivity().findViewById(R.id.bottom_app_bar)
+        )
 
         if (!isExecuted) {
             viewModel.viewModelInitialized()
@@ -165,13 +174,17 @@ class HomeFragment :
 
             errMessage.observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
-                    viewModel.createToast(it)
+//                    viewModel.createToast(it)
+                    snackBar.showSnackBar(it)
                 }
             }
 
             onResult.observe(viewLifecycleOwner) {
                 when (it) {
-                    Result.SUCCESS -> {}
+                    Result.SUCCESS -> {
+                        snackBar.showSnackBar("Success!")
+                    }
+
                     Result.FAILED -> {}
                     Result.LOADING -> {}
                     else -> {}

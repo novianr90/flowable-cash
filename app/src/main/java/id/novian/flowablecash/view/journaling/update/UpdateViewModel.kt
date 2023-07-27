@@ -3,7 +3,7 @@ package id.novian.flowablecash.view.journaling.update
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.novian.flowablecash.base.BaseViewModel
+import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CreateToast
@@ -70,7 +70,6 @@ class UpdateViewModel @Inject constructor(
             .subscribe({
                 _data.postValue(it)
             }, {
-                errorMessage.postValue(it.message)
                 it.printStackTrace()
             })
 

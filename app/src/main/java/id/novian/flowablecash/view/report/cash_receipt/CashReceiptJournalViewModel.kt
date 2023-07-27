@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.novian.flowablecash.base.BaseViewModel
+import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.domain.models.CashReceiptJournal
 import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
 import id.novian.flowablecash.helpers.CreateToast

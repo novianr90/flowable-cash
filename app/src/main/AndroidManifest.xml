@@ -19,7 +19,7 @@
             android:name=".view.journaling.record.RecordActivity"
             android:exported="false" />
         <activity
-            android:name=".base.MainActivity"
+            android:name=".base.layout.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

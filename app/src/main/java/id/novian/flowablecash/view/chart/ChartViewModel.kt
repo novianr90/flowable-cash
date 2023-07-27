@@ -2,7 +2,7 @@ package id.novian.flowablecash.view.chart
 
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.novian.flowablecash.base.BaseViewModel
+import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.domain.models.AccountDomain
 import id.novian.flowablecash.domain.repository.AccountsRepository
 import io.reactivex.rxjava3.core.Observable

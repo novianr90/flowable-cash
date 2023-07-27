@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import id.novian.flowablecash.R
-import id.novian.flowablecash.base.BaseFragment
+import id.novian.flowablecash.base.layout.BaseFragment
 import id.novian.flowablecash.databinding.FragmentMainReportBinding
 
 class MainReport : BaseFragment<FragmentMainReportBinding>() {

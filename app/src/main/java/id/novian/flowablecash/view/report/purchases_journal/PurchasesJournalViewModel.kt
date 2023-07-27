@@ -3,7 +3,7 @@ package id.novian.flowablecash.view.report.purchases_journal
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.novian.flowablecash.base.BaseViewModel
+import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.domain.models.PurchasesJournal
 import id.novian.flowablecash.domain.repository.PurchasesJournalRepository
 import id.novian.flowablecash.helpers.CreateToast

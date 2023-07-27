@@ -10,9 +10,12 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
-import id.novian.flowablecash.base.BaseFragment
+import id.novian.flowablecash.base.custom.CustomSnackBar
+import id.novian.flowablecash.base.custom.CustomSnackBarImpl
+import id.novian.flowablecash.base.layout.BaseFragment
 import id.novian.flowablecash.databinding.FragmentUpdateBinding
 import id.novian.flowablecash.helpers.Helpers
+import id.novian.flowablecash.helpers.Result
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -21,6 +24,7 @@ import java.util.Locale
 class UpdateFragment :
     BaseFragment<FragmentUpdateBinding>() {
 
+    private lateinit var snackBar: CustomSnackBar
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentUpdateBinding
         get() = FragmentUpdateBinding::inflate
 
@@ -35,6 +39,9 @@ class UpdateFragment :
 
     override fun setup() {
         super.setup()
+
+        snackBar = CustomSnackBarImpl(requireNotNull(rootView))
+
         setSpinner()
         setDatePickerListener()
         buttonBack()
@@ -154,9 +161,18 @@ class UpdateFragment :
     private fun observe() {
         with(viewModel) {
 
+            onSuccess.observe(viewLifecycleOwner) { status ->
+                when (status) {
+                    Result.SUCCESS -> snackBar.showSnackBar("Success!")
+                    Result.FAILED -> {}
+                    Result.LOADING -> {}
+                }
+            }
+
             errMessage.observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
-                    viewModel.createToast(it)
+//                    viewModel.createToast(it)
+                    snackBar.showSnackBar(it)
                 }
             }
 

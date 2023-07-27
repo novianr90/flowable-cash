@@ -10,7 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.R
-import id.novian.flowablecash.base.BaseFragment
+import id.novian.flowablecash.base.custom.CustomSnackBar
+import id.novian.flowablecash.base.custom.CustomSnackBarImpl
+import id.novian.flowablecash.base.layout.BaseFragment
 import id.novian.flowablecash.databinding.FragmentTransactionDetailsBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -22,6 +24,7 @@ import java.util.Locale
 class SaleRecordFragment :
     BaseFragment<FragmentTransactionDetailsBinding>() {
 
+    private lateinit var snackBar: CustomSnackBar
     private lateinit var feeSpinner: AutoCompleteTextView
     private lateinit var paymentSpinner: AutoCompleteTextView
 
@@ -37,6 +40,9 @@ class SaleRecordFragment :
 
     override fun setup() {
         super.setup()
+
+        snackBar = CustomSnackBarImpl(requireNotNull(rootView))
+
         setSpinnerForFeeType()
         setPaymentSpinner()
 
@@ -48,6 +54,7 @@ class SaleRecordFragment :
         observe()
 
         buttonBack()
+        observeProcess()
     }
 
     private val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
@@ -198,6 +205,12 @@ class SaleRecordFragment :
     private fun buttonBack() {
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+    }
+
+    private fun observeProcess() {
+        viewModel.onSuccess.observe(viewLifecycleOwner) {
+            snackBar.showSnackBar(it)
         }
     }
 }
