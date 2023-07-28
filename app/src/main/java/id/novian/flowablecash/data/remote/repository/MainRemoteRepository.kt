@@ -2,61 +2,59 @@ package id.novian.flowablecash.data.remote.repository
 
 import android.util.Log
 import com.google.gson.Gson
+import id.novian.flowablecash.data.remote.models.Pemasukkan
+import id.novian.flowablecash.data.remote.models.PemasukkanList
+import id.novian.flowablecash.data.remote.models.Pengeluaran
+import id.novian.flowablecash.data.remote.models.PengeluaranList
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalance
 import id.novian.flowablecash.data.remote.models.balancesheet.AccountBalanceSheet
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheets
 import id.novian.flowablecash.data.remote.models.input.AccountInfo
 import id.novian.flowablecash.data.remote.models.input.InputCreateAccounts
-import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.data.remote.models.transaction.Transactions
 import id.novian.flowablecash.data.remote.service.BalanceSheetService
-import id.novian.flowablecash.data.remote.service.PurchaseService
-import id.novian.flowablecash.data.remote.service.SaleService
+import id.novian.flowablecash.data.remote.service.PemasukkanService
+import id.novian.flowablecash.data.remote.service.PengeluaranService
 import id.novian.flowablecash.data.remote.service.TransactionService
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
-import retrofit2.Response
 
 interface MainRemoteRepository {
-    // Purchase
-    fun getAllPurchaseTypeTransactions(): Observable<Transactions>
-    fun getPurchaseTypeTransaction(id: Int): Observable<Transaction>
-
-    // Sale
-    fun getAllSaleTypeTransactions(): Observable<Transactions>
-    fun getSaleTypeTransaction(id: Int): Observable<Transaction>
-
-    // Transaction
-    fun getTransactions(): Maybe<Transactions>
-    fun getTransactionById(id: Int): Observable<Transaction>
-
-    fun postTransaction(
+    // Pengeluaran
+    fun getAllPengeluaran(): Observable<PengeluaranList>
+    fun getPengeluaranById(id: Int): Observable<Pengeluaran>
+    fun createPengeluaran(
         name: String,
         date: String,
         total: Int,
-        fee: Int,
-        feeType: String,
-        type: String,
-        description: String,
-        payment: String
-    ): Observable<Unit>
+        payment: String,
+        description: String?
+    ): Completable
+
+    // Pemasukkan
+    fun getAllPemasukkan(): Observable<PemasukkanList>
+    fun getPemasukkanById(id: Int): Observable<Pemasukkan>
+    fun createPemasukkan(
+        name: String,
+        date: String,
+        total: Int,
+        payment: String,
+        description: String?
+    ): Completable
+
+    // Transaction
+    fun getAllTransactions(): Observable<Transactions>
 
     fun updateTransaction(
         id: Int,
-        name: String,
         date: String,
         total: Int,
-        fee: Int,
-        feeType: String,
         type: String,
-        description: String,
-        alreadyPosted: Int
+        description: String?
     ): Completable
 
-    fun deleteTransaction(id: Int): Observable<Response<Unit>>
-
-    fun getAllTransactionByType(type: String): Maybe<Transactions>
+    fun deleteTransaction(id: Int, type: String): Completable
 
     // Balance Sheet
     fun getAllAccounts(month: Int): Maybe<BalanceSheets>
@@ -83,89 +81,84 @@ interface MainRemoteRepository {
 }
 
 class MainRemoteRepositoryImpl(
-    private val purchase: PurchaseService,
-    private val sale: SaleService,
+    private val pengeluaran: PengeluaranService,
+    private val pemasukkan: PemasukkanService,
     private val transactions: TransactionService,
     private val balanceSheet: BalanceSheetService,
     private val gson: Gson
 ) : MainRemoteRepository {
-    override fun getAllPurchaseTypeTransactions(): Observable<Transactions> {
-        return purchase.getAllPurchaseTypeTransactions()
+    override fun getAllPengeluaran(): Observable<PengeluaranList> {
+        return pengeluaran.getAllPengeluaran()
     }
 
-    override fun getPurchaseTypeTransaction(id: Int): Observable<Transaction> {
-        return purchase.getPurchaseById(id)
+    override fun getPengeluaranById(id: Int): Observable<Pengeluaran> {
+        return pengeluaran.getPengeluaranById(id)
     }
 
-    override fun getAllSaleTypeTransactions(): Observable<Transactions> {
-        return sale.getAllSaleTypeTransactions()
-    }
-
-    override fun getSaleTypeTransaction(id: Int): Observable<Transaction> {
-        return sale.getSaleTypeTransaction(id)
-    }
-
-    override fun getTransactions(): Maybe<Transactions> {
-        return transactions.getTransactions()
-    }
-
-    override fun getTransactionById(id: Int): Observable<Transaction> {
-        return transactions.getTransactionById(id)
-    }
-
-    override fun postTransaction(
+    override fun createPengeluaran(
         name: String,
         date: String,
         total: Int,
-        fee: Int,
-        feeType: String,
-        type: String,
-        description: String,
-        payment: String
-    ): Observable<Unit> {
-        return transactions.postTransaction(
+        payment: String,
+        description: String?
+    ): Completable {
+        return pengeluaran.postNewPemasukkanTransactions(
             name = name,
             date = date,
-            type = type,
             total = total,
-            feeType = feeType,
-            fee = fee,
-            desc = description,
-            payment = payment
+            payment = payment,
+            desc = description
         )
+    }
+
+    override fun getAllPemasukkan(): Observable<PemasukkanList> {
+        return pemasukkan.getAllPemasukkan()
+    }
+
+    override fun getPemasukkanById(id: Int): Observable<Pemasukkan> {
+        return pemasukkan.getPemasukkanById(id)
+    }
+
+    override fun createPemasukkan(
+        name: String,
+        date: String,
+        total: Int,
+        payment: String,
+        description: String?
+    ): Completable {
+        return pemasukkan.postNewPemasukkanTransactions(
+            name = name,
+            date = date,
+            total = total,
+            payment = payment,
+            desc = description
+        )
+    }
+
+    override fun getAllTransactions(): Observable<Transactions> {
+        return transactions.getAllTransactions()
     }
 
     override fun updateTransaction(
         id: Int,
-        name: String,
         date: String,
         total: Int,
-        fee: Int,
-        feeType: String,
         type: String,
-        description: String,
-        alreadyPosted: Int
+        description: String?
     ): Completable {
-        return transactions.updateTransaction(
-            name = name,
-            date = date,
+        return transactions.updateTransactions(
             type = type,
-            total = total,
-            desc = description,
             id = id,
-            feeType = feeType,
-            fee = fee,
-            alreadyPosted = alreadyPosted
+            total = total,
+            date = date,
+            desc = description
         )
     }
 
-    override fun deleteTransaction(id: Int): Observable<Response<Unit>> {
-        return transactions.deleteTransaction(id)
+    override fun deleteTransaction(id: Int, type: String): Completable {
+        return transactions.deleteTransaction(id, type)
     }
 
-    override fun getAllTransactionByType(type: String): Maybe<Transactions> {
-        return transactions.getAllTransactionByType(type)
-    }
 
     override fun getAllAccounts(month: Int): Maybe<BalanceSheets> {
         return balanceSheet.getAllAccounts(month)

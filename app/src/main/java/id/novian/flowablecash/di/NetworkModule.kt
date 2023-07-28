@@ -6,9 +6,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.novian.flowablecash.BuildConfig
 import id.novian.flowablecash.data.remote.service.BalanceSheetService
+import id.novian.flowablecash.data.remote.service.PemasukkanService
+import id.novian.flowablecash.data.remote.service.PengeluaranService
 import id.novian.flowablecash.data.remote.service.PostingService
-import id.novian.flowablecash.data.remote.service.PurchaseService
-import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -71,16 +71,16 @@ object NetworkModule {
     @Singleton
     fun provideSaleService(
         retrofit: Retrofit
-    ): SaleService {
-        return retrofit.create(SaleService::class.java)
+    ): PemasukkanService {
+        return retrofit.create(PemasukkanService::class.java)
     }
 
     @Provides
     @Singleton
     fun providePurchaseService(
         retrofit: Retrofit
-    ): PurchaseService {
-        return retrofit.create(PurchaseService::class.java)
+    ): PengeluaranService {
+        return retrofit.create(PengeluaranService::class.java)
     }
 
     @Provides

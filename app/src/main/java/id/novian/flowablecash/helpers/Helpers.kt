@@ -27,15 +27,6 @@ object Helpers {
         return format.format(amount.toLong())
     }
 
-    fun transactionTypeDecider(value: String): TransactionType {
-        return when (value) {
-            "Penjualan" -> TransactionType.PENJUALAN
-            "Pembelian" -> TransactionType.PEMBELIAN
-            "Perlengkapan" -> TransactionType.PERLENGKAPAN
-            else -> TransactionType.UNKNOWN
-        }
-    }
-
     fun transactionTypeChanger(transactionType: TransactionType): String {
         return when (transactionType) {
             TransactionType.PEMBELIAN -> "Pembelian"

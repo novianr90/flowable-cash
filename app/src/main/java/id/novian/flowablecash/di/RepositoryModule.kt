@@ -7,7 +7,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import id.novian.flowablecash.data.local.database.AppDatabase
 import id.novian.flowablecash.data.local.models.Accounts
-import id.novian.flowablecash.data.local.models.TransactionLocal
 import id.novian.flowablecash.data.local.repository.AccountLocalRepository
 import id.novian.flowablecash.data.local.repository.AccountLocalRepositoryImpl
 import id.novian.flowablecash.data.local.repository.CashReceiptReportRepo
@@ -19,18 +18,16 @@ import id.novian.flowablecash.data.local.repository.PurchasesReportRepoImpl
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepository
 import id.novian.flowablecash.data.local.repository.TransactionLocalRepositoryImpl
 import id.novian.flowablecash.data.remote.models.balancesheet.BalanceSheet
-import id.novian.flowablecash.data.remote.models.transaction.Transaction
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepositoryImpl
 import id.novian.flowablecash.data.remote.repository.PostingRepository
 import id.novian.flowablecash.data.remote.repository.PostingRepositoryImpl
 import id.novian.flowablecash.data.remote.service.BalanceSheetService
+import id.novian.flowablecash.data.remote.service.PemasukkanService
+import id.novian.flowablecash.data.remote.service.PengeluaranService
 import id.novian.flowablecash.data.remote.service.PostingService
-import id.novian.flowablecash.data.remote.service.PurchaseService
-import id.novian.flowablecash.data.remote.service.SaleService
 import id.novian.flowablecash.data.remote.service.TransactionService
 import id.novian.flowablecash.domain.models.AccountDomain
-import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.AccountsRepository
 import id.novian.flowablecash.domain.repository.AccountsRepositoryImpl
 import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
@@ -83,8 +80,8 @@ object RepositoryModule {
     @Singleton
     fun provideMainRemoteRepository(
         trx: TransactionService,
-        sale: SaleService,
-        purchase: PurchaseService,
+        sale: PemasukkanService,
+        purchase: PengeluaranService,
         balanceSheet: BalanceSheetService,
         gson: Gson
     ): MainRemoteRepository = MainRemoteRepositoryImpl(purchase, sale, trx, balanceSheet, gson)
@@ -93,11 +90,8 @@ object RepositoryModule {
     @Provides
     fun provideTransactionRepository(
         remoteRepository: MainRemoteRepository,
-        localRepository: TransactionLocalRepository,
-        remoteMapper: Mapper<Transaction, TransactionDomain>,
-        localMapper: Mapper<TransactionLocal, TransactionDomain>
     ): TransactionRepository =
-        TransactionRepositoryImpl(remoteRepository, localRepository, remoteMapper, localMapper)
+        TransactionRepositoryImpl(remoteRepository)
 
     @Singleton
     @Provides
@@ -121,20 +115,20 @@ object RepositoryModule {
     @Provides
     fun provideCashReceiptJournalRepo(
         repo: MainRemoteRepository,
-        local: CashReceiptReportRepo
+
     ): CashReceiptJournalRepository {
         return CashReceiptJournalRepositoryImpl(
             repo = repo,
-            local = local
-        )
+
+            )
     }
 
     @Singleton
     @Provides
     fun providePurchasesJournalRepository(
         repo: MainRemoteRepository,
-        local: PurchasesReportRepo
-    ): PurchasesJournalRepository {
-        return PurchasesJournalRepositoryImpl(repo, local)
+
+        ): PurchasesJournalRepository {
+        return PurchasesJournalRepositoryImpl(repo)
     }
 }

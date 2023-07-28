@@ -5,10 +5,10 @@ object Endpoints {
     const val BASE_TRANSACTIONS = "transactions"
 
     // Sales
-    const val BASE_SALES = "sales"
+    const val BASE_PEMASUKKAN = "pemasukkan"
 
     // Purchases
-    const val BASE_PURCHASES = "purchases"
+    const val BASE_PENGELUARAN = "pengeluaran"
 
     // Balance Sheet
     const val BASE_BALANCE_SHEET = "balance-sheets"
