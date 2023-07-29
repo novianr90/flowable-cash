@@ -38,9 +38,9 @@
     <string name="txt_neraca_saldo">Rekap Harga Pokok Penjualan</string>
     <string name="txt_income_statements">Laba Rugi</string>
     <string name="txt_pendapatan_dari_penjualan">Pendapatan dari Penjualan</string>
-    <string name="txt_harga_pembelian">Harga Pembelian</string>
+    <string name="txt_harga_pembelian">Harga Pokok Penjualan</string>
     <string name="txt_harga_beban_pembelian">Harga Beban Pengemasan</string>
-    <string name="txt_harga_beban_penjualan">Harga Beban Ongkos</string>
+    <string name="txt_harga_beban_penjualan">Harga Biaya - Biaya</string>
     <string name="txt_payment_type_hint">Masukkan tipe pembayaran anda</string>
     <string name="payment_type">Tipe Pengeluaran</string>
     <string name="txt_harga_beban_operasional">Harga Beban Operasional</string>

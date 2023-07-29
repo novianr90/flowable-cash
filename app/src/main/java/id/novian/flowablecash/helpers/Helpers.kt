@@ -1,8 +1,8 @@
 package id.novian.flowablecash.helpers
 
 import id.novian.flowablecash.data.AccountName
-import id.novian.flowablecash.data.TransactionType
 import id.novian.flowablecash.domain.models.TransactionDomain
+import java.text.DateFormatSymbols
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -27,12 +27,15 @@ object Helpers {
         return format.format(amount.toLong())
     }
 
-    fun transactionTypeChanger(transactionType: TransactionType): String {
-        return when (transactionType) {
-            TransactionType.PEMBELIAN -> "Pembelian"
-            TransactionType.PENJUALAN -> "Penjualan"
-            TransactionType.PERLENGKAPAN -> "Perlengkapan"
-            else -> ""
+    fun getMonthName(month: Int): String {
+        val locale = Locale.getDefault()
+        val dateFormat = DateFormatSymbols(locale)
+        val months = dateFormat.months
+
+        return if (month in 1..12) {
+            months[month - 1]
+        } else {
+            "Invalid Month"
         }
     }
 

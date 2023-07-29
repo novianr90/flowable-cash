@@ -3,6 +3,7 @@ package id.novian.flowablecash.view.report.income_statements
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.base.layout.BaseFragment
 import id.novian.flowablecash.databinding.FragmentIncomeStatementsBinding
@@ -18,57 +19,71 @@ class IncomeStatements : BaseFragment<FragmentIncomeStatementsBinding>() {
 
     private val viewModel: IncomeStatementsViewModel by viewModels()
 
+    private lateinit var hppAdapter: HargaPokokPenjualanAdapter
+    private lateinit var bebanAdapter: BebanAdapter
+
     override fun setup() {
         super.setup()
         viewModel.viewModelInitialized()
 
         observe()
+
+        setBeban()
+        setHpp()
+    }
+
+    private fun setHpp() {
+        hppAdapter = HargaPokokPenjualanAdapter()
+
+        binding.rvHpp.apply {
+            adapter = hppAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun setBeban() {
+        bebanAdapter = BebanAdapter()
+
+        binding.rvBebanBeban.apply {
+            adapter = bebanAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
     }
 
     private fun observe() {
 
-        binding.tvMonth.text = viewModel.calendarHelper.getMonth().toString()
+        val monthInString = Helpers.getMonthName(viewModel.calendarHelper.getMonth())
+        binding.tvMonth.text = "Laba Rugi dalam Bulan " + monthInString
 
         with(viewModel) {
+
+            listOfHpp.observe(viewLifecycleOwner) { hpp ->
+                hppAdapter.submitList(hpp)
+            }
+
+            listOfBeban.observe(viewLifecycleOwner) { beban ->
+                bebanAdapter.submitList(beban)
+            }
 
             totalPenjualan.observe(viewLifecycleOwner) { total ->
                 val totalInString = Helpers.formatCurrency(total)
 
-                binding.tvSaldoAkunPenjualan.text = totalInString
                 binding.tvTotalSaldoAkunPenjualan.text = totalInString
                 binding.tvCountSaldoPenjualan.text = totalInString
             }
 
-            totalPembelian.observe(viewLifecycleOwner) { total ->
+            totalHpp.observe(viewLifecycleOwner) { total ->
                 val totalInString = Helpers.formatCurrency(total)
 
-                binding.tvSaldoAkunPembelian.text = totalInString
                 binding.tvTotalSaldoAkunPembelian.text = totalInString
                 binding.tvCountSaldoPembelian.text = totalInString
             }
 
-            akunBebanOngkos.observe(viewLifecycleOwner) { total ->
+            totalBeban.observe(viewLifecycleOwner) { total ->
                 val totalInString = Helpers.formatCurrency(total)
-                binding.tvTotalSaldoAkunBebanPenjualan.text = totalInString
-                binding.tvCountSaldoBebanOngkos.text = totalInString
-            }
 
-            akunBebanPengemasan.observe(viewLifecycleOwner) { total ->
-                val totalInString = Helpers.formatCurrency(total)
-                binding.tvTotalSaldoAkunBebanPembelian.text = totalInString
-                binding.tvCountSaldoBebanPengemasan.text = totalInString
-            }
-
-            akunBebanOperasional.observe(viewLifecycleOwner) { total ->
-                val totalInString = Helpers.formatCurrency(total)
-                binding.tvTotalSaldoAkunBebanOperasional.text = totalInString
-                binding.tvCountSaldoBebanOperasional.text = totalInString
-            }
-
-            akunBebanLainnya.observe(viewLifecycleOwner) { total ->
-                val totalInString = Helpers.formatCurrency(total)
-                binding.tvTotalSaldoAkunBebanLainnya.text = totalInString
-                binding.tvCountSaldoBebanLainnya.text = totalInString
+                binding.tvTotalSaldoAkunBebanBeban.text = totalInString
+                binding.tvCountSaldoTotalBeban.text = totalInString
             }
 
             labaKotor.observe(viewLifecycleOwner) {
@@ -82,5 +97,4 @@ class IncomeStatements : BaseFragment<FragmentIncomeStatementsBinding>() {
         }
 
     }
-
 }
