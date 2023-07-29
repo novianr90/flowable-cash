@@ -15,6 +15,7 @@ class PurchasesJournalRepositoryImpl(
         return repo.getAllPengeluaran()
             .map { listOfTransactions ->
                 val listOfPurchases: List<PurchasesJournal> = listOfTransactions.pengeluaran
+                    .filter { it.name != "Membayar Hutang" }
                     .map { data ->
                         val new = PurchasesJournal(
                             id = data.id,

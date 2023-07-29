@@ -50,7 +50,9 @@ class IncomeStatementsViewModel @Inject constructor(
                 listOfHpp.postValue(sortHpp)
                 totalHpp.postValue(pembelian)
 
-                val sortBeban = pengeluaran.filter { it.transactionName !in hpp }
+                val sortBeban = pengeluaran
+                    .filter { it.transactionName !in hpp }
+                    .filter { it.transactionName != "Membayar Hutang" }
                 val beban = sortBeban.sumOf { it.total }
                 listOfBeban.postValue(sortBeban)
                 totalBeban.postValue(beban)
