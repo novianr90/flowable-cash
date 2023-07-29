@@ -60,6 +60,10 @@
             android:name="transactionId"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="type"
+            android:defaultValue="unknown"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/balanceSheetFragment"

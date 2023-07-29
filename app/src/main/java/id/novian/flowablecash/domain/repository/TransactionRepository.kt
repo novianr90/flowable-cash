@@ -26,6 +26,12 @@ interface TransactionRepository {
         description: String?,
         type: String
     ): Completable
+
+    // Pemasukkan
+    fun getPemasukkanById(id: Int): Observable<TransactionDomain>
+
+    // Pengeluaran
+    fun getPengeluaranById(id: Int): Observable<TransactionDomain>
 }
 
 class TransactionRepositoryImpl(
@@ -33,9 +39,9 @@ class TransactionRepositoryImpl(
 ) : TransactionRepository {
     override fun getAllTransactions(): Observable<Pair<List<TransactionDomain>, List<TransactionDomain>>> {
         return remote.getAllTransactions()
-            .map { list ->
-                val pemasukkan = list.pemasukkan.map {
-                    val new = TransactionDomain(
+            .flatMap { list ->
+                val pemasukkan = list.pemasukkan?.map {
+                    TransactionDomain(
                         id = it.id,
                         transactionName = it.name,
                         transactionDate = it.date,
@@ -46,11 +52,10 @@ class TransactionRepositoryImpl(
                         updatedAt = it.updatedAt,
                         payment = it.transactionPayment
                     )
-                    new
-                }
+                } ?: emptyList()
 
-                val pengeluaran = list.pengeluaran.map {
-                    val new = TransactionDomain(
+                val pengeluaran = list.pengeluaran?.map {
+                    TransactionDomain(
                         id = it.id,
                         transactionName = it.name,
                         transactionDate = it.date,
@@ -61,10 +66,9 @@ class TransactionRepositoryImpl(
                         updatedAt = it.updatedAt,
                         payment = it.transactionPayment
                     )
-                    new
-                }
+                } ?: emptyList()
 
-                Pair(pemasukkan, pengeluaran)
+                Observable.just(Pair(pemasukkan, pengeluaran))
             }
     }
 
@@ -113,4 +117,43 @@ class TransactionRepositoryImpl(
         }
     }
 
+    override fun getPemasukkanById(id: Int): Observable<TransactionDomain> {
+        return remote.getPemasukkanById(id)
+            .map { list ->
+
+                val it = list.pemasukkan
+
+                val new = TransactionDomain(
+                    id = it.id,
+                    transactionName = it.name,
+                    transactionDate = it.date,
+                    transactionType = "Pemasukkan",
+                    transactionDescription = it.description,
+                    total = it.total,
+                    createdAt = it.createdAt,
+                    updatedAt = it.updatedAt,
+                    payment = it.transactionPayment
+                )
+                new
+            }
+    }
+
+    override fun getPengeluaranById(id: Int): Observable<TransactionDomain> {
+        return remote.getPengeluaranById(id)
+            .map { list ->
+                val it = list.pengeluaran
+                val new = TransactionDomain(
+                    id = it.id,
+                    transactionName = it.name,
+                    transactionDate = it.date,
+                    transactionType = "Pemasukkan",
+                    transactionDescription = it.description,
+                    total = it.total,
+                    createdAt = it.createdAt,
+                    updatedAt = it.updatedAt,
+                    payment = it.transactionPayment
+                )
+                new
+            }
+    }
 }

@@ -190,7 +190,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="7dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toTopOf="@id/cl_transaction_created_at"
+                app:layout_constraintBottom_toTopOf="@id/cl_transaction_payment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_transaction_total">
@@ -220,14 +220,14 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_transaction_created_at"
+                android:id="@+id/cl_transaction_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="7dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toTopOf="@id/cl_transaction_updated_at"
+                app:layout_constraintBottom_toTopOf="@id/button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_transaction_desc">
@@ -236,7 +236,7 @@
                     android:id="@+id/tv_item_created_at"
                     android:layout_width="135dp"
                     android:layout_height="wrap_content"
-                    android:text="Created at               :"
+                    android:text="Payment                  :"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -257,43 +257,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_transaction_updated_at"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="7dp"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toTopOf="@+id/button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_transaction_created_at">
-
-                <TextView
-                    android:id="@+id/tv_item_updated_at"
-                    android:layout_width="135dp"
-                    android:layout_height="wrap_content"
-                    android:text="Updated at              :"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_item_updated_at_details"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/txt_default"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_item_updated_at"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -302,7 +265,7 @@
                 android:layout_marginEnd="7dp"
                 android:layout_marginBottom="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_transaction_updated_at">
+                app:layout_constraintTop_toBottomOf="@id/cl_transaction_payment">
 
                 <Button
                     android:id="@+id/btn_updated"

@@ -2,14 +2,11 @@ package id.novian.flowablecash.view.journaling.update
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import id.novian.flowablecash.R
 import id.novian.flowablecash.base.custom.CustomSnackBar
 import id.novian.flowablecash.base.custom.CustomSnackBarImpl
 import id.novian.flowablecash.base.layout.BaseFragment
@@ -29,8 +26,6 @@ class UpdateFragment :
         get() = FragmentUpdateBinding::inflate
 
     private val viewModel: UpdateViewModel by viewModels()
-    private lateinit var spinner: AutoCompleteTextView
-    private lateinit var feeSpinner: AutoCompleteTextView
 
     private val args: UpdateFragmentArgs by navArgs()
 
@@ -42,7 +37,6 @@ class UpdateFragment :
 
         snackBar = CustomSnackBarImpl(requireNotNull(rootView))
 
-        setSpinner()
         setDatePickerListener()
         buttonBack()
     }
@@ -52,24 +46,10 @@ class UpdateFragment :
         observe()
 
         if (args.transactionId != 0) {
-            setDataTransaction(args.transactionId)
+            setDataTransaction(args.transactionId, args.type)
 
-            getUserInput(args.transactionId)
+            getUserInput(args.transactionId, args.type)
         }
-    }
-
-    private fun setSpinner() {
-        val adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.transaction_type,
-            android.R.layout.simple_dropdown_item_1line
-        )
-        spinner = binding.spinnerTransactionType
-
-        feeSpinner = binding.spinnerFeeType
-
-        feeSpinner.setAdapter(adapter)
-        spinner.setAdapter(adapter)
     }
 
     private fun setDatePickerListener() {
@@ -101,25 +81,19 @@ class UpdateFragment :
         }
     }
 
-    private fun setDataTransaction(id: Int) {
-        viewModel.getTransactionById(id)
+    private fun setDataTransaction(id: Int, type: String) {
+        viewModel.getTransactionById(id, type)
 
         viewModel.data.observe(viewLifecycleOwner) { data ->
             binding.etTransactionName.setText(data.transactionName)
             binding.etTransactionDate.setText(data.transactionDate)
 
-            binding.spinnerTransactionType.setText(
-                Helpers.transactionTypeChanger(data.transactionType),
-                false
-            )
             binding.etTransactionBalance.setText(Helpers.numberFormatter(data.total))
             binding.etTransactionDesc.setText(data.transactionDescription)
-            binding.spinnerFeeType.setText(data.feeType, false)
-            binding.etFeeBalance.setText(Helpers.numberFormatter(data.fee))
         }
     }
 
-    private fun getUserInput(id: Int) {
+    private fun getUserInput(id: Int, type: String) {
         binding.btnUpdate.setOnClickListener { _ ->
 
             val transactionName = binding.etTransactionName.text.toString()
@@ -133,21 +107,15 @@ class UpdateFragment :
                 "01-01-1970"
             }
 
-            val transactionType = binding.spinnerTransactionType.text.toString()
-            val feeType = binding.spinnerFeeType.text.toString()
-            val transactionFee = binding.etFeeBalance.text.toString().toInt()
             val transactionTotal = binding.etTransactionBalance.text.toString().toInt()
             val transactionDescription = binding.etTransactionDesc.text.toString()
 
             viewModel.buttonUpdateClicked(
                 id = id,
-                name = transactionName,
                 date = transactionDate,
-                description = transactionDescription,
                 total = transactionTotal,
-                type = transactionType,
-                fee = transactionFee,
-                feeType = feeType
+                type = type,
+                description = transactionDescription,
             )
         }
     }
@@ -171,7 +139,6 @@ class UpdateFragment :
 
             errMessage.observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
-//                    viewModel.createToast(it)
                     snackBar.showSnackBar(it)
                 }
             }

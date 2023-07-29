@@ -21,34 +21,33 @@ class PurchasesJournalAdapter : BaseTableAdapter<PurchasesJournal>() {
             with(binding) {
                 if (position == 0) {
                     val dateLayoutParams = tvDate.layoutParams as LinearLayout.LayoutParams
-                    val descriptionLayoutParams =
-                        tvDescriptionReceipt.layoutParams as LinearLayout.LayoutParams
-                    val debitLayoutParams =
-                        tvCashReceiptDebit.layoutParams as LinearLayout.LayoutParams
-                    val creditLayoutParams =
-                        tvCashReceiptCredit.layoutParams as LinearLayout.LayoutParams
+                    val nameLayoutParams =
+                        tvName.layoutParams as LinearLayout.LayoutParams
+                    val descLayoutParams =
+                        tvDesc.layoutParams as LinearLayout.LayoutParams
+                    val totalLayoutParams = tvTotal.layoutParams as LinearLayout.LayoutParams
 
                     200.apply {
                         dateLayoutParams.height = this
-                        descriptionLayoutParams.height = this
-                        debitLayoutParams.height = this
-                        creditLayoutParams.height = this
+                        nameLayoutParams.height = this
+                        descLayoutParams.height = this
+                        totalLayoutParams.height = this
                     }
 
-                    tvDate.text = "Date"
-                    tvDescriptionReceipt.text = "Description"
-                    tvCashReceiptDebit.text = "Debit"
-                    tvCashReceiptCredit.text = "Credit"
+                    tvDate.text = "Tanggal"
+                    tvName.text = "Nama Transaksi"
+                    tvDesc.text = "Deskripsi"
+                    tvTotal.text = "Total"
 
                     tvDate.layoutParams = dateLayoutParams
-                    tvDescriptionReceipt.layoutParams = descriptionLayoutParams
-                    tvCashReceiptDebit.layoutParams = debitLayoutParams
-                    tvCashReceiptCredit.layoutParams = creditLayoutParams
+                    tvName.layoutParams = nameLayoutParams
+                    tvDesc.layoutParams = descLayoutParams
+                    tvTotal.layoutParams = totalLayoutParams
 
                     tvDate.setTypeface(null, Typeface.BOLD)
-                    tvDescriptionReceipt.setTypeface(null, Typeface.BOLD)
-                    tvCashReceiptDebit.setTypeface(null, Typeface.BOLD)
-                    tvCashReceiptCredit.setTypeface(null, Typeface.BOLD)
+                    tvName.setTypeface(null, Typeface.BOLD)
+                    tvDesc.setTypeface(null, Typeface.BOLD)
+                    tvTotal.setTypeface(null, Typeface.BOLD)
                 }
             }
         }
@@ -62,13 +61,20 @@ class PurchasesJournalAdapter : BaseTableAdapter<PurchasesJournal>() {
             with(binding) {
                 if (position == itemCount - 1) {
                     tvDate.visibility = View.GONE
-                    val layoutParams =
-                        tvDescriptionReceipt.layoutParams as LinearLayout.LayoutParams
+                    val nameLayoutParams =
+                        tvName.layoutParams as LinearLayout.LayoutParams
 
-                    layoutParams.width = 0
-                    layoutParams.weight = 3F
+                    nameLayoutParams.width = 0
+                    nameLayoutParams.weight = 3F
 
-                    tvDescriptionReceipt.layoutParams = layoutParams
+                    tvName.layoutParams = nameLayoutParams
+
+                    tvDesc.visibility = View.GONE
+                    val totalLayoutParams = tvTotal.layoutParams as LinearLayout.LayoutParams
+                    totalLayoutParams.width = 0
+                    totalLayoutParams.weight = 3f
+
+                    tvTotal.layoutParams = totalLayoutParams
 
                     var debit = 0
                     var credit = 0
@@ -77,15 +83,13 @@ class PurchasesJournalAdapter : BaseTableAdapter<PurchasesJournal>() {
                         credit += data[i].credit
                     }
 
-                    tvDescriptionReceipt.text = "Total"
-                    tvCashReceiptDebit.text =
-                        if (debit != 0) Helpers.numberFormatter(debit) else ""
-                    tvCashReceiptCredit.text =
-                        if (credit != 0) Helpers.numberFormatter(credit) else ""
+                    val total = if (debit != 0) debit else credit
 
-                    tvDescriptionReceipt.setTypeface(null, Typeface.BOLD)
-                    tvCashReceiptDebit.setTypeface(null, Typeface.NORMAL)
-                    tvCashReceiptCredit.setTypeface(null, Typeface.NORMAL)
+                    tvName.text = "Total"
+                    tvTotal.text = Helpers.numberFormatter(total)
+
+                    tvName.setTypeface(null, Typeface.BOLD)
+                    tvTotal.setTypeface(null, Typeface.NORMAL)
                 }
             }
         }
@@ -97,22 +101,42 @@ class PurchasesJournalAdapter : BaseTableAdapter<PurchasesJournal>() {
         override fun onBindItem(data: PurchasesJournal, position: Int) {
             with(binding) {
                 tvDate.visibility = View.VISIBLE
+                tvDesc.visibility = View.VISIBLE
 
-                val layoutParams =
-                    tvDescriptionReceipt.layoutParams as LinearLayout.LayoutParams
+                val dateLayoutParams = tvDate.layoutParams as LinearLayout.LayoutParams
+                val nameLayoutParams =
+                    tvName.layoutParams as LinearLayout.LayoutParams
+                val descLayoutParams = tvDesc.layoutParams as LinearLayout.LayoutParams
+                val totalLayoutParams = tvTotal.layoutParams as LinearLayout.LayoutParams
 
-                layoutParams.width = 0
-                layoutParams.weight = 2F
+                0.apply {
+                    dateLayoutParams.width = this
+                    nameLayoutParams.width = this
+                    descLayoutParams.width = this
+                    totalLayoutParams.width = this
+                }
+
+                dateLayoutParams.weight = 1f
+                nameLayoutParams.weight = 2F
+                descLayoutParams.weight = 2f
+                totalLayoutParams.weight = 1f
+
+                tvDate.layoutParams = dateLayoutParams
+                tvName.layoutParams = nameLayoutParams
+                tvDesc.layoutParams = descLayoutParams
+                tvTotal.layoutParams = totalLayoutParams
+
+                val total = if (data.debit != 0) data.debit else data.credit
 
                 tvDate.text = data.date
-                tvDescriptionReceipt.text = data.description
-                tvCashReceiptDebit.text = Helpers.numberFormatter(data.debit)
-                tvCashReceiptCredit.text = Helpers.numberFormatter(data.credit)
+                tvName.text = data.name
+                tvDesc.text = data.description
+                tvTotal.text = Helpers.numberFormatter(total)
 
                 tvDate.setTypeface(null, Typeface.NORMAL)
-                tvDescriptionReceipt.setTypeface(null, Typeface.NORMAL)
-                tvCashReceiptDebit.setTypeface(null, Typeface.NORMAL)
-                tvCashReceiptCredit.setTypeface(null, Typeface.NORMAL)
+                tvName.setTypeface(null, Typeface.NORMAL)
+                tvDesc.setTypeface(null, Typeface.NORMAL)
+                tvTotal.setTypeface(null, Typeface.NORMAL)
             }
         }
     }

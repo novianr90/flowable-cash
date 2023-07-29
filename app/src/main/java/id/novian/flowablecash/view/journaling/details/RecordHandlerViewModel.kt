@@ -31,20 +31,29 @@ class RecordHandlerViewModel @Inject constructor(
         total: Int,
         type: String,
         description: String,
-        feeType: String,
-        fee: Int,
         payment: String
     ) {
-        val disposable = repo.createTransaction(
-            name = name,
-            date = date,
-            total = total,
-            type = type,
-            description = description,
-            feeType = feeType,
-            fee = fee,
-            payment = payment
-        )
+        val disposable = when (type) {
+            "Pengeluaran" -> repo.createTransactions(
+                name,
+                date,
+                total,
+                payment,
+                description,
+                "Pengeluaran"
+            )
+
+            "Pemasukkan" -> repo.createTransactions(
+                name,
+                date,
+                total,
+                payment,
+                description,
+                "Pemasukkan"
+            )
+
+            else -> throw IllegalArgumentException("Error: no type")
+        }
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .subscribe({

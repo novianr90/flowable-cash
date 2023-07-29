@@ -120,8 +120,6 @@ class SaleRecordFragment :
                     description = transactionDescription.toString(),
                     total = transactionTotal.toString().toInt(),
                     type = "Pemasukkan",
-                    feeType = "",
-                    fee = 0,
                     payment = paymentType.toString()
                 )
             } else {

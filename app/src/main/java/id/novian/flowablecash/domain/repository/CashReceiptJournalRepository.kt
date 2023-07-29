@@ -23,6 +23,7 @@ class CashReceiptJournalRepositoryImpl(
                             description = data.description,
                             debit = data.total,
                             credit = data.total,
+                            name = data.name
                         )
                         new
                     }

@@ -21,7 +21,8 @@ class PurchasesJournalRepositoryImpl(
                             date = data.date,
                             description = data.description,
                             debit = data.total,
-                            credit = data.total
+                            credit = data.total,
+                            name = data.name
                         )
                         new
                     }

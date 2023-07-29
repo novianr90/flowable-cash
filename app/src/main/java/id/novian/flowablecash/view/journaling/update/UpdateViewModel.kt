@@ -9,6 +9,7 @@ import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -17,7 +18,7 @@ class UpdateViewModel @Inject constructor(
     private val repo: TransactionRepository,
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
-    private val toast: CreateToast
+    private val toast: CreateToast,
 ) : BaseViewModel() {
 
     private val _onSuccess: MutableLiveData<Result> = MutableLiveData()
@@ -28,24 +29,17 @@ class UpdateViewModel @Inject constructor(
 
     fun buttonUpdateClicked(
         id: Int,
-        name: String,
         date: String,
         total: Int,
         type: String,
         description: String,
-        feeType: String,
-        fee: Int
     ) {
         val disposable = repo.updateTransaction(
             id = id,
-            name = name,
             date = date,
             total = total,
             type = type,
             description = description,
-            fee = fee,
-            feeType = feeType,
-            alreadyPosted = 0
         )
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
@@ -63,8 +57,12 @@ class UpdateViewModel @Inject constructor(
         compositeDisposable.add(disposable)
     }
 
-    fun getTransactionById(id: Int) {
-        val disposable = repo.getTransaction(id)
+    fun getTransactionById(id: Int, type: String) {
+        val disposable: Disposable = when (type) {
+            "Pemasukkan" -> repo.getPemasukkanById(id)
+            "Pengeluaran" -> repo.getPengeluaranById(id)
+            else -> throw IllegalArgumentException("Error: no kind of type")
+        }
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .subscribe({

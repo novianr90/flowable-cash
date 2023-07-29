@@ -5,9 +5,9 @@ import id.novian.flowablecash.data.remote.models.NTransactions
 
 data class Transactions(
     @SerializedName("pengeluaran")
-    val pengeluaran: List<NTransactions>,
+    val pengeluaran: List<NTransactions>?,
     @SerializedName("pemasukkan")
-    val pemasukkan: List<NTransactions>,
+    val pemasukkan: List<NTransactions>?,
     @SerializedName("status")
     val status: String
 )
