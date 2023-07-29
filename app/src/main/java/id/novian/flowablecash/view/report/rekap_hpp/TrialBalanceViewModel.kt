@@ -7,7 +7,7 @@ import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.Result
-import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
 import javax.inject.Named
@@ -29,11 +29,10 @@ class TrialBalanceViewModel @Inject constructor(
 
     fun getJournal() {
         val disposable = repo.getAllTransactions()
-            .flatMap { list ->
-                val filteredPengeluaran = list
-                    .filter { it.transactionType == "Pengeluaran" }
+            .flatMap { (_, pengeluaran) ->
+                val filteredPengeluaran = pengeluaran
                     .filter { it.transactionName in listOfHpp }
-                Maybe.just(filteredPengeluaran)
+                Observable.just(filteredPengeluaran)
             }
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)

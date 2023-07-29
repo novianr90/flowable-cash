@@ -46,9 +46,9 @@ class UpdateFragment :
         observe()
 
         if (args.transactionId != 0) {
-            setDataTransaction(args.transactionId)
+            setDataTransaction(args.transactionId, args.type)
 
-            getUserInput(args.transactionId)
+            getUserInput(args.transactionId, args.type)
         }
     }
 
@@ -81,8 +81,8 @@ class UpdateFragment :
         }
     }
 
-    private fun setDataTransaction(id: Int) {
-        viewModel.getTransactionById(id)
+    private fun setDataTransaction(id: Int, type: String) {
+        viewModel.getTransactionById(id, type)
 
         viewModel.data.observe(viewLifecycleOwner) { data ->
             binding.etTransactionName.setText(data.transactionName)
@@ -93,7 +93,7 @@ class UpdateFragment :
         }
     }
 
-    private fun getUserInput(id: Int) {
+    private fun getUserInput(id: Int, type: String) {
         binding.btnUpdate.setOnClickListener { _ ->
 
             val transactionName = binding.etTransactionName.text.toString()
@@ -112,10 +112,10 @@ class UpdateFragment :
 
             viewModel.buttonUpdateClicked(
                 id = id,
-                name = transactionName,
                 date = transactionDate,
+                total = transactionTotal,
+                type = type,
                 description = transactionDescription,
-                total = transactionTotal
             )
         }
     }

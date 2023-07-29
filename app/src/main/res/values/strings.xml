@@ -42,7 +42,7 @@
     <string name="txt_harga_beban_pembelian">Harga Beban Pengemasan</string>
     <string name="txt_harga_beban_penjualan">Harga Beban Ongkos</string>
     <string name="txt_payment_type_hint">Masukkan tipe pembayaran anda</string>
-    <string name="payment_type">Tipe Pembayaran</string>
+    <string name="payment_type">Tipe Pengeluaran</string>
     <string name="txt_harga_beban_operasional">Harga Beban Operasional</string>
     <string name="txt_harga_beban_lainnya">Harga Beban Lainnya</string>
     <string name="txt_posisi_keuangan">Posisi Keuangan</string>

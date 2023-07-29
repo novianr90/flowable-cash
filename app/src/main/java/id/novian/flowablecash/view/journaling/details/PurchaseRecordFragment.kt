@@ -130,8 +130,6 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
                     total = transactionTotal.toString().toInt(),
                     description = transactionDescription.toString(),
                     type = "Pengeluaran",
-                    feeType = "",
-                    fee = 0,
                     payment = paymentType.toString()
                 )
             } else {

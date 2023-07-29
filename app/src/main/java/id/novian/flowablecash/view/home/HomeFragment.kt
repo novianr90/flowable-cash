@@ -1,6 +1,7 @@
 package id.novian.flowablecash.view.home
 
 import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -167,6 +168,7 @@ class HomeFragment :
 
             dataTransactions.observe(viewLifecycleOwner) { newList ->
                 transactionList.clear()
+                Log.i("HomeFragment", "Data all is $newList")
                 transactionList.addAll(newList)
 
                 setSpinnerSortDate()
@@ -209,16 +211,18 @@ class HomeFragment :
         dialogBinding.tvItemNameDetails.text = details.transactionName
         dialogBinding.tvItemDateDetails.text = details.transactionDate
         dialogBinding.tvItemTypeDetails.text = details.transactionType
-        dialogBinding.tvItemTotalDetails.text = Helpers.numberFormatter(details.total)
-        dialogBinding.tvItemCreatedAtDetails.text = details.createdAt
-        dialogBinding.tvItemUpdatedAtDetails.text = details.updatedAt
+        dialogBinding.tvItemDescDetails.text = details.transactionDescription
+        dialogBinding.tvItemTotalDetails.text = Helpers.formatCurrency(details.total)
+        dialogBinding.tvItemCreatedAtDetails.text = details.payment
 
         dialogBuilder.setView(dialogBinding.root)
 
         val dialog = dialogBuilder.create()
 
         dialogBinding.btnUpdated.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment()
+            val action = HomeFragmentDirections.actionHomeFragmentToUpdateFragment(
+                transactionId = details.id, type = details.transactionType
+            )
             findNavController().navigate(action)
             dialog.dismiss()
         }

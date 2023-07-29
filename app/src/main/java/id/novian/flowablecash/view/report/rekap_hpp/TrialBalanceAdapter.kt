@@ -25,10 +25,12 @@ class TrialBalanceAdapter : BaseTableAdapter<TransactionDomain>() {
 
                     tvAccountNo.text = "Tanggal"
                     tvAccountName.text = "Nama Transaksi"
+                    tvAccountBalanceDesc.text = "Deskripsi"
                     tvAccountBalanceTotal.text = "Total"
 
                     tvAccountNo.setTypeface(null, Typeface.BOLD)
                     tvAccountName.setTypeface(null, Typeface.BOLD)
+                    tvAccountBalanceDesc.setTypeface(null, Typeface.BOLD)
                     tvAccountBalanceTotal.setTypeface(null, Typeface.BOLD)
                 }
             }
@@ -44,11 +46,18 @@ class TrialBalanceAdapter : BaseTableAdapter<TransactionDomain>() {
                     tvAccountNo.visibility = View.GONE
 
                     val layoutParams = tvAccountName.layoutParams as LinearLayout.LayoutParams
-
                     layoutParams.width = 0
-                    layoutParams.weight = 4F
+                    layoutParams.weight = 3F
 
                     tvAccountName.layoutParams = layoutParams
+
+                    tvAccountBalanceDesc.visibility = View.GONE
+                    val totalLayout =
+                        tvAccountBalanceTotal.layoutParams as LinearLayout.LayoutParams
+                    totalLayout.width = 0
+                    totalLayout.weight = 3F
+
+                    tvAccountBalanceTotal.layoutParams = totalLayout
 
                     var debit = 0
                     for (i in 0 until currentList.size) {
@@ -73,20 +82,49 @@ class TrialBalanceAdapter : BaseTableAdapter<TransactionDomain>() {
         override fun onBindItem(data: TransactionDomain, position: Int) {
             with(binding) {
                 tvAccountNo.visibility = View.VISIBLE
+                tvAccountBalanceDesc.visibility = View.VISIBLE
 
-                val layoutParams = tvAccountName.layoutParams as LinearLayout.LayoutParams
+                val dateLayoutParams = tvAccountNo.layoutParams as LinearLayout.LayoutParams
+                val nameLayoutParams = tvAccountName.layoutParams as LinearLayout.LayoutParams
+                val descLayoutParams =
+                    tvAccountBalanceDesc.layoutParams as LinearLayout.LayoutParams
+                val totalLayoutParams =
+                    tvAccountBalanceTotal.layoutParams as LinearLayout.LayoutParams
 
-                layoutParams.width = 0
-                layoutParams.weight = 3F
+                0.apply {
+                    dateLayoutParams.width = this
+                    nameLayoutParams.width = this
+                    descLayoutParams.width = this
+                    totalLayoutParams.width = this
+                }
+
+                150.apply {
+                    dateLayoutParams.height = this
+                    nameLayoutParams.height = this
+                    descLayoutParams.height = this
+                    totalLayoutParams.height = this
+                }
+
+                dateLayoutParams.weight = 1f
+                nameLayoutParams.weight = 2f
+                descLayoutParams.weight = 2f
+                totalLayoutParams.weight = 1f
+
+                tvAccountNo.layoutParams = dateLayoutParams
+                tvAccountName.layoutParams = nameLayoutParams
+                tvAccountBalanceDesc.layoutParams = descLayoutParams
+                tvAccountBalanceTotal.layoutParams = totalLayoutParams
 
                 val total = data.total
 
-                tvAccountNo.text = data.transactionName
-                tvAccountName.text = data.transactionDescription
+                tvAccountNo.text = data.transactionDate
+                tvAccountName.text = data.transactionName
+                tvAccountBalanceDesc.text = data.transactionDescription
                 tvAccountBalanceTotal.text = Helpers.numberFormatter(total)
 
                 tvAccountNo.setTypeface(null, Typeface.NORMAL)
                 tvAccountName.setTypeface(null, Typeface.NORMAL)
+                tvAccountBalanceDesc.setTypeface(null, Typeface.NORMAL)
                 tvAccountBalanceTotal.setTypeface(null, Typeface.NORMAL)
             }
         }
