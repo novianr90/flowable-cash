@@ -82,6 +82,7 @@
         <item>Bahan Tambahan</item>
         <!-- Aset Tetap -->
         <item>Pengeluaran untuk Pembelian Alat Usaha</item>
+        <item>Pembelian Alat Tulis</item>
         <!-- Beban Beban -->
         <item>Biaya Listrik</item>
         <item>Biaya Air</item>
@@ -92,5 +93,7 @@
         <item>Biaya Gaji</item>
         <item>Biaya Sewa</item>
         <item>Biaya Lainnya</item>
+        <!-- Special Ocassion -->
+        <item>Membayar Hutang</item>
     </string-array>
 </resources>
