@@ -24,6 +24,7 @@ class SaleRecordFragment :
 
     private lateinit var snackBar: CustomSnackBar
     private lateinit var paymentSpinner: AutoCompleteTextView
+    private lateinit var saleTypeSpinner: AutoCompleteTextView
 
     private val viewModel: RecordHandlerViewModel by viewModels()
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTransactionDetailsBinding
@@ -41,6 +42,7 @@ class SaleRecordFragment :
         snackBar = CustomSnackBarImpl(requireNotNull(rootView))
 
         setPaymentSpinner()
+        setSaleSpinner()
 
         checkDataIfNull()
 
@@ -64,6 +66,17 @@ class SaleRecordFragment :
 
         paymentSpinner = binding.spinnerPaymentType
         paymentSpinner.setAdapter(adapter)
+    }
+
+    private fun setSaleSpinner() {
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.pemasukkan_type,
+            android.R.layout.simple_dropdown_item_1line
+        )
+
+        saleTypeSpinner = binding.spinnerTransactionType
+        saleTypeSpinner.setAdapter(adapter)
     }
 
     private fun transactionDateListener() {
@@ -107,15 +120,16 @@ class SaleRecordFragment :
 
             val transactionTotal = binding.etTransactionBalance.text
             val transactionDescription = binding.etTransactionDesc.text
+            val saleType = binding.spinnerTransactionType.text
             val paymentType = binding.spinnerPaymentType.text
 
             if (!transactionDate.isNullOrEmpty() &&
                 !transactionTotal.isNullOrEmpty() &&
-                paymentType.isNotEmpty()
+                paymentType.isNotEmpty() && saleType.isNotEmpty()
             ) {
 
                 viewModel.buttonSavedClicked(
-                    name = "Pemasukkan",
+                    name = saleType.toString(),
                     date = transactionDate,
                     description = transactionDescription.toString(),
                     total = transactionTotal.toString().toInt(),
@@ -146,9 +160,7 @@ class SaleRecordFragment :
     }
 
     private fun checkDataIfNull() {
-
         with(binding) {
-
             etTransactionDate.apply {
                 doAfterTextChanged {
                     if (text.isNullOrEmpty()) {
@@ -175,6 +187,14 @@ class SaleRecordFragment :
                         txtInputPaymentType.error = "Masukkan jenis pembayaran"
                     } else {
                         txtInputPaymentType.error = null
+                    }
+
+                    saleTypeSpinner.doAfterTextChanged {
+                        if (text.toString() == "Non-Tunai" && saleTypeSpinner.text.toString() == "Pembayaran Piutang") {
+                            txtInputPaymentType.error = "Pembayaran piutang harus dalam tunai"
+                        } else {
+                            txtInputPaymentType.error = null
+                        }
                     }
                 }
             }
