@@ -25,7 +25,7 @@ class TrialBalanceViewModel @Inject constructor(
     private val _onProcess: MutableLiveData<Result> = MutableLiveData()
     val onProcess: LiveData<Result> get() = _onProcess
 
-    private val listOfHpp = listOf("Bahan Baku", "Bahan Tambahan", "Bahan Dagang")
+    private val listOfHpp = listOf("Bahan Baku", "Bahan Tambahan", "Barang Dagang")
 
     fun getJournal() {
         val disposable = repo.getAllTransactions()

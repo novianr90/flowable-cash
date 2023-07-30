@@ -1,10 +1,10 @@
 package id.novian.flowablecash.view.journaling.assets
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +22,7 @@ class InsertAssetFragment :
 
     private lateinit var snackBar: CustomSnackBar
     private lateinit var spinner: AutoCompleteTextView
+    private lateinit var paymentSpinner: AutoCompleteTextView
 
     private val viewModel: AssetViewModel by viewModels()
 
@@ -40,10 +41,13 @@ class InsertAssetFragment :
         snackBar = CustomSnackBarImpl(requireNotNull(rootView))
 
         setSpinner()
+        setPaymentSpinner()
         getBack()
 
         getUserInput()
         observe()
+
+        observeDataIfNull()
     }
 
     private fun setSpinner() {
@@ -55,8 +59,17 @@ class InsertAssetFragment :
 
         spinner = binding.spinnerAccountName
         spinner.setAdapter(adapter)
+    }
 
-        spinner.setText("Biaya Listrik", false)
+    private fun setPaymentSpinner() {
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.payment_type,
+            android.R.layout.simple_dropdown_item_1line
+        )
+
+        paymentSpinner = binding.spinnerPaymentType
+        paymentSpinner.setAdapter(adapter)
     }
 
     private fun getUserInput() {
@@ -64,17 +77,18 @@ class InsertAssetFragment :
 
             btnSave.setOnClickListener {
 
-                val assetString = spinnerAccountName.text?.toString() ?: "Unknown"
-                val balance = etBalance.text.toString().toInt()
+                val assetString = spinnerAccountName.text?.toString()
+                val balanceString = etBalance.text
+                val payment = spinnerPaymentType.text
 
-                val queryBalance = AccountBalance(
-                    debit = balance, credit = balance
-                )
+                if (!assetString.isNullOrEmpty() && !balanceString.isNullOrEmpty() && payment.isNotEmpty()) {
+                    val balance = balanceString.toString().toInt()
+                    val queryBalance = AccountBalance(
+                        debit = balance, credit = balance
+                    )
 
-                viewModel.processData(assetString, queryBalance)
-
-                Log.d("Asset", "asset: $assetString")
-                Log.d("Asset", "balance: $queryBalance")
+                    viewModel.processData(assetString, queryBalance, payment.toString())
+                }
 
                 viewModel.onSuccess.value?.name?.let { it1 -> viewModel.createToast(it1) }
             }
@@ -112,6 +126,46 @@ class InsertAssetFragment :
                 }
             }
         }
+    }
 
+    private fun observeDataIfNull() {
+        with(binding) {
+            spinnerAccountName.apply {
+                doAfterTextChanged {
+
+                    spinnerPaymentType.doAfterTextChanged {
+                        if (spinnerPaymentType.toString() == "Non-Tunai" && text.toString() == "Kas") {
+                            txtInputAccountName.error = "Kas harusnya dalam Tunai"
+                        }
+                    }
+
+                    if (text.toString().isEmpty()) {
+                        txtInputAccountName.error = "Masukkan Nama Akun"
+                    } else {
+                        txtInputAccountName.error = null
+                    }
+                }
+            }
+
+            spinnerPaymentType.apply {
+                doAfterTextChanged {
+                    if (text.toString().isEmpty()) {
+                        txtInputPaymentType.error = "Masukkan pembayaran saldo ini"
+                    } else {
+                        txtInputPaymentType.error = null
+                    }
+                }
+            }
+
+            etBalance.apply {
+                doAfterTextChanged {
+                    if (text.toString().isEmpty()) {
+                        txtInputName.error = "Masukkan saldo akun ini"
+                    } else {
+                        txtInputName.error = null
+                    }
+                }
+            }
+        }
     }
 }

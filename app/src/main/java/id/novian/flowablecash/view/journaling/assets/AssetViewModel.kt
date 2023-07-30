@@ -26,22 +26,171 @@ class AssetViewModel @Inject constructor(
 
     fun processData(
         accountName: String,
-        newBalance: AccountBalance
+        newBalance: AccountBalance,
+        payment: String
     ) {
-        if (accountName == "Biaya Listrik" || accountName == "Biaya Air" || accountName == "Biaya Pembersihan" || accountName == "Biaya Promosi") {
-            val balance = AccountBalance(
-                debit = newBalance.debit,
-                credit = 0
-            )
+        when (accountName) {
+            "Uang Tunai dan Saldo Bank" -> {
+                val newKas = AccountBalance(
+                    debit = newBalance.debit,
+                    credit = 0
+                )
+                updateAdditionalAccount("Kas", newKas)
 
-            updateAdditionalAccount("Beban Operasional", balance)
-        } else if (accountName == "Biaya Lainnya") {
-            val balance = AccountBalance(
-                debit = newBalance.debit,
-                credit = 0
-            )
 
-            updateAdditionalAccount("Beban Lainnya", balance)
+                val newModal = AccountBalance(
+                    debit = 0,
+                    credit = newBalance.credit
+                )
+                updateAdditionalAccount("Modal", newModal)
+            }
+
+            "Piutang Usaha" -> {
+                val newPiutang = AccountBalance(
+                    debit = newBalance.debit,
+                    credit = 0
+                )
+                updateAdditionalAccount("Piutang Dagang", newPiutang)
+
+                val newModal = AccountBalance(
+                    debit = 0,
+                    credit = newBalance.credit
+                )
+                updateAdditionalAccount("Modal", newModal)
+            }
+
+            "Stok Barang" -> {
+
+                val newBarang = AccountBalance(
+                    debit = newBalance.debit,
+                    credit = 0
+                )
+                updateAdditionalAccount("Barang Dagang", newBarang)
+
+                if (payment == "Tunai") {
+                    val newModal = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Modal", newModal)
+                } else {
+                    val newHutang = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Hutang Dagang", newHutang)
+                }
+            }
+
+            "Stok Bahan Baku" -> {
+                val newBahanBaku = AccountBalance(
+                    debit = newBalance.debit,
+                    credit = 0
+                )
+                updateAdditionalAccount("Bahan Baku", newBahanBaku)
+
+                if (payment == "Tunai") {
+                    val newModal = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Modal", newModal)
+                } else {
+                    val newHutang = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Hutang Dagang", newHutang)
+                }
+            }
+
+            "Stok Bahan Tambahan" -> {
+                val newTambahan = AccountBalance(
+                    debit = newBalance.debit,
+                    credit = 0
+                )
+                updateAdditionalAccount("Bahan Tambahan", newTambahan)
+
+                if (payment == "Tunai") {
+                    val newModal = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Modal", newModal)
+                } else {
+                    val newHutang = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Hutang Dagang", newHutang)
+                }
+            }
+
+            "Peralatan Bisnis" -> {
+                val newPeralatan = AccountBalance(
+                    debit = newBalance.debit,
+                    credit = 0
+                )
+                updateAdditionalAccount("Peralatan", newPeralatan)
+
+                if (payment == "Tunai") {
+                    val newModal = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Modal", newModal)
+                } else {
+                    val newHutang = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Hutang Dagang", newHutang)
+                }
+            }
+
+            "Kendaraan" -> {
+                val newKendaraan = AccountBalance(
+                    debit = newBalance.debit,
+                    credit = 0
+                )
+                updateAdditionalAccount("Kendaraan", newKendaraan)
+
+                if (payment == "Tunai") {
+                    val newModal = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Modal", newModal)
+                } else {
+                    val newHutang = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Hutang Dagang", newHutang)
+                }
+            }
+
+            "Peralatan Lainnya" -> {
+                val newPeralatan = AccountBalance(
+                    debit = newBalance.debit,
+                    credit = 0
+                )
+                updateAdditionalAccount("Peralatan", newPeralatan)
+
+                if (payment == "Tunai") {
+                    val newModal = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Modal", newModal)
+                } else {
+                    val newHutang = AccountBalance(
+                        debit = 0,
+                        credit = newBalance.credit
+                    )
+                    updateAdditionalAccount("Hutang Dagang", newHutang)
+                }
+            }
         }
     }
 

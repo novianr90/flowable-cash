@@ -125,6 +125,11 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
     }
 
     private fun setGraphWithData() {
+
+        val oneMonthBefore = viewModel.calendarHelper.getMonth() - 1
+        val currentMonth = viewModel.calendarHelper.getMonth()
+        val oneMonthAfter = viewModel.calendarHelper.getMonth() + 1
+
         with(viewModel) {
 
             // Kas
@@ -147,14 +152,14 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
                 xAxis.axisMinimum = (list.minBy { it.month }.month - 1).toFloat()
                 xAxis.axisMaximum = (list.maxBy { it.month }.month + 1).toFloat()
 
-                val minValue = list.minBy { it.balance.debit }.balance.debit
-                val maxValue = list.maxBy { it.balance.debit }.balance.debit
-                val scale = 0.1f
-                val range = maxValue - minValue
+//                val minValue = list.minBy { it.balance.debit }.balance.debit
+//                val maxValue = list.maxBy { it.balance.debit }.balance.debit
+//                val scale = 0.1f
+//                val range = maxValue - minValue
 
-                val yAxis = lineGraphKas.axisLeft
-                yAxis.axisMinimum = (minValue - (range * scale))
-                yAxis.axisMaximum = (maxValue + (range * scale))
+//                val yAxis = lineGraphKas.axisLeft
+//                yAxis.axisMinimum = (minValue - (range * scale))
+//                yAxis.axisMaximum = (maxValue + (range * scale))
 
                 lineGraphKas.data = lineData
                 lineGraphKas.invalidate()
@@ -162,12 +167,56 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
                 lineGraphKas.description.isEnabled = false
             }
 
-            // Penjualan
-            penjualanAccounts.observe(viewLifecycleOwner) { list ->
+            // Pemasukkan
+            pemasukkanData.observe(viewLifecycleOwner) { list ->
                 val entries = mutableListOf<Entry>()
 
-                list.map {
-                    entries.add(Entry(it.month.toFloat(), it.balance.credit.toFloat()))
+                val filteredBefore: Int? = list
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == oneMonthBefore
+                    }
+                    .sumOf { it.total }
+                    .takeIf { it != 0 }
+
+                filteredBefore?.let {
+                    if (it != 0) {
+                        entries.add(Entry(oneMonthBefore.toFloat(), filteredBefore.toFloat()))
+                    }
+                }
+
+                val filteredCurrent = list
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == currentMonth
+                    }.sumOf { it.total }
+
+                entries.add(Entry(currentMonth.toFloat(), filteredCurrent.toFloat()))
+
+                val filteredAfter = list
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == viewModel.calendarHelper.getMonth() + 1
+                    }
+                    .sumOf { it.total }
+                    .takeIf { it != 0 }
+
+                filteredAfter?.let {
+                    if (it != 0) {
+                        entries.add(Entry(oneMonthBefore.toFloat(), filteredAfter.toFloat()))
+                    }
                 }
 
                 entries.sortBy { it.x }
@@ -179,17 +228,17 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
                 val lineData = LineData(dataSet)
 
                 val xAxis = lineGraphPenjualan.xAxis
-                xAxis.axisMinimum = (list.minBy { it.month }.month - 1).toFloat()
-                xAxis.axisMaximum = (list.maxBy { it.month }.month + 1).toFloat()
+                xAxis.axisMinimum = oneMonthBefore.toFloat()
+                xAxis.axisMaximum = oneMonthAfter.toFloat()
 
-                val minValue = list.minBy { it.balance.credit }.balance.credit
-                val maxValue = list.maxBy { it.balance.credit }.balance.credit
-                val scale = 0.1f
-                val range = maxValue - minValue
+//                val minValue = list.minBy { it.total }.total
+//                val maxValue = list.maxBy { it.total }.total
+//                val scale = 0.1f
+//                val range = maxValue - minValue
 
-                val yAxis = lineGraphPenjualan.axisLeft
-                yAxis.axisMinimum = (minValue - (range * scale))
-                yAxis.axisMaximum = (maxValue + (range * scale))
+//                val yAxis = lineGraphPenjualan.axisLeft
+//                yAxis.axisMinimum = (minValue - (range * scale))
+//                yAxis.axisMaximum = (maxValue + (range * scale))
 
                 lineGraphPenjualan.data = lineData
                 lineGraphPenjualan.invalidate()
@@ -197,15 +246,57 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
                 lineGraphPenjualan.description.isEnabled = false
             }
 
-            // Pembelian
-            pembelianAccounts.observe(viewLifecycleOwner) { list ->
+            // Pengeluaran
+            pengeluaranData.observe(viewLifecycleOwner) { list ->
                 val entries = mutableListOf<Entry>()
 
-                list.map {
-                    entries.add(Entry(it.month.toFloat(), it.balance.debit.toFloat()))
+                val filteredBefore: Int? = list
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == oneMonthBefore
+                    }
+                    .sumOf { it.total }
+                    .takeIf { it != 0 }
+
+                filteredBefore?.let {
+                    if (it != 0) {
+                        entries.add(Entry(oneMonthBefore.toFloat(), filteredBefore.toFloat()))
+                    }
                 }
 
-                entries.sortBy { it.x }
+                val filteredCurrent = list
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == currentMonth
+                    }.sumOf { it.total }
+
+                entries.add(Entry(currentMonth.toFloat(), filteredCurrent.toFloat()))
+
+                val filteredAfter: Int? = list
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == oneMonthAfter
+                    }
+                    .sumOf { it.total }
+                    .takeIf { it != 0 }
+
+                filteredAfter?.let {
+                    if (it != 0) {
+                        entries.add(Entry(oneMonthBefore.toFloat(), filteredAfter.toFloat()))
+                    }
+                }
 
                 val dataSet = LineDataSet(entries, "Data Kas")
                 dataSet.color = R.color.blue_sea
@@ -214,17 +305,17 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
                 val lineData = LineData(dataSet)
 
                 val xAxis = lineGraphPembelian.xAxis
-                xAxis.axisMinimum = (list.minBy { it.month }.month - 1).toFloat()
-                xAxis.axisMaximum = (list.maxBy { it.month }.month + 1).toFloat()
+                xAxis.axisMinimum = oneMonthBefore.toFloat()
+                xAxis.axisMaximum = oneMonthAfter.toFloat()
 
-                val minValue = list.minBy { it.balance.debit }.balance.debit
-                val maxValue = list.maxBy { it.balance.debit }.balance.debit
-                val scale = 0.1f
-                val range = maxValue - minValue
-
-                val yAxis = lineGraphPembelian.axisLeft
-                yAxis.axisMinimum = (minValue - (range * scale))
-                yAxis.axisMaximum = (maxValue + (range * scale))
+//                val minValue = list.minBy { it.total }.total
+//                val maxValue = list.maxBy { it.total }.total
+//                val scale = 0.1f
+//                val range = maxValue - minValue
+//
+//                val yAxis = lineGraphPembelian.axisLeft
+//                yAxis.axisMinimum = (minValue - (range * scale))
+//                yAxis.axisMaximum = (maxValue + (range * scale))
 
                 lineGraphPembelian.data = lineData
                 lineGraphPembelian.invalidate()

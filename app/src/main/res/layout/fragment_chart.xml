@@ -47,7 +47,7 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="4dp"
             android:padding="3dp"
-            android:text="Grafik Pendapatan (Penjualan) dalam Bulan"
+            android:text="Grafik Pendapatan dalam Bulan"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -67,7 +67,7 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="4dp"
             android:padding="3dp"
-            android:text="Grafik Modal (Pembelian) dalam Bulan"
+            android:text="Grafik Pengeluaran dalam Bulan"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

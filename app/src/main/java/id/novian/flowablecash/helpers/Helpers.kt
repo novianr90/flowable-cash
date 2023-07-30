@@ -57,6 +57,11 @@ object Helpers {
             "Akumulasi Penyusutan Perlengkapan" -> AccountName.AKUMULASIPENYUSUTANPERLENGKAPAN
             "Beban Lainnya" -> AccountName.BEBANLAINNYA
             "Beban Operasional" -> AccountName.BEBANOPS
+            "Barang Dagang" -> AccountName.BARANGDAGANG
+            "Bahan Baku" -> AccountName.BAHANBAKU
+            "Bahan Tambahan" -> AccountName.BAHANTAMBAHAN
+            "Peralatan" -> AccountName.PERALATAN
+            "Kendaraan" -> AccountName.KENDARAAN
             else -> AccountName.UNKNOWN
         }
     }
@@ -79,6 +84,11 @@ object Helpers {
             AccountName.BEBANPENYUSUTAN -> "Beban Penyusutan"
             AccountName.BEBANLAINNYA -> "Beban Lainnya"
             AccountName.BEBANOPS -> "Beban Operasional"
+            AccountName.BARANGDAGANG -> "Barang Dagang"
+            AccountName.BAHANBAKU -> "Bahan Baku"
+            AccountName.BAHANTAMBAHAN -> "Bahan Tambahan"
+            AccountName.PERALATAN -> "Peralatan"
+            AccountName.KENDARAAN -> "Kendaraan"
             else -> "Unknown"
         }
     }

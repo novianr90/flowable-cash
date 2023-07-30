@@ -175,19 +175,20 @@ class PurchaseRecordFragment : BaseFragment<FragmentPurchaseRecordBinding>() {
                         txtInputPaymentType.error = null
                     }
                 }
-            }
 
-            purchaseTypeSpinner.apply {
-                doAfterTextChanged {
-                    if (text.toString().isEmpty()) {
-                        txtInputType.error = "Masukkan jenis pembelian"
-                    } else {
-                        txtInputType.error = null
+                purchaseTypeSpinner.apply {
+                    doAfterTextChanged {
+                        if (text.toString().isEmpty()) {
+                            txtInputType.error = "Masukkan jenis pengeluaran"
+                        } else if (paymentTypeSpinner.text.toString() == "Non-Tunai" && purchaseTypeSpinner.text.toString() == "Membayar Hutang") {
+                            txtInputType.error = "Pembayaran Hutang harus dalam Tunai"
+                        } else {
+                            txtInputType.error = null
+                        }
                     }
                 }
             }
         }
-
     }
 
     private fun observeProcess() {

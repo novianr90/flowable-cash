@@ -33,7 +33,7 @@ class IncomeStatementsViewModel @Inject constructor(
     private val _labaBersih: MutableLiveData<Int> = MutableLiveData()
     val labaBersih: LiveData<Int> get() = _labaBersih
 
-    private val hpp = listOf("Bahan Baku", "Bahan Tambahan", "Bahan Dagang")
+    private val hpp = listOf("Bahan Baku", "Bahan Tambahan", "Barang Dagang")
 
     override fun viewModelInitialized() {
         getAllTransaction()
@@ -53,6 +53,7 @@ class IncomeStatementsViewModel @Inject constructor(
                 val sortBeban = pengeluaran
                     .filter { it.transactionName !in hpp }
                     .filter { it.transactionName != "Membayar Hutang" }
+                    .filter { it.transactionName != "Pengeluaran untuk Pembelian Alat Usaha" }
                 val beban = sortBeban.sumOf { it.total }
                 listOfBeban.postValue(sortBeban)
                 totalBeban.postValue(beban)
