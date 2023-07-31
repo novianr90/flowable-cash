@@ -10,6 +10,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.base.custom.CustomSnackBar
 import id.novian.flowablecash.base.custom.CustomSnackBarImpl
 import id.novian.flowablecash.base.layout.BaseFragment
+import id.novian.flowablecash.data.remote.models.Pemasukkan
+import id.novian.flowablecash.data.remote.models.Pengeluaran
 import id.novian.flowablecash.databinding.FragmentUpdateBinding
 import id.novian.flowablecash.helpers.Helpers
 import id.novian.flowablecash.helpers.Result
@@ -85,18 +87,26 @@ class UpdateFragment :
         viewModel.getTransactionById(id, type)
 
         viewModel.data.observe(viewLifecycleOwner) { data ->
-            binding.etTransactionName.setText(data.transactionName)
-            binding.etTransactionDate.setText(data.transactionDate)
+            if (data is Pemasukkan) {
+                binding.etTransactionName.setText(data.pemasukkan.name)
+                binding.etTransactionDate.setText(data.pemasukkan.date)
 
-            binding.etTransactionBalance.setText(Helpers.numberFormatter(data.total))
-            binding.etTransactionDesc.setText(data.transactionDescription)
+                binding.etTransactionBalance.setText(Helpers.numberFormatter(data.pemasukkan.total))
+                binding.etTransactionDesc.setText(data.pemasukkan.description)
+            } else if (data is Pengeluaran) {
+                binding.etTransactionName.setText(data.pengeluaran.name)
+                binding.etTransactionDate.setText(data.pengeluaran.date)
+
+                binding.etTransactionBalance.setText(Helpers.numberFormatter(data.pengeluaran.total))
+                binding.etTransactionDesc.setText(data.pengeluaran.description)
+            }
         }
     }
 
     private fun getUserInput(id: Int, type: String) {
         binding.btnUpdate.setOnClickListener { _ ->
 
-            val transactionName = binding.etTransactionName.text.toString()
+            binding.etTransactionName.isEnabled = false
 
             val transactionDate = try {
                 val date = dateFormat.parse(binding.etTransactionDate.text.toString()) as Date

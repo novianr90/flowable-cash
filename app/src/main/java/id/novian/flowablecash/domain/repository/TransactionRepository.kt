@@ -1,5 +1,6 @@
 package id.novian.flowablecash.domain.repository
 
+import android.util.Log
 import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
 import id.novian.flowablecash.domain.models.TransactionDomain
 import io.reactivex.rxjava3.core.Completable
@@ -119,28 +120,29 @@ class TransactionRepositoryImpl(
 
     override fun getPemasukkanById(id: Int): Observable<TransactionDomain> {
         return remote.getPemasukkanById(id)
-            .map { list ->
+            .flatMap { list ->
 
-                val it = list.pemasukkan
+                Log.i("Pemasukkan", "Data is $list")
 
                 val new = TransactionDomain(
-                    id = it.id,
-                    transactionName = it.name,
-                    transactionDate = it.date,
+                    id = list.pemasukkan.id,
+                    transactionName = list.pemasukkan.name,
+                    transactionDate = list.pemasukkan.date,
                     transactionType = "Pemasukkan",
-                    transactionDescription = it.description,
-                    total = it.total,
-                    createdAt = it.createdAt,
-                    updatedAt = it.updatedAt,
-                    payment = it.transactionPayment
+                    transactionDescription = list.pemasukkan.description,
+                    total = list.pemasukkan.total,
+                    createdAt = list.pemasukkan.createdAt,
+                    updatedAt = list.pemasukkan.updatedAt,
+                    payment = list.pemasukkan.transactionPayment
                 )
-                new
+                Observable.just(new)
             }
+            .doOnNext { Log.i("Pemasukkan", "Data is $it") }
     }
 
     override fun getPengeluaranById(id: Int): Observable<TransactionDomain> {
         return remote.getPengeluaranById(id)
-            .map { list ->
+            .flatMap { list ->
                 val it = list.pengeluaran
                 val new = TransactionDomain(
                     id = it.id,
@@ -153,7 +155,8 @@ class TransactionRepositoryImpl(
                     updatedAt = it.updatedAt,
                     payment = it.transactionPayment
                 )
-                new
+                Observable.just(new)
             }
+            .doOnNext { Log.i("Pengeluaran", "Data is $it") }
     }
 }
