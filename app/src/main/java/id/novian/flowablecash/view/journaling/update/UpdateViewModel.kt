@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.vm.BaseViewModel
-import id.novian.flowablecash.domain.models.TransactionDomain
+import id.novian.flowablecash.data.remote.repository.MainRemoteRepository
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
@@ -19,13 +19,14 @@ class UpdateViewModel @Inject constructor(
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
     private val toast: CreateToast,
+    private val mainRemote: MainRemoteRepository
 ) : BaseViewModel() {
 
     private val _onSuccess: MutableLiveData<Result> = MutableLiveData()
     val onSuccess: LiveData<Result> get() = _onSuccess
 
-    private val _data: MutableLiveData<TransactionDomain> = MutableLiveData()
-    val data: LiveData<TransactionDomain> = _data
+    private val _data: MutableLiveData<Any> = MutableLiveData()
+    val data: LiveData<Any> = _data
 
     fun buttonUpdateClicked(
         id: Int,
@@ -59,8 +60,8 @@ class UpdateViewModel @Inject constructor(
 
     fun getTransactionById(id: Int, type: String) {
         val disposable: Disposable = when (type) {
-            "Pemasukkan" -> repo.getPemasukkanById(id)
-            "Pengeluaran" -> repo.getPengeluaranById(id)
+            "Pemasukkan" -> mainRemote.getPemasukkanById(id)
+            "Pengeluaran" -> mainRemote.getPengeluaranById(id)
             else -> throw IllegalArgumentException("Error: no kind of type")
         }
             .subscribeOn(schedulerIo)
