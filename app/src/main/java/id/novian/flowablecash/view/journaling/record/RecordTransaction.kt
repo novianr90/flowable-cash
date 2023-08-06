@@ -1,10 +1,12 @@
 package id.novian.flowablecash.view.journaling.record
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import id.novian.flowablecash.R
 import id.novian.flowablecash.base.layout.BaseFragment
+import id.novian.flowablecash.base.layout.MainActivity
 import id.novian.flowablecash.databinding.FragmentRecordTransactionBinding
 
 class RecordTransaction :
@@ -45,7 +47,9 @@ class RecordTransaction :
 
     private fun buttonBack() {
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 }

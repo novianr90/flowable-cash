@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding.fabRecord.setOnClickListener {
             val intent = Intent(this, RecordActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }
