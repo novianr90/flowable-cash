@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_container"
-    android:alpha=".2"
-    android:background="@color/white_yellow_soft"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/tv_owner"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="18dp"
-        android:text="Welcome"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/sort_view"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:alpha="0.9"
+            android:background="@color/blue_sea"
+            android:clickable="false"
+            android:focusable="false"
+            app:navigationIcon="@drawable/non_colorized_logo"
+            app:navigationIconTint="@color/white"
+            app:title="FinTrack"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/sort_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/llRvItemTransactionList"
-        app:layout_constraintTop_toBottomOf="@id/tv_owner">
+        app:layout_constraintTop_toBottomOf="@id/topAppBarLayout">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

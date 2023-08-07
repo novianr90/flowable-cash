@@ -1,6 +1,5 @@
 package id.novian.flowablecash.view.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,12 +38,9 @@ class HomeViewModel @Inject constructor(
     fun getListOfTransactions() {
         val disposable = transaction.getAllTransactions()
             .doOnNext { (pemasukkan, pengeluaran) ->
-                Log.i("HomeViewModel", "Pemasukkan is $pemasukkan")
-                Log.i("HomeViewModel", "Pengeluaran is $pengeluaran")
                 val sortedPemasukkan = pemasukkan.sortedBy { it.transactionDate }
                 val sortedPengeluaran = pengeluaran.sortedBy { it.transactionDate }
                 val allTransactions = sortedPemasukkan + sortedPengeluaran
-                Log.i("HomeViewModel", "All Data is $allTransactions")
                 _dataTransactions.postValue(allTransactions)
             }
             .subscribeOn(schedulerIo)

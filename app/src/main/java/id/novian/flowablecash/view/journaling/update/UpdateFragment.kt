@@ -131,7 +131,7 @@ class UpdateFragment :
     }
 
     private fun buttonBack() {
-        binding.btnBack.setOnClickListener {
+        binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }

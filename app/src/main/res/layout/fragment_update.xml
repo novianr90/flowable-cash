@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,19 +7,27 @@
     android:orientation="vertical"
     tools:context=".view.journaling.update.UpdateFragment">
 
-    <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="6dp"
-        android:src="@drawable/ic_back" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:alpha="0.9"
+            android:background="@color/blue_sea"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white"
+            app:title="Update: Transaksi"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="8dp">
 
@@ -110,9 +118,9 @@
         android:id="@+id/btn_update"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_gravity="end"
-        android:layout_marginTop="10dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
         android:text="@string/txt_update" />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

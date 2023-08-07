@@ -39,7 +39,7 @@ class PurchasesJournal : BaseFragment<FragmentPurchasesJournalBinding>() {
     }
 
     private fun setBtnBack() {
-        binding.btnBack.setOnClickListener {
+        binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }

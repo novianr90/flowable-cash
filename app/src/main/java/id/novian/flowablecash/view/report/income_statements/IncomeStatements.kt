@@ -3,6 +3,7 @@ package id.novian.flowablecash.view.report.income_statements
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import id.novian.flowablecash.base.layout.BaseFragment
@@ -30,6 +31,8 @@ class IncomeStatements : BaseFragment<FragmentIncomeStatementsBinding>() {
 
         setBeban()
         setHpp()
+
+        buttonBack()
     }
 
     private fun setHpp() {
@@ -96,5 +99,11 @@ class IncomeStatements : BaseFragment<FragmentIncomeStatementsBinding>() {
 
         }
 
+    }
+
+    private fun buttonBack() {
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }

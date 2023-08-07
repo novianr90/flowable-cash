@@ -89,15 +89,13 @@ class InsertAssetFragment :
 
                     viewModel.processData(assetString, queryBalance, payment.toString())
                 }
-
-                viewModel.onSuccess.value?.name?.let { it1 -> viewModel.createToast(it1) }
             }
 
         }
     }
 
     private fun getBack() {
-        binding.btnBack.setOnClickListener {
+        binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
@@ -109,6 +107,7 @@ class InsertAssetFragment :
                 when (it) {
                     Result.SUCCESS -> {
                         snackBar.showSnackBar("Success!")
+                        resetInputFields()
                     }
 
                     Result.FAILED -> {}
@@ -165,6 +164,20 @@ class InsertAssetFragment :
                         txtInputName.error = null
                     }
                 }
+            }
+        }
+    }
+
+    private fun resetInputFields() {
+        with(binding) {
+            spinnerAccountName.text.clear()
+            etBalance.text?.clear()
+            spinnerPaymentType.text.clear()
+
+            with(binding) {
+                txtInputAccountName.error = null
+                txtInputPaymentType.error = null
+                txtInputName.error = null
             }
         }
     }
