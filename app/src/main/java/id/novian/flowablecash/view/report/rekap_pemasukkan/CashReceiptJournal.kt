@@ -55,7 +55,7 @@ class CashReceiptJournal :
     }
 
     private fun setButtonBack() {
-        binding.btnBack.setOnClickListener {
+        binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }

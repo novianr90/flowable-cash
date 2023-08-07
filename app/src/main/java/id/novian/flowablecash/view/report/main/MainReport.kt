@@ -17,6 +17,14 @@ class MainReport : BaseFragment<FragmentMainReportBinding>() {
     override fun setup() {
         super.setup()
         setAdapter()
+
+        buttonBack()
+    }
+
+    private fun buttonBack() {
+        binding.topAppBar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onResume() {

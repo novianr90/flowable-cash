@@ -202,7 +202,7 @@ class SaleRecordFragment :
     }
 
     private fun buttonBack() {
-        binding.btnBack.setOnClickListener {
+        binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
@@ -210,6 +210,21 @@ class SaleRecordFragment :
     private fun observeProcess() {
         viewModel.onSuccess.observe(viewLifecycleOwner) {
             snackBar.showSnackBar(it)
+            resetInputFields()
+        }
+    }
+
+    private fun resetInputFields() {
+        binding.etTransactionBalance.text?.clear()
+        binding.etTransactionDesc.text?.clear()
+        binding.spinnerTransactionType.text?.clear()
+        binding.spinnerPaymentType.text?.clear()
+        binding.etTransactionDate.text?.clear()
+
+        with(binding) {
+            txtInputDate.error = null
+            txtInputBalance.error = null
+            txtInputPaymentType.error = null
         }
     }
 }

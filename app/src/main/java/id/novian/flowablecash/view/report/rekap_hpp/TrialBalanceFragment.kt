@@ -77,7 +77,7 @@ class TrialBalanceFragment : BaseFragment<FragmentBalanceSheetBinding>() {
     }
 
     private fun buttonBack() {
-        binding.btnBack.setOnClickListener {
+        binding.topAppBar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
