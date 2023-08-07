@@ -69,6 +69,9 @@ class HomeFragment :
 
         // Observe All the Data
         observe()
+
+        // Refresh UI
+//        refreshUI()
     }
 
     override fun onDestroyView() {
