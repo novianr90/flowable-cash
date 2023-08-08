@@ -36,6 +36,7 @@ import id.novian.flowablecash.domain.repository.PurchasesJournalRepository
 import id.novian.flowablecash.domain.repository.PurchasesJournalRepositoryImpl
 import id.novian.flowablecash.domain.repository.TransactionRepository
 import id.novian.flowablecash.domain.repository.TransactionRepositoryImpl
+import id.novian.flowablecash.helpers.CalendarHelper
 import id.novian.flowablecash.helpers.Mapper
 import javax.inject.Singleton
 
@@ -115,11 +116,11 @@ object RepositoryModule {
     @Provides
     fun provideCashReceiptJournalRepo(
         repo: MainRemoteRepository,
-
+        calendarHelper: CalendarHelper
     ): CashReceiptJournalRepository {
         return CashReceiptJournalRepositoryImpl(
             repo = repo,
-
+            calendarHelper = calendarHelper
             )
     }
 
@@ -127,8 +128,8 @@ object RepositoryModule {
     @Provides
     fun providePurchasesJournalRepository(
         repo: MainRemoteRepository,
-
+        calendarHelper: CalendarHelper
         ): PurchasesJournalRepository {
-        return PurchasesJournalRepositoryImpl(repo)
+        return PurchasesJournalRepositoryImpl(repo, calendarHelper)
     }
 }

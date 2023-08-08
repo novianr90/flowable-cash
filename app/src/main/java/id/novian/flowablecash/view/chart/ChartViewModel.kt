@@ -1,5 +1,6 @@
 package id.novian.flowablecash.view.chart
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.vm.BaseViewModel
@@ -53,69 +54,10 @@ class ChartViewModel @Inject constructor(
             .subscribeOn(schedulerIo)
             .observeOn(schedulerMain)
             .subscribe({ (pemasukkan, pengeluaran) ->
-
-                val filteredOneMonthBeforePemasukkan = pemasukkan
-                    .filter {
-                        val parts = it.transactionDate.split("-")
-                        val months = if (parts.size == 3) {
-                            parts[1].toInt()
-                        } else -1
-
-                        months == calendarHelper.getMonth() - 1
-                    }
-
-                val filteredCurrentPemasukkkan = pemasukkan
-                    .filter {
-                        val parts = it.transactionDate.split("-")
-                        val months = if (parts.size == 3) {
-                            parts[1].toInt()
-                        } else -1
-
-                        months == calendarHelper.getMonth()
-                    }
-
-                val filteredOneMonthAfterPemasukkan = pemasukkan
-                    .filter {
-                        val parts = it.transactionDate.split("-")
-                        val months = if (parts.size == 3) {
-                            parts[1].toInt()
-                        } else -1
-
-                        months == calendarHelper.getMonth() + 1
-                    }
-
-                val filteredOneMonthBeforePengeluaran = pengeluaran
-                    .filter {
-                        val parts = it.transactionDate.split("-")
-                        val months = if (parts.size == 3) {
-                            parts[1].toInt()
-                        } else -1
-
-                        months == calendarHelper.getMonth() - 1
-                    }
-
-                val filteredCurrentPengeluaran = pengeluaran
-                    .filter {
-                        val parts = it.transactionDate.split("-")
-                        val months = if (parts.size == 3) {
-                            parts[1].toInt()
-                        } else -1
-
-                        months == calendarHelper.getMonth()
-                    }
-
-                val filteredOneMonthAfterPengeluaran = pengeluaran
-                    .filter {
-                        val parts = it.transactionDate.split("-")
-                        val months = if (parts.size == 3) {
-                            parts[1].toInt()
-                        } else -1
-
-                        months == calendarHelper.getMonth() + 1
-                    }
-
-                pemasukkanData.postValue(filteredOneMonthBeforePemasukkan + filteredCurrentPemasukkkan + filteredOneMonthAfterPemasukkan)
-                pengeluaranData.postValue(filteredOneMonthBeforePengeluaran + filteredCurrentPengeluaran + filteredOneMonthAfterPengeluaran)
+                Log.i("Chart", "Pemasukkan: $pemasukkan")
+                Log.i("Chart", "Pengeluaran: $pengeluaran")
+                pemasukkanData.postValue(pemasukkan)
+                pengeluaranData.postValue(pengeluaran)
             }, { err ->
                 err.printStackTrace()
                 errorMessage.postValue(err.message)

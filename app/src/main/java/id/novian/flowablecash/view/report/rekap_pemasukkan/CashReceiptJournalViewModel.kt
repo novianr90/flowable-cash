@@ -2,16 +2,13 @@ package id.novian.flowablecash.view.report.rekap_pemasukkan
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.domain.models.CashReceiptJournal
 import id.novian.flowablecash.domain.repository.CashReceiptJournalRepository
 import id.novian.flowablecash.helpers.CreateToast
 import id.novian.flowablecash.helpers.Result
-import id.novian.flowablecash.usecase.posting.PostingUseCase
 import io.reactivex.rxjava3.core.Scheduler
-import java.util.Calendar
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -21,9 +18,6 @@ class CashReceiptJournalViewModel @Inject constructor(
     @Named("MAIN") private val schedulerMain: Scheduler,
     private val repo: CashReceiptJournalRepository,
     private val toast: CreateToast,
-    private val gson: Gson,
-    private val postingUseCase: PostingUseCase,
-    private val calendar: Calendar
 ) : BaseViewModel() {
     private val _dataCashReceiptJournal: MutableLiveData<List<CashReceiptJournal>> =
         MutableLiveData()

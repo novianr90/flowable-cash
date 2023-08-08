@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import id.novian.flowablecash.base.vm.BaseViewModel
 import id.novian.flowablecash.domain.models.TransactionDomain
 import id.novian.flowablecash.domain.repository.TransactionRepository
+import id.novian.flowablecash.helpers.CalendarHelper
 import id.novian.flowablecash.helpers.Result
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
@@ -17,6 +18,7 @@ class TrialBalanceViewModel @Inject constructor(
     @Named("IO") private val schedulerIo: Scheduler,
     @Named("MAIN") private val schedulerMain: Scheduler,
     private val repo: TransactionRepository,
+    private val calendarHelper: CalendarHelper
 ): BaseViewModel() {
 
     private val _dataBalanceSheet: MutableLiveData<List<TransactionDomain>> = MutableLiveData()
@@ -31,6 +33,14 @@ class TrialBalanceViewModel @Inject constructor(
         val disposable = repo.getAllTransactions()
             .flatMap { (_, pengeluaran) ->
                 val filteredPengeluaran = pengeluaran
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == calendarHelper.getMonth()
+                    }
                     .filter { it.transactionName in listOfHpp }
                 Observable.just(filteredPengeluaran)
             }

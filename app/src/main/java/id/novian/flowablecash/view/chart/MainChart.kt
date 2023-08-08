@@ -171,6 +171,29 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
             pemasukkanData.observe(viewLifecycleOwner) { list ->
                 val entries = mutableListOf<Entry>()
 
+                val filtered2Before: Int? = list
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == oneMonthBefore - 1
+                    }
+                    .sumOf { it.total }
+                    .takeIf { it != 0 }
+
+                filtered2Before?.let {
+                    if (it != 0) {
+                        entries.add(
+                            Entry(
+                                (oneMonthBefore - 1).toFloat(),
+                                filtered2Before.toFloat()
+                            )
+                        )
+                    }
+                }
+
                 val filteredBefore: Int? = list
                     .filter {
                         val parts = it.transactionDate.split("-")
@@ -228,8 +251,8 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
                 val lineData = LineData(dataSet)
 
                 val xAxis = lineGraphPenjualan.xAxis
-                xAxis.axisMinimum = oneMonthBefore.toFloat()
-                xAxis.axisMaximum = oneMonthAfter.toFloat()
+                xAxis.axisMinimum = (oneMonthBefore - 2).toFloat()
+                xAxis.axisMaximum = (currentMonth + 1).toFloat()
 
 //                val minValue = list.minBy { it.total }.total
 //                val maxValue = list.maxBy { it.total }.total
@@ -249,6 +272,29 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
             // Pengeluaran
             pengeluaranData.observe(viewLifecycleOwner) { list ->
                 val entries = mutableListOf<Entry>()
+
+                val filtered2Before: Int? = list
+                    .filter {
+                        val parts = it.transactionDate.split("-")
+                        val months = if (parts.size == 3) {
+                            parts[1].toInt()
+                        } else -1
+
+                        months == oneMonthBefore - 1
+                    }
+                    .sumOf { it.total }
+                    .takeIf { it != 0 }
+
+                filtered2Before?.let {
+                    if (it != 0) {
+                        entries.add(
+                            Entry(
+                                (oneMonthBefore - 1).toFloat(),
+                                filtered2Before.toFloat()
+                            )
+                        )
+                    }
+                }
 
                 val filteredBefore: Int? = list
                     .filter {
@@ -294,7 +340,7 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
 
                 filteredAfter?.let {
                     if (it != 0) {
-                        entries.add(Entry(oneMonthBefore.toFloat(), filteredAfter.toFloat()))
+                        entries.add(Entry(oneMonthAfter.toFloat(), filteredAfter.toFloat()))
                     }
                 }
 
@@ -305,8 +351,8 @@ class MainChart : BaseFragment<FragmentChartBinding>() {
                 val lineData = LineData(dataSet)
 
                 val xAxis = lineGraphPembelian.xAxis
-                xAxis.axisMinimum = oneMonthBefore.toFloat()
-                xAxis.axisMaximum = oneMonthAfter.toFloat()
+                xAxis.axisMinimum = (oneMonthBefore - 2).toFloat()
+                xAxis.axisMaximum = (currentMonth + 1).toFloat()
 
 //                val minValue = list.minBy { it.total }.total
 //                val maxValue = list.maxBy { it.total }.total
