@@ -33,6 +33,7 @@ class TrialBalanceViewModel @Inject constructor(
         val disposable = repo.getAllTransactions()
             .flatMap { (_, pengeluaran) ->
                 val filteredPengeluaran = pengeluaran
+                    .filter { it.transactionName in listOfHpp }
                     .filter {
                         val parts = it.transactionDate.split("-")
                         val months = if (parts.size == 3) {
@@ -41,7 +42,6 @@ class TrialBalanceViewModel @Inject constructor(
 
                         months == calendarHelper.getMonth()
                     }
-                    .filter { it.transactionName in listOfHpp }
                 Observable.just(filteredPengeluaran)
             }
             .subscribeOn(schedulerIo)
