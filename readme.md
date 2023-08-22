@@ -13,13 +13,14 @@ information for their needs.
 - **Cost of Goods Sold (COGS) Analysis**: Access a Cost of Goods Sold (COGS) report to analyze the costs directly associated with producing goods or services. This information is vital for evaluating profitability.
 - **Profit and Loss Statement**: Generate a profit and loss statement that outlines the company's revenues, costs, and expenses over a specified period. This report helps assess the financial health of the business.
 - **Balance Sheet**: View a balance sheet report that presents a snapshot of the company's financial position, including assets, liabilities, and equity.
+- **Cash, Income, and Expenses Graph**: View a graph that presents the flow of `cash`, `income`, or `expense` each month.
  
 ### Tech
 - [Retrofit](https://square.github.io/retrofit/) - Libraries to call API
 - [RxJava](https://reactivex.io/) - Libraries to handle all the asynchronous job
 - [Hilt Dagger](https://dagger.dev/hilt/) - Libraries to handle Dependency Injection
 - [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) - Libraries to handle all the graph
-- [Navigation Component](https://developer.android.com/guide/navigation?hl=id) - Libraries to handle navigate to other screens
+- [Navigation Component](https://developer.android.com/guide/navigation?hl=id) - Libraries to handle navigating to other screens
 - MVVM - Design Pattern for Architecture on Android
 
 ### Installation
@@ -30,10 +31,11 @@ information for their needs.
 
 ### Usage
 - **Record Transaction**: Tap `+` on floating button, then tap `Rekam transaksi pemasukkan` or `Rekam transaksi pengeluaran anda` and fill the transaction details
-- **Add Balance Sheet**: Tap `+` on floating button, then tap `Masukkan Saldo Awal` and fill your asset details (such as cash, tools etc)
-- **Summary**: Tap `Report` then tap `Rekap Pemasukkan`, `Rekap Pengeluaran` or `Rekap HPP` to check summary of `incomes`, `expenses`, and `cogs`.
-- **Profit and Loss Statements**: Tap `Report` then tap `Laporan Laba Rugi` to check `profit and loss` on 1 month period
-- **Balance Sheet**: Tap `Report` then tap `Laporan Posisi Keuangan` to check `assets, liabilities, and equities` on 1 month period.
+- **Add Balance Sheet**: Tap `+` on floating button, then tap `Masukkan Saldo Awal` and fill in your asset details (such as cash, tools, etc)
+- **Summary**: Tap `Report` on Bottom Navigation then tap `Rekap Pemasukkan`, `Rekap Pengeluaran` or `Rekap HPP` to check summary of `incomes`, `expenses`, and `cogs`.
+- **Profit and Loss Statements**: Tap `Report` on Bottom Navigation then tap `Laporan Laba Rugi` to check `profit and loss` on 1 month period
+- **Financial Position**: Tap `Report` on Bottom Navigation then tap `Laporan Posisi Keuangan` to check `assets, liabilities, and equities` on 1 month period.
+- **Chart**: Tap `Chart` on Bottom Navigation to check the `graph` for `cash`, `income`, or `expenses` flow.
 
 ## License
 Distributed under the MIT License. See `LICENSE.txt` for more information.
